@@ -1,0 +1,22 @@
+.landing {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+  min-height: 80vh;
+}
+
+#social-heading {
+	font-size: 48px;
+	font-weight: bold;
+}
+
+#happening-heading {
+	font-size: 20px;
+	color: #737373;
+}
+
+#join {
+	font-size: 16px;
+}
