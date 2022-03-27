@@ -1,0 +1,46 @@
+/* PHASE 1: Header */
+.header {
+	color: #598D35;
+	font-weight: bold;	
+	display: flex;
+	font-family: 'Montserrat';
+}
+
+.header-list {
+	display: flex;
+	align-items: center;
+}
+
+.header-nav {
+	margin: 0 auto 0 200px;
+}
+
+.header-logo, .header-list li {
+	display: block;
+}
+
+.header-logo {
+	font-weight: 700;
+	white-space: nowrap;
+	padding: 12px 20px;
+	margin: 0 0 0 auto;
+}
+
+.header-list li a {
+	display: block;
+	margin: 12px 20px;
+	font-size: 18px;
+}
+
+.header-list li:hover, .header-logo:hover {
+	cursor: pointer;
+}
+
+.aboutcontact {
+	margin: 0 auto 0 0;
+}
+
+.header-text {
+	font-size: 40px;
+	/*font-weight: bold;*/
+}
