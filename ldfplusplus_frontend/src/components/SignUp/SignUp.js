@@ -36,11 +36,15 @@ class SignUp extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="signup-container">
                 <h1 className="header-text signup-header">Sign Up</h1>
-                <form onSubmit={this.onSubmitSignUp}>
-                    <input name="name" id="name" type="text" onChange={this.onFullNameChange} />
-                    <input type="submit"/>
+                <form className="signupform" onSubmit={this.onSubmitSignUp}>
+                    <input placeholder="Full Name" type="text" onChange={this.onFullNameChange} />
+                    <input placeholder="Email" type="text" onChange={this.onFullNameChange} />
+                    <input placeholder="Password" type="text" onChange={this.onFullNameChange} />
+                    <input placeholder="Confirm Password" type="text" onChange={this.onFullNameChange} />
+                    <input className="green-button" type="submit"/>
+                    <a className="green-button">Already a user? Login!</a>
                 </form>
             </div>
         )
