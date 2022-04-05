@@ -1,6 +1,6 @@
 import React from 'react';
 import './SignUp.css';
-
+import signupimg from "./signup.png";
 
 class SignUp extends React.Component {
     constructor(props) {
@@ -16,7 +16,18 @@ class SignUp extends React.Component {
 
     onFullNameChange = (event) => {
         this.setState({fullname: event.target.value})
-        console.log(this.state.fullname)
+    }
+
+    onEmailChange = (event) => {
+        this.setState({email: event.target.value})
+    }
+
+    onPasswordChange = (event) => {
+        this.setState({password: event.target.value})
+    }
+
+    onConfirmPasswordChange = (event) => {
+        this.setState({confirmpassword: event.target.value})
     }
 
     onSubmitSignUp = () => {
@@ -35,17 +46,23 @@ class SignUp extends React.Component {
 	}
 
     render() {
+        const { onRouteChange } = this.props;
         return (
-            <div className="signup-container">
+            <div>
                 <h1 className="header-text signup-header">Sign Up</h1>
-                <form className="signupform" onSubmit={this.onSubmitSignUp}>
-                    <input placeholder="Full Name" type="text" onChange={this.onFullNameChange} />
-                    <input placeholder="Email" type="text" onChange={this.onFullNameChange} />
-                    <input placeholder="Password" type="text" onChange={this.onFullNameChange} />
-                    <input placeholder="Confirm Password" type="text" onChange={this.onFullNameChange} />
-                    <input className="green-button" type="submit"/>
-                    <a className="green-button">Already a user? Login!</a>
-                </form>
+                <div className="signup-container">
+                    <div>
+                        <form className="signupform" onSubmit={this.onSubmitSignUp}>
+                            <input className="signupform-input" placeholder="Full Name" type="text" onChange={this.onFullNameChange} />
+                            <input className="signupform-input" placeholder="Email" type="text" onChange={this.onEmailChange} />
+                            <input className="signupform-input" placeholder="Password" type="text" onChange={this.onPasswordChange} />
+                            <input className="signupform-input" placeholder="Confirm Password" type="text" onChange={this.onConfirmPasswordChange} />
+                            <input className="form-green-button" type="submit"/>
+                            <a className="form-green-button" onClick={() => { onRouteChange('landing') }}>Already a user? Login!</a>
+                        </form>
+                    </div>
+                    <img className="signupimg" src={ signupimg } />
+                </div>
             </div>
         )
     }
