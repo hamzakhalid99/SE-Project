@@ -68,7 +68,7 @@ class SignUp extends React.Component {
         const { onRouteChange } = this.props;
         return (
             <div>
-                <h1 className="header-text signup-header">Sign Up</h1>
+                <h1 className="header-text signup-header">SIGN UP</h1>
                 <div className="signup-container">
                     <div>
                         <form className="signupform" onSubmit={this.onSubmitSignUp}>
@@ -79,7 +79,7 @@ class SignUp extends React.Component {
                             <label className="signupform-input picture-label" for="file">{this.state.imgName} </label>
                             <input className="hidden" placeholder="Upload Picture" id="file" type="file" onChange={this.onFileUpload} />
                             <input className="form-green-button" type="submit"/>
-                            <a className="form-green-button" onClick={() => { onRouteChange('landing') }}>Already a user? Login!</a>
+                            <a className="form-green-button" onClick={() => { onRouteChange('login') }}>Already a user? Login!</a>
                         </form>
                     </div>
                     <img className="signupimg" src={ signupimg } />
