@@ -5,6 +5,7 @@ import Navigation from './components/Navigation/Navigation.js';
 import LandingPage from './components/LandingPage/LandingPage.js';
 import AboutPage from './components/AboutPage/AboutPage.js';
 import SignUp from './components/SignUp/SignUp.js';
+import Login from './components/Login/Login.js';
 
 const initialState = {
 	route: 'landing',
@@ -47,6 +48,13 @@ class App extends Component {
         <div className="App">
           <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <SignUp onRouteChange={this.onRouteChange} />
+        </div>
+      )
+    } else if (route === 'login') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Login onRouteChange={this.onRouteChange} />
         </div>
       )
     }
