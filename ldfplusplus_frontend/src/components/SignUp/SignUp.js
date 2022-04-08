@@ -73,9 +73,9 @@ class SignUp extends React.Component {
                     <div>
                         <form className="signupform" onSubmit={this.onSubmitSignUp}>
                             <input className="signupform-input" placeholder="Full Name" type="text" onChange={this.onFullNameChange} />
-                            <input className="signupform-input" placeholder="Email" type="text" onChange={this.onEmailChange} />
-                            <input className="signupform-input" placeholder="Password" type="text" onChange={this.onPasswordChange} />
-                            <input className="signupform-input" placeholder="Confirm Password" type="text" onChange={this.onConfirmPasswordChange} />
+                            <input className="signupform-input" placeholder="Email" type="email" onChange={this.onEmailChange} />
+                            <input className="signupform-input" placeholder="Password" type="password" onChange={this.onPasswordChange} />
+                            <input className="signupform-input" placeholder="Confirm Password" type="password" onChange={this.onConfirmPasswordChange} />
                             <label className="signupform-input picture-label" for="file">{this.state.imgName} </label>
                             <input className="hidden" placeholder="Upload Picture" id="file" type="file" onChange={this.onFileUpload} />
                             <input className="form-green-button" type="submit"/>
