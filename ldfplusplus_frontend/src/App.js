@@ -6,10 +6,16 @@ import LandingPage from './components/LandingPage/LandingPage.js';
 import AboutPage from './components/AboutPage/AboutPage.js';
 import SignUp from './components/SignUp/SignUp.js';
 import Login from './components/Login/Login.js';
+import Homepage from './components/Homepage/Homepage.js';
 
 const initialState = {
 	route: 'landing',
-	isSignedin: false
+	isSignedin: false,
+  user: {
+    id: '',
+    fullname: '',
+    email: ''
+  }
 }
 
 class App extends Component {
@@ -23,8 +29,12 @@ class App extends Component {
 			this.setState({initialState})
 		}
 		
-    this.setState({route: route })
+    this.setState({ route: route })
 	}
+
+  loadUser = (user) => {
+    this.setState({ user: user, isSignedIn: true })
+  }
 
   render() {
   	const { route, isSignedIn } = this.state;
@@ -54,7 +64,16 @@ class App extends Component {
       return (
         <div className="App">
           <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
-          <Login onRouteChange={this.onRouteChange} />
+          <Login 
+            onRouteChange={this.onRouteChange} 
+            loadUser={this.loadUser} />
+        </div>
+      )
+    } else if (route === 'homepage') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Homepage />
         </div>
       )
     }
