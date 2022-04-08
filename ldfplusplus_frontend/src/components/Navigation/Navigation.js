@@ -43,19 +43,19 @@ const Navigation = ({ onRouteChange, isSignedIn }) => {
 						<li><a><img className="navimg" src={ navimg } /></a>
 						<ul className="profileMenuActive">
 							<li><img src= { groups } />Discussion Portal</li>
-							<li><img src= { school } /></li>
-							<li><img src= { person } /></li>
-							<li><img src= { fastfood } /></li>
-							<li><img src= { store } /></li>
-							<li><img src= { money } /></li>
-							<li><img src= { helpcenter } /></li>
-							<li><img src= { eventavail } /></li>
-							<li><img src= { groupwork } /></li>
-							<li><img src= { swaphorizontal } /></li>
-							<li><img src= { personremov } /></li>
-							<li><img src= { libradd } /></li>
-							<li><img src= { modremov } /></li>
-							<li><img src= { addmod } /></li>
+							<li><img className="extraMarginNeeded" src= { school } />Course Reviews</li>
+							<li><img src= { person } />Instructor Reviews</li>
+							<li><img src= { fastfood } />Food Delivery</li>
+							<li><img className="extraMarginNeeded" src= { store } />Marketplace</li>
+							<li><img src= { money } />Donations</li>
+							<li><img src= { helpcenter } />Career Help</li>
+							<li><img className="extraMarginNeeded" src= { eventavail } />Events Portal</li>
+							<li><img src= { groupwork } />Get Togethers</li>
+							<li><img src= { swaphorizontal } />Enrollment Swap</li>
+							<li><img className="extraMarginNeeded" src= { personremov } />Remove User</li>
+							<li><img src= { libradd } />Add Courses</li>
+							<li><img src= { modremov } />Remove Admin</li>
+							<li><img className="extraMarginNeeded" src= { addmod } />View Admin Requests</li>
 						</ul>
 						</li>
 					</ul>
