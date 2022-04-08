@@ -58,18 +58,11 @@
 	height: auto;
 }
 
-.hamburgerActive {
-	display: none;
-	/*Trick to not make the hamberActive menu misalign the navbar*/
-	height: 0;
-	min-height: 100%;
-}
-
 .header-list li:hover .hamburgerActive {
 	display: block;
 }
 
-.profileMenuActive {
+.MenuActive {
 	display: none;
 	/*To not make the hamberActive menu misalign*/
 	position: absolute;
@@ -78,23 +71,23 @@
 	right: 150px;
 }
 
-.header-list li:hover .profileMenuActive {
+.header-list li:hover .MenuActive {
 	display: grid;
 	grid-template-columns: 100px 120px 100px;
 	grid-template-rows: 70px 70px 70px 70px 70px;
 }
 
-.profileMenuActive img {
+.MenuActive img {
 	width: 30px;
 	height: 30px;
 	margin-left: 30px
 }
 
-.profileMenuActive .extraMarginNeeded {
+.MenuActive .extraMarginNeeded {
 	margin-left: 40px;
 }
 
-.profileMenuActive li {
+.MenuActive li {
 	/*width: 50%;*/
 	/*height: auto;*/
 	margin: 5px;
@@ -105,4 +98,8 @@
 	font-weight: 400;
 	font-size: 10px;
 	letter-spacing: 0.1px;
+}
+
+.profileMenu {
+	height: 140px;	
 }

@@ -16,6 +16,11 @@ import store from "./Store.png";
 import swaphorizontal from "./Swap Horizontal.png";
 import person from "./Person.png";
 import money from "./Attach Money.png";
+import viewprofile from "./Pageview.png";
+import editprofile from "./Edit.png";
+import removecircle from "./Remove Circle.png";
+import descriptionimg from "./Description.png";
+import logout from "./Logout.png";
 
 const Navigation = ({ onRouteChange, isSignedIn }) => {
 	return (
@@ -34,14 +39,7 @@ const Navigation = ({ onRouteChange, isSignedIn }) => {
 				<nav className="header-nav">
 					<ul className="header-list">
 						<li><a><img className="hamburger" src={ hamburgerimg } /></a>
-						<ul className="hamburgerActive">
-							<li>A</li>
-							<li>A</li>
-							<li>A</li>
-						</ul>
-						</li>
-						<li><a><img className="navimg" src={ navimg } /></a>
-						<ul className="profileMenuActive">
+						<ul className="MenuActive">
 							<li><img src= { groups } />Discussion Portal</li>
 							<li><img className="extraMarginNeeded" src= { school } />Course Reviews</li>
 							<li><img src= { person } />Instructor Reviews</li>
@@ -56,6 +54,16 @@ const Navigation = ({ onRouteChange, isSignedIn }) => {
 							<li><img src= { libradd } />Add Courses</li>
 							<li><img src= { modremov } />Remove Admin</li>
 							<li><img className="extraMarginNeeded" src= { addmod } />View Admin Requests</li>
+						</ul>
+						</li>
+						<li><a><img className="navimg" src={ navimg } /></a>
+						<ul className="MenuActive profileMenu">
+							<li><img src= { viewprofile } />View Profile</li>
+							<li><img className="extraMarginNeeded" src= { editprofile } />Edit Profile</li>
+							<li><img src= { removecircle } />Deactive Account</li>
+							<li><img src= { descriptionimg } />View Status</li>
+							<li><img className="extraMarginNeeded" src= { addmod } />Request Adminship</li>
+							<li><img src= { logout } />Logout</li>
 						</ul>
 						</li>
 					</ul>
