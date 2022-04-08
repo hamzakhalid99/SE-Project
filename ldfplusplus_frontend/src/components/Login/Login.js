@@ -20,7 +20,8 @@ class Login extends React.Component {
         this.setState({ password: event.target.value })
     }
 
-    onSubmitLogin = () => {
+    onSubmitLogin = (event) => {
+        event.preventDefault()
 		fetch('http://localhost:3000/login', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
@@ -30,7 +31,7 @@ class Login extends React.Component {
 		.then(user => {
 			if (user.id) {
 				this.props.loadUser(user);
-				this.props.onRouteChange('homepage')
+				this.props.onRouteChange('homepage');
 			}
 		})
 	}
