@@ -40,30 +40,30 @@ const Navigation = ({ onRouteChange, isSignedIn }) => {
 					<ul className="header-list">
 						<li><a><img className="hamburger" src={ hamburgerimg } /></a>
 						<ul className="MenuActive">
-							<li><img src= { groups } />Discussion Portal</li>
-							<li><img className="extraMarginNeeded" src= { school } />Course Reviews</li>
-							<li><img src= { person } />Instructor Reviews</li>
-							<li><img src= { fastfood } />Food Delivery</li>
-							<li><img className="extraMarginNeeded" src= { store } />Marketplace</li>
-							<li><img src= { money } />Donations</li>
-							<li><img src= { helpcenter } />Career Help</li>
-							<li><img className="extraMarginNeeded" src= { eventavail } />Events Portal</li>
-							<li><img src= { groupwork } />Get Togethers</li>
-							<li><img src= { swaphorizontal } />Enrollment Swap</li>
-							<li><img className="extraMarginNeeded" src= { personremov } />Remove User</li>
-							<li><img src= { libradd } />Add Courses</li>
-							<li><img src= { modremov } />Remove Admin</li>
-							<li><img className="extraMarginNeeded" src= { addmod } />View Admin Requests</li>
+							<li onClick={() => onRouteChange('discussionportal')}><img src= { groups } />Discussion Portal</li>
+							<li onClick={() => onRouteChange('coursereviews')}><img className="extraMarginNeeded" src= { school } />Course Reviews</li>
+							<li onClick={() => onRouteChange('instructorreviews')}><img src= { person } />Instructor Reviews</li>
+							<li onClick={() => onRouteChange('fooddelivery')}><img src= { fastfood } />Food Delivery</li>
+							<li onClick={() => onRouteChange('marketplace')}><img className="extraMarginNeeded" src= { store } />Marketplace</li>
+							<li onClick={() => onRouteChange('donations')}><img src= { money } />Donations</li>
+							<li onClick={() => onRouteChange('careerhelp')}><img src= { helpcenter } />Career Help</li>
+							<li onClick={() => onRouteChange('eventsportal')}><img className="extraMarginNeeded" src= { eventavail } />Events Portal</li>
+							<li onClick={() => onRouteChange('gettogethers')}><img src= { groupwork } />Get Togethers</li>
+							<li onClick={() => onRouteChange('enrollmentswap')}><img src= { swaphorizontal } />Enrollment Swap</li>
+							<li onClick={() => onRouteChange('removeuser')}><img className="extraMarginNeeded" src= { personremov } />Remove User</li>
+							<li onClick={() => onRouteChange('addcourses')}><img src= { libradd } />Add Courses</li>
+							<li onClick={() => onRouteChange('removeadmin')}><img src= { modremov } />Remove Admin</li>
+							<li onClick={() => onRouteChange('viewadminshiprequests')}><img className="extraMarginNeeded" src= { addmod } />View Admin Requests</li>
 						</ul>
 						</li>
 						<li><a><img className="navimg" src={ navimg } /></a>
 						<ul className="MenuActive profileMenu">
-							<li><img src= { viewprofile } />View Profile</li>
-							<li><img className="extraMarginNeeded" src= { editprofile } />Edit Profile</li>
-							<li><img src= { removecircle } />Deactive Account</li>
-							<li><img src= { descriptionimg } />View Status</li>
-							<li><img className="extraMarginNeeded" src= { addmod } />Request Adminship</li>
-							<li><img src= { logout } />Logout</li>
+							<li onClick={() => onRouteChange('viewprofile')}><img src= { viewprofile } />View Profile</li>
+							<li onClick={() => onRouteChange('editprofile')}><img className="extraMarginNeeded" src= { editprofile } />Edit Profile</li>
+							<li onClick={() => onRouteChange('deactivateaccount')}><img src= { removecircle } />Deactivate Account</li>
+							<li onClick={() => onRouteChange('viewstatus')}><img src= { descriptionimg } />View Status</li>
+							<li onClick={() => onRouteChange('requestadminship')}><img className="extraMarginNeeded" src= { addmod } />Request Adminship</li>
+							<li onClick={() => onRouteChange('logout')}><img src= { logout } />Logout</li>
 						</ul>
 						</li>
 					</ul>

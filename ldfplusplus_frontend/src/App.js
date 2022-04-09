@@ -76,6 +76,146 @@ class App extends Component {
           <Homepage />
         </div>
       )
+    } else if (route === 'discussionportal') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <h1>Discussion Portal</h1>
+        </div>
+      )
+    } else if (route === 'coursereviews') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <h1>Course Reviews</h1>
+        </div>
+      )
+    } else if (route === 'instructorreviews') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <h1>Instructor Reviews</h1>
+        </div>
+      )
+    } else if (route === 'fooddelivery') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <h1>Food Delivery</h1>
+        </div>
+      )
+    } else if (route === 'marketplace') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <h1>Marketplace</h1>
+        </div>
+      )
+    } else if (route === 'donations') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <h1>Donations</h1>
+        </div>
+      )
+    } else if (route === 'careerhelp') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <h1>Career Help</h1>
+        </div>
+      )
+    } else if (route === 'eventsportal') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <h1>Events Portal</h1>
+        </div>
+      )
+    } else if (route === 'gettogethers') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <h1>Get Togethers</h1>
+        </div>
+      )
+    } else if (route === 'enrollmentswap') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <h1>Enrollment Swap</h1>
+        </div>
+      )
+    } else if (route === 'removeuser') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <h1>Remove User</h1>
+        </div>
+      )
+    } else if (route === 'addcourses') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <h1>Add Courses</h1>
+        </div>
+      )
+    } else if (route === 'removeadmin') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <h1>Remove Admin</h1>
+        </div>
+      )
+    } else if (route === 'viewadminshiprequests') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <h1>View Adminship Requests</h1>
+        </div>
+      )
+    } else if (route === 'viewprofile') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <h1>View Profile</h1>
+        </div>
+      )
+    } else if (route === 'editprofile') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <h1>Edit Profile</h1>
+        </div>
+      )
+    } else if (route === 'deactivateaccount') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <h1>Deactivate Account</h1>
+        </div>
+      )
+    } else if (route === 'viewstatus') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <h1>View Status</h1>
+        </div>
+      )
+    } else if (route === 'requestadminship') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <h1>Request Adminship</h1>
+        </div>
+      )
+    } else if (route === 'logout') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <h1>Logout</h1>
+        </div>
+      )
     }
   }
 }
