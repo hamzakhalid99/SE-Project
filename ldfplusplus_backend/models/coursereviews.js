@@ -1,26 +1,26 @@
 const mongoose = require('mongoose')
 
-const signUpTemplate = new mongoose.Schema({
-    fullName: {
+const coursereviewT = new mongoose.Schema({
+    rating: {
         type: String,
         required: true
     },
-    username: {
+    content: {
         type: String,
         required: true
     },
-    email: {
-        type: String,
-        required: true
-    },
-    password: {
+    title: {
         type: String,
         required: true
     },
     date: {
         type: Date,
         default: Date.now
+    },
+    postedby:{
+        type:String,
+        default:false
     }
 })
 
-module.exports = mongoose.model('myTable', signUpTemplate)
+module.exports = mongoose.model('coursereview', coursereviewT)
