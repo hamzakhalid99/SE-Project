@@ -18,8 +18,8 @@ const coursereviewT = new mongoose.Schema({
         default: Date.now
     },
     postedby:{
-        type:String,
-        default:false
+        type:mongoose.SchemaTypes.ObjectId,
+        ref:"userprofile"
     }
 })
 

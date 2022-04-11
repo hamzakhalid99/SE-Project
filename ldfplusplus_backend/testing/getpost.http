@@ -1,0 +1,6 @@
+GET  http://localhost:3001/app/events/myposts
+Content-Type: application/json
+
+{
+    "user_id": "625308bba19310bf2a848824"
+}

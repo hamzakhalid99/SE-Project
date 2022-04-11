@@ -10,8 +10,8 @@ const eventTemp = new mongoose.Schema({
         required: true
     },
     postedby:{
-        type:String,
-        required:true
+        type:mongoose.SchemaTypes.ObjectId,
+        ref:"userprofile"
     },
     date: {
         type: Date,
@@ -22,10 +22,12 @@ const eventTemp = new mongoose.Schema({
         required: true
     },
     interested: {
-        type : [String],
+        type : [mongoose.SchemaTypes.ObjectId],
+        ref:"userprofile"
     },
     going: {
-        type : [String],
+        type : [mongoose.SchemaTypes.ObjectId],
+        ref:"userprofile"
     }
 
 

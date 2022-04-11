@@ -9,14 +9,16 @@ const dpTemp = new mongoose.Schema({
         type: [String],
     },
     postedby:{
-        type:String,
-        required:true
+        type:mongoose.SchemaTypes.ObjectId,
+        ref:"userprofile"
     },
     likes: {
-        type : [String],
+        type : [mongoose.SchemaTypes.ObjectId],
+        ref:"userprofile"
     },
     comments: {
-        type : [String],
+        type : [(String,mongoose.SchemaTypes.ObjectId)],
+        ref:"userprofile"
     },
     anonymous:{
         type:Boolean,

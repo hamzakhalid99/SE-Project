@@ -10,15 +10,15 @@ const jobTemp = new mongoose.Schema({
         required: true
     },
     postedby:{
-        type:String,
-        required:true
+        type:mongoose.SchemaTypes.ObjectId,
+        ref:"userprofile"
     },
     date: {
         type: Date,
         default: Date.now
     },
     salary: {
-        type: Number,
+        type: String,
         required: true
     },
     location: {

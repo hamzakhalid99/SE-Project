@@ -1,0 +1,10 @@
+POST  http://localhost:3001/app/careerhelp/post
+Content-Type: application/json
+
+{
+    "content": "This a good opportunity",
+    "title": "Web Dev Needed",
+    "salary": "20000",
+    "location":"Lahore",
+    "user_id": "625308bba19310bf2a848824"
+}
