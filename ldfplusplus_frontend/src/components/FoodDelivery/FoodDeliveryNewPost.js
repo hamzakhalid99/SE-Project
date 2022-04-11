@@ -40,44 +40,6 @@ class FoodDeliveryNewPost extends React.Component {
 
         const { onRouteChange } = this.props;
 
-		// return (
-
-            
-        //     <div className='signup-container'>
-        //         <div className="homepage body-center-align">
-        //             <div className="homepageprofile">
-        //             <img className="iconpic" src={ fastfood } />  
-        //             </div>
-
-        //                 <div className="usecasename">
-        //                 <p>Food Delivery</p>
-        //                 </div>
-
-        //         </div>
-
-        //         <div className="landinghappening">
-        //             <form className="posttitle">
-        //                 <h1> Post Title</h1>
-        //             </form>
-                        
-        //         </div>
-
-        //         <div className="postdetailsbox"  onSubmit={this.onSubmitPost}>
-
-        //         <input className="postdetails" placeholder="Post Details" type="text" onChange={this.postDetails}/>
-                        
-        //         </div>
-
-        //         {/* <div ></div> */}
-
-
-        //         <a className="form-green-button" onClick={() => { onRouteChange('fooddelivery') }}>Post</a>
-
-        //     </div>
-            
-			
-		// )
-
         return (
             <div>
                 <div className="homepage body-center-align">
