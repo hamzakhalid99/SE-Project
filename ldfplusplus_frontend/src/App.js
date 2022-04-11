@@ -9,8 +9,12 @@ import Login from './components/Login/Login.js';
 import Homepage from './components/Homepage/Homepage.js';
 import FoodDelivery from './components/FoodDelivery/FoodDelivery.js';
 import FoodDeliveryPostDetails from './components/FoodDelivery/FoodDeliveryPostDetails.js';
+
+import ViewAdminRequests from './components/ViewAdminRequests/ViewAdminRequests.js';
+
 import RemoveUser from './components/RemoveUser/RemoveUser.js';
 import RemoveAdmin from './components/RemoveAdmin/RemoveAdmin.js';
+
 
 const initialState = {
 	route: 'landing',
@@ -177,7 +181,9 @@ class App extends Component {
       return (
         <div className="App">
           <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
-          <h1>View Adminship Requests</h1>
+          <ViewAdminRequests
+          onRouteChange={this.onRouteChange} 
+          loadUser={this.loadUser}/>
         </div>
       )
     } else if (route === 'viewprofile') {
