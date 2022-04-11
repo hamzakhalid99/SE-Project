@@ -9,6 +9,7 @@ import Login from './components/Login/Login.js';
 import Homepage from './components/Homepage/Homepage.js';
 import FoodDelivery from './components/FoodDelivery/FoodDelivery.js';
 import FoodDeliveryPostDetails from './components/FoodDelivery/FoodDeliveryPostDetails.js';
+import FoodDeliveryNewPost from './components/FoodDelivery/FoodDeliveryNewPost.js';
 
 import ViewAdminRequests from './components/ViewAdminRequests/ViewAdminRequests.js';
 
@@ -253,7 +254,9 @@ class App extends Component {
       return (
         <div className="App">
           <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
-          <h1> post a food delivery request</h1>
+          <FoodDeliveryNewPost
+          onRouteChange={this.onRouteChange}
+          loadUser={this.loadUser}/>
         </div>
       )
     }

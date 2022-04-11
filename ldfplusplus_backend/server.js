@@ -25,7 +25,8 @@ const database = {
 			password: 'bananas',
 			entries: 0,
 			joined: new Date()	
-		}
+		},
+		
 	]
 }
 
@@ -35,4 +36,14 @@ app.get('/', (req, res) => {
 
 app.listen(3000, () => {
 	console.log("Running on port 3000")
+})
+
+app.post('/login', (req, res) => {
+	user = {
+		id: 1,
+		name: "Raffay",
+		email: "raffay@raffay.com"
+	}
+	console.log("login")
+	res.json(user)
 })
