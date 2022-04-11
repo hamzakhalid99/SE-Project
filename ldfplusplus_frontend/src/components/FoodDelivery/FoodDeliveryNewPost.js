@@ -7,15 +7,37 @@ class FoodDeliveryNewPost extends React.Component {
     constructor(props) {
         super(props);
         
-        // this.state = {
-        //     email: '',
-        //     password: '',
-        // }
+        this.state = {
+            postTitle: '',
+            postDetails: '',
+        }
     }
+
+    onTitleChange = (event) => {
+        this.setState({ postTitle: event.target.value })
+    }
+
+    onDetailsChange = (event) => {
+        this.setState({ postDetails: event.target.value })
+    }
+
+    onSubmitPost = () => {
+		fetch('http://localhost:3000/signup', {
+			method: 'post',
+			headers: {'Content-Type': 'application/json'},
+			body: JSON.stringify(this.state)
+		})
+		.then(response => response.json())
+		.then(user => {
+			if (user.id) {
+				this.props.loadUser(user);
+				this.props.onRouteChange('fooddelivery')
+			}
+		})
+	}
 
 	render() {
 
-		const studentName = "Zafir Ansari"
         const { onRouteChange } = this.props;
 
 		return (
@@ -35,7 +57,7 @@ class FoodDeliveryNewPost extends React.Component {
 
                 <div className="landinghappening">
                     <div className="posttitle">
-                        <h1> Post Titlee</h1>
+                        <h1> Post Title</h1>
                     </div>
                         
                 </div>
