@@ -7,6 +7,7 @@ import AboutPage from './components/AboutPage/AboutPage.js';
 import SignUp from './components/SignUp/SignUp.js';
 import Login from './components/Login/Login.js';
 import Homepage from './components/Homepage/Homepage.js';
+import FoodDelivery from './components/FoodDelivery/FoodDelivery.js';
 
 const initialState = {
 	route: 'landing',
@@ -101,7 +102,7 @@ class App extends Component {
       return (
         <div className="App">
           <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
-          <h1>Food Delivery</h1>
+          <FoodDelivery/>
         </div>
       )
     } else if (route === 'marketplace') {
