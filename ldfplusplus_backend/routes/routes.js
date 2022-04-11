@@ -9,7 +9,9 @@ const events = require('../models/events');
 const jobposting = require('../models/jobposting');
 const donations = require('../models/donation');
 const fooddelivery = require('../models/fooddelivery');
-
+const instructorreviews = require('../models/instructoreviws');
+const coursereviews = require('../models/coursereviews');
+const courses =  require('../models/courses');
 
 router.post('/signup', (request, response) => {
     userprofile.find({ email: request.body.email}, (err,docs) => {
@@ -135,8 +137,7 @@ router.post('/gettogether/myposts', async (request,response) => {
 
 // load posts view more button, view post simply uses the object returned here
 router.get('/events', (request,response) => {
-    const tmp = `.*`+request.body.keywords+'.*'
-    events.find({ "title": { "$regex": tmp, "$options": "i" } }).sort({date: -1}).populate("postedby", "fullname").exec((err, docs) => {   
+    events.find({}).sort({date: -1}).populate("postedby", "fullname").exec((err, docs) => {   
         if(err)
         {
             console.log(err)
@@ -391,7 +392,7 @@ router.get('/fooddelivery', (request,response) => {
 })
 
 // post 
-router.post('/careerhelp/post', async (request,response) => {
+router.post('/fooddelivery/post', async (request,response) => {
     const foodpost = new fooddelivery({
         content: request.body.content,
         title: request.body.title,
@@ -410,8 +411,8 @@ router.post('/careerhelp/post', async (request,response) => {
 })
 
 // render my posts
-router.get('/careerhelp/myposts', async (request,response) => {
-    donations.find({ postedby: request.body.user_id}, (err, docs) =>{
+router.get('/fooddelivery/myposts', async (request,response) => {
+    fooddelivery.find({ postedby: request.body.user_id}, (err, docs) =>{
         if (err){
             console.log(err);
         }
@@ -423,8 +424,8 @@ router.get('/careerhelp/myposts', async (request,response) => {
 })
 
 // delete selected post
-router.post('/careerhelp/myposts', async (request,response) => {
-    donations.deleteOne({ postedby: request.body.user_id, _id:request.body._id}, (err) =>{
+router.post('/fooddelivery/myposts', async (request,response) => {
+    fooddelivery.deleteOne({ postedby: request.body.user_id, _id:request.body._id}, (err) =>{
         if (err){
             console.log(err);
         }
@@ -435,5 +436,163 @@ router.post('/careerhelp/myposts', async (request,response) => {
 })
 ////
 
+// Instructor Reviews
+
+// search based on keywords
+router.get('/instructorreviews', (request,response) => {
+    const tmp = `.*`+request.body.keywords+'.*'
+    instructorreviews.find({ "title": { "$regex": tmp, "$options": "i" } }).sort({date: -1}).populate("postedby", "fullname").exec((err, docs) => {   
+        if(err)
+        {
+            console.log(err)
+            response.send({"error":err})
+        }
+        else{
+            if(docs.length > request.body.numberofposts)
+            {
+                response.send(docs.slice(0, request.body.numberofposts))
+            }
+            if(docs.length <= request.body.numberofposts)
+            {
+                response.send(docs)
+            }
+            else{
+                response.send(docs)
+            }
+        }
+    })
+})
+
+// post 
+router.post('/instructorreviews/post', async (request,response) => {
+    const insrev = new instructorreviews({
+        content: request.body.content,
+        title: request.body.title,
+        postedby: request.body.user_id,
+        rating: request.body.rating
+    })
+    const inspos = await insrev.populate("postedby", "fullname")
+    inspos.save().then(data => {
+        response.json(data)
+    }).catch(error => {
+        response.json(error)
+    })
+})
+
+// render my posts
+router.get('/instructorreviews/myposts', async (request,response) => {
+    instructorreviews.find({ postedby: request.body.user_id}, (err, docs) =>{
+        if (err){
+            console.log(err);
+        }
+        else{
+            // Sending an array of posts
+            response.send(docs) 
+        }
+    })
+})
+
+// delete selected post
+router.post('/instructorreviews/myposts', async (request,response) => {
+    instructorreviews.deleteOne({ postedby: request.body.user_id, _id:request.body._id}, (err) =>{
+        if (err){
+            console.log(err);
+        }
+        else{
+            response.json({'deleted':1})
+        }
+    })
+})
+////
+
+// Course Reviews
+
+// search based on keywords
+router.get('/coursereviews', (request,response) => {
+    const tmp = `.*`+request.body.keywords+'.*'
+    coursereviews.find({ "title": { "$regex": tmp, "$options": "i" } }).sort({date: -1}).populate("postedby", "fullname").exec((err, docs) => {   
+        if(err)
+        {
+            console.log(err)
+            response.send({"error":err})
+        }
+        else{
+            if(docs.length > request.body.numberofposts)
+            {
+                response.send(docs.slice(0, request.body.numberofposts))
+            }
+            if(docs.length <= request.body.numberofposts)
+            {
+                response.send(docs)
+            }
+            else{
+                response.send(docs)
+            }
+        }
+    })
+})
+
+// post 
+router.post('/coursereviews/post', async (request,response) => {
+    const corsrev = new coursereviews({
+        content: request.body.content,
+        title: request.body.title,
+        postedby: request.body.user_id,
+        rating: request.body.rating
+    })
+    const corspos = await corsrev.populate("postedby", "fullname")
+    corspos.save().then(data => {
+        response.json(data)
+    }).catch(error => {
+        response.json(error)
+    })
+})
+
+// render my posts
+router.get('/coursereviews/myposts', async (request,response) => {
+    coursereviews.find({ postedby: request.body.user_id}, (err, docs) =>{
+        if (err){
+            console.log(err);
+        }
+        else{
+            // Sending an array of posts
+            response.send(docs) 
+        }
+    })
+})
+
+// delete selected post
+router.post('/coursereviews/myposts', async (request,response) => {
+    coursereviews.deleteOne({ postedby: request.body.user_id, _id:request.body._id}, (err) =>{
+        if (err){
+            console.log(err);
+        }
+        else{
+            response.json({'deleted':1})
+        }
+    })
+})
+////
+
+router.get('/coursereviews/browse', (request,response) => {
+    courses.find({ semester: request.body.semester, major: request.body.major}, (err, docs) =>{
+        if (err){
+            console.log(err);
+        }
+        else{
+            if(docs.length > request.body.numberofposts)
+            {
+                response.send(docs.slice(0, request.body.numberofposts))
+            }
+            if(docs.length <= request.body.numberofposts)
+            {
+                response.send(docs)
+            }
+            else{
+                response.send(docs)
+            }
+        }
+    })
+})
 
 module.exports = router
