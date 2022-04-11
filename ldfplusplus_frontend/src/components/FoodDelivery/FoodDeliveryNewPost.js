@@ -35,7 +35,7 @@ class FoodDeliveryNewPost extends React.Component {
 
                 <div className="landinghappening">
                     <div className="posttitle">
-                        <h1> Post Title</h1>
+                        <h1> Post Titlee</h1>
                     </div>
                         
                 </div>
