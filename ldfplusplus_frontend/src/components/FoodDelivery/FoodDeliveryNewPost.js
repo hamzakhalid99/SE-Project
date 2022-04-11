@@ -40,9 +40,45 @@ class FoodDeliveryNewPost extends React.Component {
 
         const { onRouteChange } = this.props;
 
-		return (
+		// return (
 
             
+        //     <div className='signup-container'>
+        //         <div className="homepage body-center-align">
+        //             <div className="homepageprofile">
+        //             <img className="iconpic" src={ fastfood } />  
+        //             </div>
+
+        //                 <div className="usecasename">
+        //                 <p>Food Delivery</p>
+        //                 </div>
+
+        //         </div>
+
+        //         <div className="landinghappening">
+        //             <form className="posttitle">
+        //                 <h1> Post Title</h1>
+        //             </form>
+                        
+        //         </div>
+
+        //         <div className="postdetailsbox"  onSubmit={this.onSubmitPost}>
+
+        //         <input className="postdetails" placeholder="Post Details" type="text" onChange={this.postDetails}/>
+                        
+        //         </div>
+
+        //         {/* <div ></div> */}
+
+
+        //         <a className="form-green-button" onClick={() => { onRouteChange('fooddelivery') }}>Post</a>
+
+        //     </div>
+            
+			
+		// )
+
+        return (
             <div>
                 <div className="homepage body-center-align">
                     <div className="homepageprofile">
@@ -54,29 +90,19 @@ class FoodDeliveryNewPost extends React.Component {
                         </div>
 
                 </div>
-
-                <div className="landinghappening">
-                    <div className="posttitle">
-                        <h1> Post Title</h1>
+                <div className="post-container">
+                    <div>
+                        <form className="postform" onSubmit={this.onSubmitSignUp}>
+                            <input className="posttitle" placeholder="Post Title" type="text" onChange={this.onTitleChange} />
+                            <input className="postdetails" placeholder="Post Details" type="text" onChange={this.onDetailsChange} />
+                            
+                            <input className="post-green-button" value="Post" type="submit" />
+                        </form>
                     </div>
-                        
+                   
                 </div>
-
-                <div className="postdetailsbox">
-
-                    <div className="postdetails">
-                        <h1>Post Details</h1>
-                    </div>
-                        
-                </div>
-
-
-                <a className="form-green-button" onClick={() => { onRouteChange('fooddelivery') }}>Post</a>
-
             </div>
-            
-			
-		)
+        )
 		
 	}
 }
