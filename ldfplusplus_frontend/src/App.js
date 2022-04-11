@@ -8,6 +8,7 @@ import SignUp from './components/SignUp/SignUp.js';
 import Login from './components/Login/Login.js';
 import Homepage from './components/Homepage/Homepage.js';
 import FoodDelivery from './components/FoodDelivery/FoodDelivery.js';
+import FoodDeliveryPostDetails from './components/FoodDelivery/FoodDeliveryPostDetails.js';
 
 const initialState = {
 	route: 'landing',
@@ -102,7 +103,9 @@ class App extends Component {
       return (
         <div className="App">
           <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
-          <FoodDelivery/>
+          <FoodDelivery 
+          onRouteChange={this.onRouteChange} 
+            loadUser={this.loadUser}/>
         </div>
       )
     } else if (route === 'marketplace') {
@@ -217,7 +220,36 @@ class App extends Component {
           <h1>Logout</h1>
         </div>
       )
+    } else if (route === 'ViewFoodDeliveryPost') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <FoodDeliveryPostDetails
+          onRouteChange={this.onRouteChange} 
+          loadUser={this.loadUser}/>
+        </div>
+      )
     }
+    //view my food delivery posts
+    else if (route === 'ViewMyFoodDeliveryRequest') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <h1>view my food delivery posts</h1>
+        </div>
+      )
+    }
+
+    //post a food delivery request
+    else if (route === 'PostFoodDeliveryRequest') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <h1> post a food delivery request</h1>
+        </div>
+      )
+    }
+
   }
 }
 
