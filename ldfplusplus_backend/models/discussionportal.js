@@ -5,8 +5,9 @@ const dpTemp = new mongoose.Schema({
         type: String,
         required: true
     },
-    keywords: {
-        type: [String],
+    title: {
+        type: String,
+        required: true
     },
     postedby:{
         type:mongoose.SchemaTypes.ObjectId,

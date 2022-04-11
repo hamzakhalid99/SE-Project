@@ -12,6 +12,33 @@ const fooddelivery = require('../models/fooddelivery');
 const instructorreviews = require('../models/instructoreviws');
 const coursereviews = require('../models/coursereviews');
 const courses =  require('../models/courses');
+const discussionportal = require('../models/discussionportal');
+const reqadmin = require('../models/reqadmin');
+
+function isSuperadmin(req, res, next) {
+    try  
+    {
+        gettogehter.findById(req.body.user_id, (err,docs) =>{
+            if (err){
+                res.send({"Error": "Not Super Admin"})
+            }
+            else{
+                if (docs.length <=0)
+                {
+                    res.send({"Error": "Not Super Admin"})
+                }
+                next()
+            }
+        })
+    }
+    catch{
+        res.send({"Error": "Not Super Admin"})
+    }
+  }
+  
+
+
+
 
 router.post('/signup', (request, response) => {
     userprofile.find({ email: request.body.email}, (err,docs) => {
@@ -572,7 +599,6 @@ router.post('/coursereviews/myposts', async (request,response) => {
         }
     })
 })
-////
 
 router.get('/coursereviews/browse', (request,response) => {
     courses.find({ semester: request.body.semester, major: request.body.major}, (err, docs) =>{
@@ -594,5 +620,145 @@ router.get('/coursereviews/browse', (request,response) => {
         }
     })
 })
+////
+
+
+// Discussion Portal
+
+// search based on keywords
+router.get('/discussionportal', (request,response) => {
+    const tmp = `.*`+request.body.keywords+'.*'
+    discussionportal.find({ "title": { "$regex": tmp, "$options": "i" } }).sort({date: -1}).populate("postedby", "fullname").exec((err, docs) => {   
+        if(err)
+        {
+            console.log(err)
+            response.send({"error":err})
+        }
+        else{
+            if(docs.length > request.body.numberofposts)
+            {
+                response.send(docs.slice(0, request.body.numberofposts))
+            }
+            if(docs.length <= request.body.numberofposts)
+            {
+                response.send(docs)
+            }
+            else{
+                response.send(docs)
+            }
+        }
+    })
+})
+
+// post 
+router.post('/discussionportal/post', async (request,response) => {
+    const disport = new discussionportal({
+        content: request.body.content,
+        title: request.body.title,
+        postedby: request.body.user_id,
+        anonymous: request.body.anonymous
+    })
+    const disp = await disport.populate("postedby", "fullname")
+    disp.save().then(data => {
+        response.json(data)
+    }).catch(error => {
+        response.json(error)
+    })
+})
+
+// render my posts
+router.get('/discussionportal/myposts', async (request,response) => {
+    discussionportal.find({ postedby: request.body.user_id}, (err, docs) =>{
+        if (err){
+            console.log(err);
+        }
+        else{
+            // Sending an array of posts
+            response.send(docs) 
+        }
+    })
+})
+
+// delete selected post
+router.post('/discussionportal/myposts', async (request,response) => {
+    discussionportal.deleteOne({ postedby: request.body.user_id, _id:request.body._id}, (err) =>{
+        if (err){
+            console.log(err);
+        }
+        else{
+            response.json({'deleted':1})
+        }
+    })
+})
+
+router.post('/discussionportal/like', async (request,response) => {    
+    discussionportal.updateOne({ postedby: request.body.user_id, _id:request.body._id},{ $push: { "likes": request.body.user_id }}, (err) => {
+        if (err){
+            console.log(err);
+        }
+        else{
+            console.log('updated')
+        }
+    })
+})
+
+router.post('/discussionportal/comment', async (request,response) => {    
+    discussionportal.updateOne({ postedby: request.body.user_id, _id:request.body._id},{ $push: { "comments": (request.body.user_id,request.body.comments) }}, (err) => {
+        if (err){
+            console.log(err);
+        }
+        else{
+            console.log('updated')
+        }
+    })
+})
+
+router.get('/discussionportal/comment', async (request,response) => {    
+    discussionportal.find({}).sort({date: -1}).populate("postedby", "fullname").exec((err, docs) => {   
+        if(err)
+        {
+            console.log(err)
+            response.send({"error":err})
+        }
+        else{
+            if(docs.length > request.body.numberofposts)
+            {
+                response.send(docs.slice(0, request.body.numberofposts))
+            }
+            if(docs.length <= request.body.numberofposts)
+            {
+                response.send(docs)
+            }
+            else{
+                response.send(docs)
+            }
+        }
+    })
+})
+////
+
+
+/// Request Admin
+router.post('/discussionportal/post', async (request,response) => {
+    const adminpos = new reqadmin({
+        content: request.body.content,
+        fullname: request.body.fullname
+    })
+    const reqad = await adminpos.populate("postedby", "fullname")
+    reqad.save().then(data => {
+        response.json(data)
+    }).catch(error => {
+        response.json(error)
+    })
+})
+
+//// Admin Items
+
+router.post('/removeadmin', isSuperadmin, (request,response)=> {
+
+})
+
+
+
 
 module.exports = router
