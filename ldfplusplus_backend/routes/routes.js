@@ -14,11 +14,13 @@ const coursereviews = require('../models/coursereviews');
 const courses =  require('../models/courses');
 const discussionportal = require('../models/discussionportal');
 const reqadmin = require('../models/reqadmin');
+const swaprequest = require('../models/swaprequest');
+const marketpalce = require('../models/marketplace');
 
 function isSuperadmin(req, res, next) {
     try  
     {
-        gettogehter.findById(req.body.user_id, (err,docs) =>{
+        userprofile.findById(req.body.user_id, (err,docs) =>{
             if (err){
                 res.send({"Error": "Not Super Admin"})
             }
@@ -27,16 +29,41 @@ function isSuperadmin(req, res, next) {
                 {
                     res.send({"Error": "Not Super Admin"})
                 }
-                next()
+                if (docs.length ==1 && docs[0].superadmin == true)
+                {
+                    next()
+                } 
             }
         })
     }
     catch{
         res.send({"Error": "Not Super Admin"})
     }
-  }
-  
+}
 
+function isAdmin(req, res, next) {
+    try  
+    {
+        userprofile.findById(req.body.user_id, (err,docs) =>{
+            if (err){
+                res.send({"Error": "Not Super Admin"})
+            }
+            else{
+                if (docs.length <=0)
+                {
+                    res.send({"Error": "Not Super Admin"})
+                }
+                if (docs.length ==1 && (docs[0].superadmin == true || docs[0].adminstatus == true))
+                {
+                    next()
+                } 
+            }
+        })
+    }
+    catch{
+        res.send({"Error": "Not Super Admin"})
+    }
+}
 
 
 
@@ -754,11 +781,307 @@ router.post('/discussionportal/post', async (request,response) => {
 
 //// Admin Items
 
+// search based on email or fullname number of posts required
+router.get('/removeadmin',isSuperadmin, (request,response) => {
+    const tmp = `.*`+request.body.keywords+'.*'
+    userprofile.find({ $or:[ { "fullname": { "$regex": tmp, "$options": "i" }},{"email":request.body.keywords } ]}).sort({date: -1}).populate("postedby", "fullname").exec((err, docs) => {   
+        if(err)
+        {
+            console.log(err)
+            response.send({"error":err})
+        }
+        else{
+            if(docs.length > request.body.numberofposts)
+            {
+                response.send(docs.slice(0, request.body.numberofposts))
+            }
+            if(docs.length <= request.body.numberofposts)
+            {
+                response.send(docs)
+            }
+            else{
+                response.send(docs)
+            }
+        }
+    })
+})
+//remove admin based on _id
 router.post('/removeadmin', isSuperadmin, (request,response)=> {
+    // request.body.toremove
+    userprofile.updateOne({ _id: request.body.toremove},{ $set: { "adminstatus": false }}, (err) => {
+        if (err){
+            console.log(err);
+        }
+        else{
+            console.log('updated')
+        }
+    })
+})
+//reject admin request based on postid
+router.post('/adminreqs/reject', isSuperadmin, (request,response)=> {
+    // request.body.toremove
+    // request.body.postid // id of to delete request
+    reqadmin.deleteOne({ _id:request.body.postid}, (err) =>{
+        if (err){
+            console.log(err);
+        }
+        else{
+            response.json({'deleted':1})
+        }
+    })
+})
 
+//accept admin request based on postid, 
+router.post('/adminreqs/accept', isSuperadmin, (request,response)=> {
+    // request.body.toremove
+    // request.body.postid // id of to delete request
+
+    userprofile.findOne({$and: [{_id: req.body.user_id}, { "adminstatus": false }]}, (err,docs) =>{
+        if (err){
+            res.send({"Error": "Not Super Admin"})
+        }
+        else{
+            if (docs.length <=0)
+            {
+                res.send({"Error": "Not Found"})
+            }
+            else 
+            {
+                userprofile.updateOne({ _id: request.body.toadd},{ $set: { "adminstatus": true }}, (err) => {
+                    if (err){
+                        console.log(err);
+                    }
+                    else{
+                        reqadmin.deleteOne({ _id:request.body.postid}, (err) =>{
+                            if (err){
+                                console.log(err);
+                            }
+                            else{
+                                response.json({'deleted':1})
+                            }
+                        })
+                        console.log('updated')
+                    }
+                })
+            }
+        }
+    })
+})
+
+// get all admin requests
+router.get('/adminreqs',isSuperadmin, (request,response) => {
+    reqadmin.find({}).sort({date: -1}).exec((err, docs) => {   
+        if(err)
+        {
+            console.log(err)
+            response.send({"error":err})
+        }
+        else{
+            if(docs.length > request.body.numberofposts)
+            {
+                response.send(docs.slice(0, request.body.numberofposts))
+            }
+            if(docs.length <= request.body.numberofposts)
+            {
+                response.send(docs)
+            }
+            else{
+                response.send(docs)
+            }
+        }
+    })
+})
+
+// list remove user based on keywords,email, (search)
+router.get('/removeuser',isAdmin, (request,response) => {
+    const tmp = `.*`+request.body.keywords+'.*'
+    userprofile.find({ $or:[ { "fullname": { "$regex": tmp, "$options": "i" }},{"email":request.body.keywords } ]}).sort({date: -1}).populate("postedby", "fullname").exec((err, docs) => {   
+        if(err)
+        {
+            console.log(err)
+            response.send({"error":err})
+        }
+        else{
+            if(docs.length > request.body.numberofposts)
+            {
+                response.send(docs.slice(0, request.body.numberofposts))
+            }
+            if(docs.length <= request.body.numberofposts)
+            {
+                response.send(docs)
+            }
+            else{
+                response.send(docs)
+            }
+        }
+    })
+})
+
+// remove user based on _id
+router.post('/removeuser', isAdmin, (request,response)=> {
+    // request.body.toremove
+    userprofile.deleteOne({ _id: request.body.toremove}, (err) => {
+        if (err){
+            console.log(err);
+        }
+        else{
+            console.log('deleted')
+        }
+    })
 })
 
 
+
+
+/// Swap Reqeust
+
+// load posts view more button, view post simply uses the object returned here
+router.get('/swaprequest', (request,response) => {
+    swaprequest.find({fullfilled:false}).sort({date: -1}).populate("postedby", "fullname").exec((err, docs) => {   
+        if(err)
+        {
+            console.log(err)
+            response.send({"error":err})
+        }
+        else{
+            if(docs.length > request.body.numberofposts)
+            {
+                response.send(docs.slice(0, request.body.numberofposts))
+            }
+            if(docs.length <= request.body.numberofposts)
+            {
+                response.send(docs)
+            }
+            else{
+                response.send(docs)
+            }
+        }
+    })
+})
+
+// post 
+router.post('/swaprequest/post', async (request,response) => {
+    const swappost = new swaprequest({
+        want: request.body.want,
+        contact: request.body.contact,
+        have: request.body.have,
+        postedby: request.body.user_id
+    })
+    const swapy = await swappost.populate("postedby", "fullname")
+    swapy.save().then(data => {
+        response.json(data)
+    }).catch(error => {
+        response.json(error)
+    })
+})
+
+// render my posts
+router.get('/swaprequest/myposts', async (request,response) => {
+    swaprequest.find({ postedby: request.body.user_id}, (err, docs) =>{
+        if (err){
+            console.log(err);
+        }
+        else{
+            // Sending an array of posts
+            response.send(docs) 
+        }
+    })
+})
+
+// delete selected post
+router.post('/swaprequest/myposts', async (request,response) => {
+    swaprequest.deleteOne({ postedby: request.body.user_id, _id:request.body._id}, (err) =>{
+        if (err){
+            console.log(err);
+        }
+        else{
+            response.json({'deleted':1})
+        }
+    })
+})
+// mark as fullfileed
+router.post('/swaprequest/myposts/fulfilled', async (request,response) => {
+    events.updateOne({ postedby: request.body.user_id, _id:request.body._id},{ $set: { "fullfilled": true }}, (err) => {
+        if (err){
+            console.log(err);
+        }
+        else{
+            console.log('updated')
+        }
+    })
+})
+//////
+
+
+//// Marketplace
+
+// load posts view more button, view post simply uses the object returned here
+router.get('/marketpalce', (request,response) => {
+    marketpalce.find().sort({date: -1}).populate("postedby", "fullname").exec((err, docs) => {   
+        if(err)
+        {
+            console.log(err)
+            response.send({"error":err})
+        }
+        else{
+            if(docs.length > request.body.numberofposts)
+            {
+                response.send(docs.slice(0, request.body.numberofposts))
+            }
+            if(docs.length <= request.body.numberofposts)
+            {
+                response.send(docs)
+            }
+            else{
+                response.send(docs)
+            }
+        }
+    })
+})
+
+// post 
+router.post('/marketpalce/post', async (request,response) => {
+    const marketpost = new marketpalce({
+        field: request.body.field,
+        contact: request.body.contact,
+        content: request.body.content,
+        title: request.body.title,
+        image: request.body.image,
+        postedby: request.body.user_id
+    })
+    const masky = await marketpost.populate("postedby", "fullname")
+    masky.save().then(data => {
+        response.json(data)
+    }).catch(error => {
+        response.json(error)
+    })
+})
+
+// render my posts
+router.get('/marketpalce/myposts', async (request,response) => {
+    marketpalce.find({ postedby: request.body.user_id}, (err, docs) =>{
+        if (err){
+            console.log(err);
+        }
+        else{
+            // Sending an array of posts
+            response.send(docs) 
+        }
+    })
+})
+
+// delete selected post
+router.post('/marketpalce/myposts', async (request,response) => {
+    marketpalce.deleteOne({ postedby: request.body.user_id, _id:request.body._id}, (err) =>{
+        if (err){
+            console.log(err);
+        }
+        else{
+            response.json({'deleted':1})
+        }
+    })
+})
+// 
 
 
 module.exports = router
