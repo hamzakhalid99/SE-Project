@@ -10,6 +10,7 @@ import Homepage from './components/Homepage/Homepage.js';
 import FoodDelivery from './components/FoodDelivery/FoodDelivery.js';
 import FoodDeliveryPostDetails from './components/FoodDelivery/FoodDeliveryPostDetails.js';
 import RemoveUser from './components/RemoveUser/RemoveUser.js';
+import RemoveAdmin from './components/RemoveAdmin/RemoveAdmin.js';
 
 const initialState = {
 	route: 'landing',
@@ -169,7 +170,7 @@ class App extends Component {
       return (
         <div className="App">
           <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
-          <h1>Remove Admin</h1>
+          <RemoveAdmin />
         </div>
       )
     } else if (route === 'viewadminshiprequests') {
