@@ -1,6 +1,7 @@
 import React from 'react';
 import adminremove from './Remove Moderator.png'
 import './RemoveAdmin.css'
+import RemoveAdminConfirm from './RemoveAdminConfirm.js'
 
 class RemoveAdmin extends React.Component {
 	constructor(props) {
@@ -8,7 +9,8 @@ class RemoveAdmin extends React.Component {
 
 		this.state = {
 			users: [],
-			searchInput: ''
+			searchInput: '',
+			confirm: false
 		}
 	}
 
@@ -18,6 +20,19 @@ class RemoveAdmin extends React.Component {
 
 	onRemoveAdminInputChange(event) {
 		this.setState({ searchInput: event.target.value})
+	}
+
+	showConfirm = (event) => {
+		this.setState({ confirm: true })
+	}
+
+	onConfirm = (event) => {
+		// remove admin
+		this.setState({ confirm: false })
+	}
+
+	onCancel = (event) => {
+		this.setState({ confirm: false })
 	}
 
 	render() {
@@ -35,7 +50,8 @@ class RemoveAdmin extends React.Component {
 					<div className="landingpost whiteBackground">
                         <h3>Admin Details</h3>
                     </div>
-                    <button className="removeButton">Remove Admin</button>
+                    <button onClick={this.showConfirm}className="removeButton">Remove Admin</button>
+                    { this.state.confirm ? <RemoveAdminConfirm onConfirm={this.onConfirm} onCancel={this.onCancel} /> : <p></p> }
 				</div>
 			</div>
 		)
