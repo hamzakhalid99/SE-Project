@@ -13,7 +13,8 @@ class AddCourses extends React.Component {
 			selectedSemester: '',
 			fileName: 'Upload File',
 			uploadedFile: '',
-			icon: uploadicon
+			icon: uploadicon,
+			submitted: ''
 		}
 	}
 
@@ -48,6 +49,18 @@ class AddCourses extends React.Component {
         }, 3000)
     }
 
+    onClickSubmit = (event) => {
+    	fetch('http://localhost:3000/addcourses', {
+			method: 'post',
+			headers: {'Content-Type': 'application/json'},
+			body: JSON.stringify(this.state)
+		})
+		.then(response => response.json())
+		.then(user => {
+			this.setState({ submitted: "Submitted!"})
+		})
+    }
+
 	render() {
 		const semestersList = this.state.semesters.map((semester, i) => {
 			return <option value={semester}>{semester}</option>
@@ -69,7 +82,8 @@ class AddCourses extends React.Component {
 						<img className="usecase-img uploadPositioning" src={this.state.icon} />
                     	<button className="green-button" onClick={this.onUploadSubmit} >Upload File</button>
 					</div>
-					<button className="green-button submitFiles">Submit Files</button>
+					<button onClick={this.onClickSubmit} className="green-button submitFiles">Submit Files</button>
+					<p>{this.state.submitted}</p>
 				</div>
 			</div>
 		)
