@@ -1,6 +1,7 @@
 import React from 'react';
 import personremove from './Person Remove.png'
 import './RemoveUser.css'
+import RemoveUserConfirm from './RemoveUserConfirm.js'
 
 class RemoveUser extends React.Component {
 	constructor(props) {
@@ -8,7 +9,8 @@ class RemoveUser extends React.Component {
 
 		this.state = {
 			users: [],
-			searchInput: ''
+			searchInput: '',
+			confirm: false
 		}
 	}
 
@@ -17,7 +19,20 @@ class RemoveUser extends React.Component {
 	}
 
 	onRemoveUserInputChange(event) {
-		this.setState({ searchInput: event.target.value})
+		this.setState({ searchInput: event.target.value })
+	}
+
+	showConfirm = (event) => {
+		this.setState({ confirm: true })
+	}
+
+	onConfirm = (event) => {
+		// remove user
+		this.setState({ confirm: false })
+	}
+
+	onCancel = (event) => {
+		this.setState({ confirm: false })
 	}
 
 	render() {
@@ -35,7 +50,8 @@ class RemoveUser extends React.Component {
 					<div className="landingpost whiteBackground">
                         <h3>User Details</h3>
                     </div>
-                    <button className="removeButton">Remove User</button>
+                    <button onClick={this.showConfirm} className="removeButton">Remove User</button>
+                    { this.state.confirm ? <RemoveUserConfirm onConfirm={this.onConfirm} onCancel={this.onCancel} /> : <p></p> }
 				</div>
 			</div>
 		)
