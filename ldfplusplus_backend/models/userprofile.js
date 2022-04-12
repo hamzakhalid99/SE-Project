@@ -30,7 +30,9 @@ const usertemplate = new mongoose.Schema({
     superadmin:{
         type:Boolean,
         default:false
-    }
+    },
+    resettoken:String,
+    expiretoken:Date
 })
 
 module.exports = mongoose.model('userprofile', usertemplate)

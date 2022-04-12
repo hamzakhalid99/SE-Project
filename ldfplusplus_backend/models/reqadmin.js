@@ -12,7 +12,11 @@ const reqadminTemp = new mongoose.Schema({
     content: {
         type: String,
         required: true
-    }
+    },
+    postedby:{
+        type:String,
+        required:true
+    },
 })
 
 module.exports = mongoose.model('reqadmin', reqadminTemp)
