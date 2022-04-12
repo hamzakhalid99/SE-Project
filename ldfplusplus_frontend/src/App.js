@@ -12,7 +12,7 @@ import FoodDeliveryPostDetails from './components/FoodDelivery/FoodDeliveryPostD
 import FoodDeliveryNewPost from './components/FoodDelivery/FoodDeliveryNewPost.js';
 
 import ViewAdminRequests from './components/ViewAdminRequests/ViewAdminRequests.js';
-
+import AddCourses from './components/AddCourses/AddCourses.js';
 import RemoveUser from './components/RemoveUser/RemoveUser.js';
 import RemoveAdmin from './components/RemoveAdmin/RemoveAdmin.js';
 
@@ -168,7 +168,7 @@ class App extends Component {
       return (
         <div className="App">
           <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
-          <h1>Add Courses</h1>
+          <AddCourses />
         </div>
       )
     } else if (route === 'removeadmin') {
