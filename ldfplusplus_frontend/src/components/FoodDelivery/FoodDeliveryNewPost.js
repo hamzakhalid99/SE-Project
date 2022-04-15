@@ -9,7 +9,7 @@ class FoodDeliveryNewPost extends React.Component {
         
         this.state = {
             postTitle: '',
-            postDetails: '',
+            postDetails: ''
         }
     }
 
@@ -21,18 +21,17 @@ class FoodDeliveryNewPost extends React.Component {
         this.setState({ postDetails: event.target.value })
     }
 
-    onSubmitPost = () => {
-		fetch('http://localhost:3000/fooddelivery', {
+    onSubmitPost = (event) => {
+        event.preventDefault()
+		fetch('http://localhost:3000/newpost', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
 			body: JSON.stringify(this.state)
 		})
 		.then(response => response.json())
-		.then(user => {
-			if (user.id) {
-				this.props.loadUser(user);
-				this.props.onRouteChange('fooddelivery')
-			}
+		.then(user => {	
+			this.props.onRouteChange('fooddelivery')
+			
 		})
 	}
 
