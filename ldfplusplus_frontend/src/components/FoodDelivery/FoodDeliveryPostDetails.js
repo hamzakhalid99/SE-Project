@@ -14,9 +14,8 @@ class FoodDelivery extends React.Component {
     }
 
 	render() {
-		const studentName = "Zafir Ansari"
-        const { onRouteChange } = this.props;
-
+        const { onRouteChange, post } = this.props;
+        console.log(post)
 		return (
 
             
@@ -33,11 +32,15 @@ class FoodDelivery extends React.Component {
                 </div>
                     <div className="landinghappening">
                         <div className="viewpostfood">
-                            <h3>Sarah24</h3>
-                            <h2>14/04/22</h2>
-                            
-                            <h1> <u> TITLE Bring Jammin pasta to f5 room 311 TITLE-</u> have an exam in few hours, You can get anything you want from jammin too! &lt;3</h1>
+                            <h3>{ post.postedby.fullname }</h3>
+                            <h2>{ post.date.slice(0, 10) + " " + post.date.slice(11, 19)  }</h2>
+                            <h1 > <u> { post.title } </u> { post.content } </h1>
+                            <h1>FROM: { post.areafrom }</h1>
+                            <h1>TO: { post.areato }</h1>
+                            <h1>COMPENSATION: { post.compensation }</h1>
+                            <h1>CONTACT: { post.contact }</h1>
                         </div>
+
                         
                 </div>
 

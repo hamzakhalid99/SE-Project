@@ -53,9 +53,9 @@ class Homepage extends React.Component {
 				</div>
 				<div className="happening">
 					<h2>What's happening on campus?</h2>
-					<div className="happeningCard"><p>{this.state.happenings[0].title }</p></div>
-					<div className="happeningCard"><p>{this.state.happenings[1].title }</p></div>
-					<div className="happeningCard"><p>{this.state.happenings[2].title }</p></div>
+					<div className="happeningCard"><p>{this.state.happenings[0] }</p></div>
+					<div className="happeningCard"><p>{this.state.happenings[1] }</p></div>
+					<div className="happeningCard"><p>{this.state.happenings[2] }</p></div>
 				</div>
 			</div>
 		)

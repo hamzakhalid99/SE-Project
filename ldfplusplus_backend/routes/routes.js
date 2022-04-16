@@ -557,7 +557,7 @@ router.post('/donations/myposts', async (request,response) => {
 // Food Delivery
 
 // load posts view more button, view post simply uses the object returned here
-router.get('/fooddelivery', (request,response) => {
+router.post('/fooddelivery', (request,response) => {
     try{
         const numberofposts = request.body.numberofposts
         fooddelivery.find({}).sort({date: -1}).populate("postedby", "fullname").exec((err, docs) => {   
