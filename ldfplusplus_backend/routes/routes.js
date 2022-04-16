@@ -1,6 +1,5 @@
 // Routing the Requests that come to our server
 const crypto = require('crypto');
-
 const express = require('express')
 const router = express.Router()
 const userprofile = require('../models/userprofile');
@@ -23,6 +22,7 @@ const DOMAIN = 'sandboxf3dda59e7eec4d0390aecf845b778728.mailgun.org';
 const api_key = '4c1b6bf25b1648865a70ae6f0f07b9a3-162d1f80-c68639a6';
 const mg = mailgun({apiKey: api_key, domain: DOMAIN});
 const _ = require('lowdash')
+
 function isSuperadmin(req, res, next) {
     try  
     {
@@ -75,36 +75,35 @@ function isAdmin(req, res, next) {
 router.post('/signup', (request, response) => {
     try{
         const emailtemp = sanitize(request.body.email)
-        const password = sanitize(request.body.password)
+        const passwordy = sanitize(request.body.password)
         const fullname = sanitize(request.body.fullname)
         userprofile.find({ email: (emailtemp).toLowerCase()}, (err,docs) => {
             if (err){
-                console.log(err)
+                response.send(400).json({error:err})
             }
             else{
-                // console.log(docs)
                 if (docs.length >= 1)
                 {
-                    response.json(false)
+                    response.json({error:"Email already registered"})
                 }
                 else{
-                    const hashedpassword = crypto.createHash('sha256').update(password).digest('base64')
+                    const hashedpassword = crypto.createHash('sha256').update(passwordy).digest('base64')
                     const signedUpUser = new userprofile({
                         fullname: fullname,
                         email: (emailtemp).toLowerCase(),
                         password: hashedpassword
                     })
                     signedUpUser.save().then(data => {
-                        response.json(true)
+                        response.json({message:"Sucessful Signup"})
                     }).catch(error => {
-                        response.json(error)
+                        response.json({error:error})
                     })
                 }
             }
         })
     }
     catch(err){
-        console.log(err)
+        response.send(400).json({error:err})
     }
 })
 
@@ -115,33 +114,31 @@ router.post('/login', (request,response) => {
         const hashedpassword = crypto.createHash('sha256').update(passwordy).digest('base64')
         userprofile.find({ email: emailtemp}).lean().exec(function(err, docs) {
             if (err){
-                console.log(err);
+                response.json({error:err})
             }
             else{
                 if (docs.length < 1)
                 {
-                    response.send({"Error":"Not Found"})
+                    response.json({error:"Not Found"})
+                    // response.json({"Error":"Not Found"})
                 }
                 else{
                     const doc = docs[0]
                     if (doc.password == hashedpassword)
                     {
-                        // let key = "password";
-
-                        // delete doc[key];
                         delete doc.password
-                        console.log(doc)
-                        response.send(doc)
+                        response.json({backenddata:doc})
                     }
                     else{
-                        response.send({"Error":"Incorrect Password/Username"})
+                        response.json({error:"Incorrect Credentials"})
+                        // response.json({"Error":"Incorrect Password/Username"})
                     }
                 }
             }
         });
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 
@@ -153,26 +150,27 @@ router.get('/gettogether', (request,response) => {
         gettogehter.find({}).sort({date: -1}).populate("postedby", "fullname").exec((err, docs) => {   
             if(err)
             {
-                console.log(err)
-                response.send({"error":err})
+                // console.log(err)
+                response.json({error:err})
             }
             else{
                 if(docs.length > numberofposts)
                 {
-                    response.send(docs.slice(0, numberofposts))
+                    response.json({backenddata:docs.slice(0, numberofposts), rem:docs.length-numberofposts})
                 }
                 else if(docs.length <= numberofposts)
                 {
-                    response.send(docs)
+                    response.json({backenddata:docs, rem:0})
+                    // response.send(docs)
                 }
                 else{
-                    response.send(docs)
+                 console.log('CODE error')
                 }
             }
         })
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 
@@ -187,14 +185,14 @@ router.post('/gettogether/post', async (request,response) => {
         })
         const getpost = await gettogetherpost.populate("postedby", "fullname")
         getpost.save().then(data => {
-            response.json(data)
-        }).catch(error => {
-            response.json(error)
+            response.json({message:"Post Successful"})
+        }).catch(err => {
+            response.json({error:err})
         })
     }
     catch(err)
     {
-        console.log(err)
+        response.json({error:err})
     }
 })
 
@@ -203,17 +201,17 @@ router.get('/gettogether/myposts', async (request,response) => {
     try{
         gettogehter.find({ postedby: sanitize(request.body.user_id)}, (err, docs) =>{
             if (err){
-                console.log(err);
+                response.json({error:err})
             }
             else{
                 // Sending an array of posts
-                response.send(docs) 
+                response.json({backenddata:docs})
             }
         })    
     }
     catch(err)
     {
-        console.log(err)
+        response.json({error:err})
     }
 })
 
@@ -222,15 +220,15 @@ router.post('/gettogether/myposts', async (request,response) => {
     try{
         gettogehter.deleteOne({ postedby: sanitize(request.body.user_id), _id:sanitize(request.body._id)}, (err) =>{
             if (err){
-                console.log(err);
+                response.json({error:err})
             }
             else{
-                response.json({'deleted':1})
+                response.json({message:"Sucessfully Deleted"})
             }
         })
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 ////
@@ -245,27 +243,29 @@ router.get('/events', (request,response) => {
         events.find({}).sort({date: -1}).populate("postedby", "fullname").exec((err, docs) => {   
             if(err)
             {
-                console.log(err)
-                response.send({"error":err})
+                response.json({error:err})
+                // response.send({"error":err})
             }
             else{
                 if(docs.length > numberofposts)
                 {
-                    response.send(docs.slice(0, numberofposts))
+                    response.json({backenddata:docs.slice(0, numberofposts), rem:docs.length-numberofposts})
+                    // response.send(docs.slice(0, numberofposts))
                 }
                 if(docs.length <= numberofposts)
                 {
-                    response.send(docs)
+                    response.json({backenddata:docs,rem:0})
+                    // response.send(docs)
                 }
                 else{
-                    response.send(docs)
+                    response.json({backenddata:docs,rem:0})
                 }
             }
         })
     }
     catch(err)
     {
-        console.log(err)
+        response.json({error:err})
     }
 })
 
@@ -274,15 +274,15 @@ router.post('/events/interested', async (request,response) => {
     try{
         events.updateOne({ postedby: sanitize(request.body.user_id), _id:sanitize(request.body._id)},{ $push: { "interested": sanitize(request.body.user_id) }}, (err) => {
             if (err){
-                console.log(err);
+                response.json({error:err})
             }
             else{
-                console.log('updated')
+                response.json({message:'Status Updated'})
             }
         })
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 
@@ -291,15 +291,15 @@ router.post('/events/going', async (request,response) => {
     try{
         events.updateOne({ postedby: sanitize(request.body.user_id), _id:sanitize(request.body._id)},{ $push: { "going": sanitize(request.body.user_id) }}, (err) => {
             if (err){
-                console.log(err);
+                response.json({error:err})
             }
             else{
-                console.log('updated')
+                response.json({message:"Status Updated"})
             }
         })
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 
@@ -314,9 +314,9 @@ router.post('/events/post', async (request,response) => {
         })
         const getpost = await eventspost.populate("postedby", "fullname")
         getpost.save().then(data => {
-            response.json(data)
-        }).catch(error => {
-            response.json(error)
+            response.json({message:"Posted Succesffuly"})
+        }).catch(err => {
+            response.json({error:err})
         })    
     }
     catch(err){
@@ -329,16 +329,17 @@ router.get('/events/myposts', async (request,response) => {
     try{
         events.find({ postedby: sanitize(request.body.user_id)}, (err, docs) =>{
             if (err){
-                console.log(err);
+                response.json({error:err})
             }
             else{
                 // Sending an array of posts
-                response.send(docs) 
+                response.json({backenddata:docs})
+                // response.send(docs) 
             }
         })    
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 
@@ -347,15 +348,15 @@ router.post('/events/myposts', async (request,response) => {
     try{
         events.deleteOne({ postedby: sanitize(request.body.user_id), _id:sanitize(request.body._id)}, (err) =>{
             if (err){
-                console.log(err);
+                response.json({error:err})
             }
             else{
-                response.json({'deleted':1})
+                response.json({message:'Post Deleted'})
             }
         })
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 
@@ -371,26 +372,31 @@ router.get('/careerhelp', (request,response) => {
         jobposting.find({}).sort({date: -1}).populate("postedby", "fullname").exec((err, docs) => {   
             if(err)
             {
-                console.log(err)
-                response.send({"error":err})
+                response.json({error:err})
+                // console.log(err)
+                // response.send({"error":err})
             }
             else{
                 if(docs.length > numberofposts)
                 {
-                    response.send(docs.slice(0, numberofposts))
+                    response.json({backenddata:docs.slice(0, numberofposts),rem:docs.length-numberofposts})
+                    // response.send(docs.slice(0, numberofposts))
                 }
                 else if(docs.length <= numberofposts)
                 {
-                    response.send(docs)
+                    response.json({backenddata:docs,rem:0})
+                    // response.send(docs)
                 }
                 else{
-                    response.send(docs)
+                    response.json({backenddata:docs})
+                    // response.send(docs)
                 }
             }
         })
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
+        // console.log(err)
     }
 })
 
@@ -406,13 +412,13 @@ router.post('/careerhelp/post', async (request,response) => {
         })
         const jobpost = await jobposty.populate("postedby", "fullname")
         jobpost.save().then(data => {
-            response.json(data)
-        }).catch(error => {
-            response.json(error)
+            response.json({message:"Post Successful"})
+        }).catch(err => {
+            response.json({error:err})
         })
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 
@@ -421,16 +427,17 @@ router.get('/careerhelp/myposts', async (request,response) => {
     try{
         jobposting.find({ postedby: sanitize(request.body.user_id)}, (err, docs) =>{
             if (err){
-                console.log(err);
+                response.json({error:err})
             }
             else{
                 // Sending an array of posts
-                response.send(docs) 
+                response.json({backenddata:docs})
+                // response.send(docs) 
             }
         })
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 
@@ -439,15 +446,15 @@ router.post('/careerhelp/myposts', async (request,response) => {
     try{
         jobposting.deleteOne({ postedby: sanitize(request.body.user_id), _id:sanitize(request.body._id)}, (err) =>{
             if (err){
-                console.log(err);
+                response.json({error:err})
             }
             else{
-                response.json({'deleted':1})
+                response.json({message:"Deleted Successfully"})
             }
         })    
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 ////
@@ -463,26 +470,30 @@ router.get('/donations', (request,response) => {
         donations.find({}).sort({date: -1}).populate("postedby", "fullname").exec((err, docs) => {   
             if(err)
             {
-                console.log(err)
-                response.send({"error":err})
+                response.json({error:err})
+                // console.log(err)
+                // response.send({"error":err})
             }
             else{
                 if(docs.length > numberofposts)
                 {
-                    response.send(docs.slice(0, numberofposts))
+                    response.json({backenddata:docs.slice(0, numberofposts),rem:docs.length-numberofposts})
+                    // response.send(docs.slice(0, numberofposts))
                 }
                 else if(docs.length <= numberofposts)
                 {
-                    response.send(docs)
+                    response.json({backenddata:docs,rem:0})
+                    // response.send(docs)
                 }
                 else{
-                    response.send(docs)
+                    response.json({backenddata:docs,rem:0})
+                    // response.send(docs)
                 }
             }
         })
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 
@@ -496,13 +507,13 @@ router.post('/donations/post', async (request,response) => {
         })
         const donpost = await donationpost.populate("postedby", "fullname")
         donpost.save().then(data => {
-            response.json(data)
-        }).catch(error => {
-            response.json(error)
+            response.json({message:"Post Sucessful"})
+        }).catch(err => {
+            response.json({error:err})
         })
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 
@@ -511,16 +522,16 @@ router.get('/donations/myposts', async (request,response) => {
     try{
         donations.find({ postedby: sanitize(request.body.user_id)}, (err, docs) =>{
             if (err){
-                console.log(err);
+                response.json({error:err})
             }
             else{
                 // Sending an array of posts
-                response.send(docs) 
+                response.json({backenddata:docs})
             }
         })    
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 
@@ -529,15 +540,15 @@ router.post('/donations/myposts', async (request,response) => {
     try{
         donations.deleteOne({ postedby: sanitize(request.body.user_id), _id:sanitize(request.body._id)}, (err) =>{
             if (err){
-                console.log(err);
+                response.json({error:err})
             }
             else{
-                response.json({'deleted':1})
+                response.json({message:"Deleted Sucessfully"})
             }
         })    
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 ////
@@ -552,26 +563,29 @@ router.get('/fooddelivery', (request,response) => {
         fooddelivery.find({}).sort({date: -1}).populate("postedby", "fullname").exec((err, docs) => {   
             if(err)
             {
-                console.log(err)
-                response.send({"error":err})
+                response.json({error:err})
+                // response.send({"error":err})
             }
             else{
                 if(docs.length > numberofposts)
                 {
-                    response.send(docs.slice(0, numberofposts))
+                    response.json({backenddata:docs.slice(0, numberofposts),rem:docs.length-numberofposts})
+                    // response.send(docs.slice(0, numberofposts))
                 }
                 else if(docs.length <= numberofposts)
                 {
-                    response.send(docs)
+                    response.json({backenddata:docs,rem:0})
+                    // response.send(docs)
                 }
                 else{
-                    response.send(docs)
+                    response.json({backenddata:docs,rem:0})
+                    // response.send(docs)
                 }
             }
         })
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 
@@ -589,14 +603,14 @@ router.post('/fooddelivery/post', async (request,response) => {
         })
         const foopos = await foodpost.populate("postedby", "fullname")
         foopos.save().then(data => {
-            response.json(data)
-        }).catch(error => {
-            response.json(error)
+            response.json({message:"Posted Sucessfully"})
+        }).catch(err => {
+            response.json({error:err})
         })
     
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 
@@ -605,16 +619,16 @@ router.get('/fooddelivery/myposts', async (request,response) => {
     try{
         fooddelivery.find({ postedby: sanitize(request.body.user_id)}, (err, docs) =>{
             if (err){
-                console.log(err);
+                response.json({error:err})
             }
             else{
                 // Sending an array of posts
-                response.send(docs) 
+                response.json({backenddata:docs})
             }
         })    
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 
@@ -623,15 +637,15 @@ router.post('/fooddelivery/myposts', async (request,response) => {
     try{
         fooddelivery.deleteOne({ postedby: sanitize(request.body.user_id), _id:sanitize(request.body._id)}, (err) =>{
             if (err){
-                console.log(err);
+                response.json({error:err})
             }
             else{
-                response.json({'deleted':1})
+                response.json({message:"Post Deleted"})
             }
         })
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 ////
@@ -641,31 +655,33 @@ router.post('/fooddelivery/myposts', async (request,response) => {
 // search based on keywords
 router.get('/instructorreviews', (request,response) => {
     try{
-        const numbeofposts = sanitize(request.body.numberofposts)
+        const numberofposts = sanitize(request.body.numberofposts)
         const tmp = `.*`+sanitize(request.body.keywords)+'.*'
         instructorreviews.find({ "title": { "$regex": tmp, "$options": "i" } }).sort({date: -1}).populate("postedby", "fullname").exec((err, docs) => {   
             if(err)
             {
-                console.log(err)
-                response.send({"error":err})
+                response.json({error:err})
             }
             else{
-                if(docs.length > numbeofposts)
+                if(docs.length > numberofposts)
                 {
-                    response.send(docs.slice(0, numbeofposts))
+                    response.json({backenddata:docs.slice(0, numberofposts),rem:docs.length-numberofposts})
+                    // response.send(docs.slice(0, numberofposts))
                 }
-                else if(docs.length <= numbeofposts)
+                else if(docs.length <= numberofposts)
                 {
-                    response.send(docs)
+                    response.json({backenddata:docs,rem:0})
+                    // response.send(docs)
                 }
                 else{
-                    response.send(docs)
+                    response.json({backenddata:docs,rem:0})
+                    // response.send(docs)
                 }
             }
         })
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 
@@ -680,9 +696,9 @@ router.post('/instructorreviews/post', async (request,response) => {
         })
         const inspos = await insrev.populate("postedby", "fullname")
         inspos.save().then(data => {
-            response.json(data)
-        }).catch(error => {
-            response.json(error)
+            response.json({message:"Posted Sucessfully"})
+        }).catch(err => {
+            response.json({error:err})
         })
     }
     catch(err){
@@ -695,16 +711,17 @@ router.get('/instructorreviews/myposts', async (request,response) => {
     try{
         instructorreviews.find({ postedby: sanitize(request.body.user_id)}, (err, docs) =>{
             if (err){
-                console.log(err);
+                response.json({error:err})
             }
             else{
                 // Sending an array of posts
-                response.send(docs) 
+                // response.send(docs) 
+                response.json({backenddata:docs})
             }
         })    
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 
@@ -713,15 +730,15 @@ router.post('/instructorreviews/myposts', async (request,response) => {
     try{
         instructorreviews.deleteOne({ postedby: sanitize(request.body.user_id), _id:sanitize(request.body._id)}, (err) =>{
             if (err){
-                console.log(err);
+                response.json({error:err})
             }
             else{
-                response.json({'deleted':1})
+                response.json({message:"Post Deleted"})
             }
         })
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 ////
@@ -732,30 +749,31 @@ router.post('/instructorreviews/myposts', async (request,response) => {
 router.get('/coursereviews', (request,response) => {
     try{
         const tmp = `.*`+sanitize(request.body.keywords)+'.*'
-        const numbeofposts = request.body.numberofposts
+        const numberofposts = request.body.numberofposts
         coursereviews.find({ "title": { "$regex": tmp, "$options": "i" } }).sort({date: -1}).populate("postedby", "fullname").exec((err, docs) => {   
             if(err)
             {
-                console.log(err)
-                response.send({"error":err})
-            }
+                response.json({error:err})            }
             else{
-                if(docs.length > numbeofposts)
+                if(docs.length > numberofposts)
                 {
-                    response.send(docs.slice(0, numbeofposts))
+                    response.json({backenddata:docs.slice(0, numberofposts),rem:docs.length-numberofposts})
+                    // response.send())
                 }
-                else if(docs.length <= numbeofposts)
+                else if(docs.length <= numberofposts)
                 {
-                    response.send(docs)
+                    response.json({backenddata:docs,rem:0})
+                    // response.send(docs)
                 }
                 else{
-                    response.send(docs)
+                    response.json({backenddata:docs,rem:0})
+                    // response.send(docs)
                 }
             }
         })
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 
@@ -770,13 +788,13 @@ router.post('/coursereviews/post', async (request,response) => {
         })
         const corspos = await corsrev.populate("postedby", "fullname")
         corspos.save().then(data => {
-            response.json(data)
-        }).catch(error => {
-            response.json(error)
+            response.json({message:"Post Sucessful"})
+        }).catch(err => {
+            response.json({error:err})
         })
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 
@@ -785,16 +803,16 @@ router.get('/coursereviews/myposts', async (request,response) => {
     try{
         coursereviews.find({ postedby: sanitize(request.body.user_id)}, (err, docs) =>{
             if (err){
-                console.log(err);
+                response.json({error:err})
             }
             else{
                 // Sending an array of posts
-                response.send(docs) 
+                response.json({backenddata:docs})
             }
         })
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 
@@ -803,15 +821,15 @@ router.post('/coursereviews/myposts', async (request,response) => {
     try{
         coursereviews.deleteOne({ postedby: sanitize(request.body.user_id), _id:sanitize(request.body._id)}, (err) =>{
             if (err){
-                console.log(err);
+                response.json({error:err})
             }
             else{
-                response.json({'deleted':1})
+                response.json({message:"Post Deleted"})
             }
         })
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 
@@ -820,25 +838,28 @@ router.get('/coursereviews/browse', (request,response) => {
         const numberofposts = request.body.numberofposts
         courses.find({ semester: sanitize(request.body.semester), major: sanitize(request.body.major)}, (err, docs) =>{
             if (err){
-                console.log(err);
+                response.json({error:err})
             }
             else{
                 if(docs.length > numberofposts)
                 {
-                    response.send(docs.slice(0, numberofposts))
+                    response.json({backenddata:docs.slice(0, numberofposts),rem:docs.length-numberofposts})
+                    // response.send(docs.slice(0, numberofposts))
                 }
                 else if(docs.length <= numberofposts)
                 {
-                    response.send(docs)
+                    response.json({backenddata:docs,rem:0})
+                    // response.send(docs)
                 }
                 else{
-                    response.send(docs)
+                    response.json({backenddata:docs,rem:0})
+                    // response.send(docs)
                 }
             }
         })
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 ////
@@ -854,26 +875,29 @@ router.get('/discussionportal', (request,response) => {
         discussionportal.find({ "title": { "$regex": tmp, "$options": "i" } }).sort({date: -1}).populate("postedby", "fullname").exec((err, docs) => {   
             if(err)
             {
-                console.log(err)
-                response.send({"error":err})
+                response.json({error:err})
             }
             else{
                 if(docs.length > numberofposts)
                 {
-                    response.send(docs.slice(0, numberofposts))
+                    response.json({backenddata:docs.slice(0, numberofposts),rem:0})
+                    // response.send(docs.slice(0, numberofposts))
                 }
                 else if(docs.length <= numberofposts)
                 {
-                    response.send(docs)
+                    response.json({backenddata:docs,rem:0})
+                    // response.send(docs)
                 }
                 else{
-                    response.send(docs)
+                    response.json({backenddata:docs,rem:0})
+                    // response.send(docs)
                 }
             }
         })
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
+        // response.json({error:err})
     }
 })
 
@@ -888,13 +912,13 @@ router.post('/discussionportal/post', async (request,response) => {
         })
         const disp = await disport.populate("postedby", "fullname")
         disp.save().then(data => {
-            response.json(data)
-        }).catch(error => {
-            response.json(error)
+            response.json({message:"Posted Sucessfully"})
+        }).catch(err => {
+            response.json({error:err})
         })
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 
@@ -903,16 +927,16 @@ router.get('/discussionportal/myposts', async (request,response) => {
     try{
         discussionportal.find({ postedby: sanitize(request.body.user_id)}, (err, docs) =>{
             if (err){
-                console.log(err);
+                response.json({error:err})
             }
             else{
                 // Sending an array of posts
-                response.send(docs) 
+                response.json({backenddata:docs}) 
             }
         })
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 
@@ -921,15 +945,15 @@ router.post('/discussionportal/myposts', async (request,response) => {
     try{
         discussionportal.deleteOne({ postedby: sanitize(request.body.user_id), _id:sanitize(request.body._id)}, (err) =>{
             if (err){
-                console.log(err);
+                response.json({error:err})
             }
             else{
-                response.json({'deleted':1})
+                response.json({message:"Post Deleted"})
             }
         })
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 
@@ -937,15 +961,15 @@ router.post('/discussionportal/like', async (request,response) => {
     try{
         discussionportal.updateOne({ postedby: sanitize(request.body.user_id), _id:sanitize(request.body._id)},{ $push: { "likes": sanitize(request.body.user_id) }}, (err) => {
             if (err){
-                console.log(err);
+                response.json({error:err})
             }
             else{
-                console.log('updated')
+                response.json({message:"Post Liked"})
             }
         })
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 
@@ -953,15 +977,15 @@ router.post('/discussionportal/comment', async (request,response) => {
     try{
         discussionportal.updateOne({ postedby: sanitize(request.body.user_id), _id:sanitize(request.body._id)},{ $push: { "comments": (sanitize(request.body.user_id),sanitize(request.body.comments)) }}, (err) => {
             if (err){
-                console.log(err);
+                response.json({error:err})
             }
             else{
-                console.log('updated')
+                response.json({message:"Comment Sucessful"})
             }
         })
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 
@@ -971,33 +995,34 @@ router.get('/discussionportal/comment', async (request,response) => {
         discussionportal.find({}).sort({date: -1}).populate("postedby", "fullname").exec((err, docs) => {   
             if(err)
             {
-                console.log(err)
-                response.send({"error":err})
+                response.json({error:err})
             }
             else{
                 if(docs.length > numberofposts)
                 {
-                    response.send(docs.slice(0, numberofposts))
+                    response.json({backenddata:docs.slice(0, numberofposts),rem:docs.length-numberofposts})
                 }
                 else if(docs.length <= numberofposts)
                 {
-                    response.send(docs)
+                    response.json({backenddata:docs,rem:0})
+                    // response.send(docs)
                 }
                 else{
-                    response.send(docs)
+                    response.json({backenddata:docs,rem:0})
+                    // response.send(docs)
                 }
             }
         })
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 ////
 
 
 /// Request Admin
-router.post('/discussionportal/post', async (request,response) => {
+router.post('/requestadmin', async (request,response) => {
     try{
         const adminpos = new reqadmin({
             content: sanitize(request.body.content),
@@ -1005,13 +1030,13 @@ router.post('/discussionportal/post', async (request,response) => {
         })
         const reqad = await adminpos.populate("postedby", "fullname")
         reqad.save().then(data => {
-            response.json(data)
-        }).catch(error => {
-            response.json(error)
+            response.json({message:"Request Submitted"})
+        }).catch(err => {
+            response.json({error:err})
         })    
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 
@@ -1025,26 +1050,28 @@ router.get('/removeadmin',isSuperadmin, (request,response) => {
         userprofile.find({ $or:[ { "fullname": { "$regex": tmp, "$options": "i" }},{"email":sanitize(request.body.keywords) } ]}).sort({date: -1}).populate("postedby", "fullname").exec((err, docs) => {   
             if(err)
             {
-                console.log(err)
-                response.send({"error":err})
+                response.json({error:err})
             }
             else{
                 if(docs.length > numberofposts)
                 {
-                    response.send(docs.slice(0, numberofposts))
+                    response.json({backenddata:docs.slice(0, numberofposts),rem:docs.length-numberofposts})
+                    // response.send()
                 }
                 else if(docs.length <= numberofposts)
                 {
-                    response.send(docs)
+                    response.json({backenddata:docs,rem:0})
+                    // response.send(docs)
                 }
                 else{
-                    response.send(docs)
+                    response.json({backenddata:docs,rem:0})
+                    // response.send(docs)
                 }
             }
         })
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 //remove admin based on _id
@@ -1053,15 +1080,15 @@ router.post('/removeadmin', isSuperadmin, (request,response)=> {
     try{
         userprofile.updateOne({ _id: sanitize(request.body.toremove)},{ $set: { "adminstatus": false }}, (err) => {
             if (err){
-                console.log(err);
+                rresponse.json({error:err})
             }
             else{
-                console.log('updated')
+                response.json({message:"Admin Removed"})
             }
         })
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 //reject admin request based on postid
@@ -1071,15 +1098,15 @@ router.post('/adminreqs/reject', isSuperadmin, (request,response)=> {
     try{
         reqadmin.deleteOne({ _id:sanitize(request.body.postid)}, (err) =>{
             if (err){
-                console.log(err);
+                response.json({error:err})
             }
             else{
-                response.json({'deleted':1})
+                response.json({message:"Rejected Post"})
             }
         })    
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 
@@ -1090,29 +1117,28 @@ router.post('/adminreqs/accept', isSuperadmin, (request,response)=> {
     try{
         userprofile.findOne({$and: [{_id: sanitize(req.body.user_id)}, { "adminstatus": false }]}, (err,docs) =>{
             if (err){
-                res.send({"Error": "Not Super Admin"})
+                response.json({error:err})
             }
             else{
                 if (docs.length <=0)
                 {
-                    res.send({"Error": "Not Found"})
+                    response.json({error:"Not Super Admin"})
                 }
                 else 
                 {
                     userprofile.updateOne({ _id: sanitize(request.body.toadd)},{ $set: { "adminstatus": true }}, (err) => {
                         if (err){
-                            console.log(err);
+                            response.json({error:err})
                         }
                         else{
                             reqadmin.deleteOne({ _id:sanitize(request.body.postid)}, (err) =>{
                                 if (err){
-                                    console.log(err);
+                                    response.json({error:err})
                                 }
                                 else{
-                                    response.json({'deleted':1})
+                                    response.json({message:"Added Admin"})
                                 }
                             })
-                            console.log('updated')
                         }
                     })
                 }
@@ -1120,7 +1146,7 @@ router.post('/adminreqs/accept', isSuperadmin, (request,response)=> {
         })
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 
@@ -1131,26 +1157,28 @@ router.get('/adminreqs',isSuperadmin, (request,response) => {
         reqadmin.find({}).sort({date: -1}).exec((err, docs) => {   
             if(err)
             {
-                console.log(err)
-                response.send({"error":err})
+                response.json({error:err})
             }
             else{
                 if(docs.length > numberofposts)
                 {
-                    response.send(docs.slice(0, numberofposts))
+                    response.json({backenddata:docs.slice(0, numberofposts),rem:docs.length-numberofposts})
+                    // response.send()
                 }
                 else if(docs.length <= numberofposts)
                 {
-                    response.send(docs)
+                    response.json({backenddata:docs,rem:0})
+                    // response.send(docs)
                 }
                 else{
-                    response.send(docs)
+                    response.json({backenddata:docs,rem:0})
+                    // response.send(docs)
                 }
             }
         })
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 
@@ -1162,26 +1190,28 @@ router.get('/removeuser',isAdmin, (request,response) => {
         userprofile.find({ $or:[ { "fullname": { "$regex": tmp, "$options": "i" }},{"email":sanitize(request.body.keywords) } ]}).sort({date: -1}).populate("postedby", "fullname").exec((err, docs) => {   
             if(err)
             {
-                console.log(err)
-                response.send({"error":err})
+                response.json({error:err})
             }
             else{
                 if(docs.length > numberofposts)
                 {
-                    response.send(docs.slice(0, numberofposts))
+                    response.json({backenddata:docs.slice(0, numberofposts),rem:docs.length-numberofposts})
+                    // response.send()
                 }
                 else if(docs.length <= numberofposts)
                 {
-                    response.send(docs)
+                    response.json({backenddata:docs,rem:0})
+                    // response.send(docs)
                 }
                 else{
-                    response.send(docs)
+                    response.json({backenddata:docs,rem:0})
+                    // response.send(docs)
                 }
             }
         })
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 
@@ -1191,15 +1221,15 @@ router.post('/removeuser', isAdmin, (request,response)=> {
     try{
         userprofile.deleteOne({ _id: sanitize(request.body.toremove)}, (err) => {
             if (err){
-                console.log(err);
+                response.json({error:err})
             }
             else{
-                console.log('deleted')
+                response.json({message:"Deleted User"})
             }
         })
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 
@@ -1211,30 +1241,32 @@ router.post('/removeuser', isAdmin, (request,response)=> {
 // load posts view more button, view post simply uses the object returned here
 router.get('/swaprequest', (request,response) => {
     try{
-        const numbeofposts = sanitize(request.body.numberofposts)
+        const numberofposts = sanitize(request.body.numberofposts)
         swaprequest.find({fullfilled:false}).sort({date: -1}).populate("postedby", "fullname").exec((err, docs) => {   
             if(err)
             {
-                console.log(err)
-                response.send({"error":err})
+                response.json({error:err})
             }
             else{
-                if(docs.length > numbeofposts)
+                if(docs.length > numberofposts)
                 {
-                    response.send(docs.slice(0, numbeofposts))
+                    response.json({backenddata:docs.slice(0, numberofposts),rem:docs.length-numberofposts})
+                    // response.send()
                 }
-                else if(docs.length <= numbeofposts)
+                else if(docs.length <= numberofposts)
                 {
-                    response.send(docs)
+                    response.json({backenddata:docs,rem:0})
+                    // response.send(docs)
                 }
                 else{
-                    response.send(docs)
+                    response.json({backenddata:docs,rem:0})
+                    // response.send(docs)
                 }
             }
         })
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 
@@ -1249,13 +1281,13 @@ router.post('/swaprequest/post', async (request,response) => {
         })
         const swapy = await swappost.populate("postedby", "fullname")
         swapy.save().then(data => {
-            response.json(data)
-        }).catch(error => {
-            response.json(error)
+            response.json({message:"Post Sucessful"})
+        }).catch(err => {
+            response.json({error:err})
         })    
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 
@@ -1264,16 +1296,16 @@ router.get('/swaprequest/myposts', async (request,response) => {
     try{
         swaprequest.find({ postedby: sanitize(request.body.user_id)}, (err, docs) =>{
             if (err){
-                console.log(err);
+                response.json({error:err})
             }
             else{
                 // Sending an array of posts
-                response.send(docs) 
+                response.json({backenddata:docs})
             }
         })
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 
@@ -1282,15 +1314,15 @@ router.post('/swaprequest/myposts', async (request,response) => {
     try{
         swaprequest.deleteOne({ postedby: sanitize(request.body.user_id), _id:sanitize(request.body._id)}, (err) =>{
             if (err){
-                console.log(err);
+                response.json({error:err})
             }
             else{
-                response.json({'deleted':1})
+                response.json({message:"Post Deleted"})
             }
         })
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 // mark as fullfileed
@@ -1298,15 +1330,15 @@ router.post('/swaprequest/myposts/fulfilled', async (request,response) => {
     try{
         events.updateOne({ postedby: sanitize(request.body.user_id), _id:sanitize(request.body._id)},{ $set: { "fullfilled": true }}, (err) => {
             if (err){
-                console.log(err);
+                response.json({error:err})
             }
             else{
-                console.log('updated')
+                response.json({message:"Status Updated"})
             }
         })
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 //////
@@ -1317,30 +1349,32 @@ router.post('/swaprequest/myposts/fulfilled', async (request,response) => {
 // load posts view more button, view post simply uses the object returned here
 router.get('/marketpalce', (request,response) => {
     try{
-        const numbeofposts = request.body.numberofposts
+        const numberofposts = request.body.numberofposts
         marketpalce.find().sort({date: -1}).populate("postedby", "fullname").exec((err, docs) => {   
             if(err)
             {
-                console.log(err)
-                response.send({"error":err})
+                response.json({error:err})
             }
             else{
-                if(docs.length > numbeofposts)
+                if(docs.length > numberofposts)
                 {
-                    response.send(docs.slice(0, numbeofposts))
+                    response.json({backenddata:docs.slice(0, numberofposts),rem:docs.length-numberofposts})
+                    // response.send()
                 }
-                else if(docs.length <= numbeofposts)
+                else if(docs.length <= numberofposts)
                 {
-                    response.send(docs)
+                    response.json({backenddata:docs,rem:0})
+                    // response.send(docs)
                 }
                 else{
-                    response.send(docs)
+                    response.json({backenddata:docs,rem:0})
+                    // response.send(docs)
                 }
             }
         })
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 
@@ -1357,9 +1391,9 @@ router.post('/marketpalce/post', async (request,response) => {
         })
         const masky = await marketpost.populate("postedby", "fullname")
         masky.save().then(data => {
-            response.json(data)
-        }).catch(error => {
-            response.json(error)
+            response.json({message:"Post Sucessfull"})
+        }).catch(err => {
+            response.json({error:err})
         })
     }
     catch(err){
@@ -1372,16 +1406,16 @@ router.get('/marketpalce/myposts', async (request,response) => {
     try{
         marketpalce.find({ postedby: sanitize(request.body.user_id)}, (err, docs) =>{
             if (err){
-                console.log(err);
+                response.json({error:err})
             }
             else{
                 // Sending an array of posts
-                response.send(docs) 
+                response.json({backenddata:docs})
             }
         })
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 
@@ -1390,15 +1424,15 @@ router.post('/marketpalce/myposts', async (request,response) => {
     try{
         marketpalce.deleteOne({ postedby: sanitize(request.body.user_id), _id:sanitize(request.body._id)}, (err) =>{
             if (err){
-                console.log(err);
+                response.json({error:err})
             }
             else{
-                response.json({'deleted':1})
+                response.json({message:"Post Deleted"})
             }
         })
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 // 
@@ -1414,16 +1448,16 @@ router.get('/myprofile/status', async (request,response) => {
         userprofile.find({ postedby: sanitize(request.body.user_id)}).select({ "status": 1})
         .exec(function (err, docs) {
             if (err){
-                console.log(err);
+                response.json({error:err})
             }
             else{
                 // Sending an array of posts
-                response.send(docs) 
+                response.json({backenddata:docs})
             }
         })
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 
@@ -1432,15 +1466,15 @@ router.post('/myprofile/poststatus', async (request,response) => {
     try{
         userprofile.updateOne({ postedby: sanitize(request.body.user_id), _id:sanitize(request.body._id)},{ $push: { "status": sanitize(request.body.status) }}, (err) => {
             if (err){
-                console.log(err);
+                response.json({error:err})
             }
             else{
-                console.log('updated')
+                response.json({message:'Added to status'})
             }
         })
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 
@@ -1453,13 +1487,13 @@ router.post('/requestadminship', async (request,response) => {
         })
         const reqy = await adminreq.populate("postedby", "fullname")
         reqy.save().then(data => {
-            response.json(data)
-        }).catch(error => {
-            response.json(error)
+            response.json({message:'Request Submitted'})
+        }).catch(err => {
+            response.json({error:err})
         })
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 
@@ -1472,25 +1506,29 @@ router.post('/changepassword', (request,response) => {
         const hashedpassword = crypto.createHash('sha256').update(sanitize(request.body.password)).digest('base64')
         userprofile.find({$and:[{ _id: sanitize(request.body.user_id)}, {password:hashedpassword}]}, (err, docs) =>{
             if (err){
-                console.log(err);
+                response.json({error:err})
             }
             else{
                 if (docs.length < 1)
                 {
-                    response.send(false)
+                    response.json({message:'Password not mathced with previous password'})
                 }
                 else{
                     const newhashpass = crypto.createHash('sha256').update(sanitize(request.body.newpassword)).digest('base64')
                     userprofile.updateOne({ email: sanitize(request.body.email)},{$set:{password:newhashpass}}, (err) => {
-                        console.log(err)
-                        response.send('updated')
+                        if(err){
+                            response.json({error:err})
+                        }
+                        else{
+                            response.json({message:"password changed"})
+                        }
                     })
                 }
             }
         });
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
   
@@ -1500,15 +1538,15 @@ router.post('/changedisplayname', (request,response) => {
     try{
         userprofile.updateOne({ _id: sanitize(request.body.user_id)},{ $set: { fullname: sanitize(request.body.displayname)}}, (err) => {
             if (err){
-                console.log(err);
+                response.json({error:err})
             }
             else{
-                console.log('updated')
+                response.json({message:"Name Updated"})
             }
         })
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
    
@@ -1518,93 +1556,104 @@ router.post('/changedisplaypic', (request,response) => {
     try{
         userprofile.updateOne({ _id: sanitize(request.body.user_id)},{ $set: { image: sanitize(request.body.image)}}, (err) => {
             if (err){
-                console.log(err);
+                response.json({error:err})
             }
             else{
-                console.log('updated')
+                response.json({message:"Image Updated"})
             }
         })
     }
     catch(err){
-        console.log(err)
+        response.json({error:err})
     }
 })
 
 
-router.post('/forgotpassword', (request,responce) => {
+router.post('/forgotpassword', (request,response) => {
 
-    const emaily = request.body.email
+    try{
+        const emaily = sanitize(request.body.email)
 
-    userprofile.findOne({email:emaily}, (err,user)=>{
-        if(err || !user){
-            responce.status(400).json({error:"User Does not exist"})
-        }
-        else{
-            const token = jwt.sign({_id:user.id},"secretkeyforgpass", {expiresIn:"20m"})
-            const href = `linkhere/resetpassword/${token}`  /// Link hoga app ka is se pehle
-            const data ={
-                to:emaily,
-                from:"no-reply@ldf.com",
-                subject:"Password Reset",
-                html:`
-                <p> You Requested for password reset</p>
-                <h5> Click on this <a href = "${href}">link</a> to reset!</h5>`
-            }
-            user.updateOne({resetLink:token}, (err,sucess)=>{
-                if(err || !user){
-                    responce.status(400).json({error:"Link Error"})
-                }
-                else{
-                    mg.messages().send(data, function (err, body) {
-                        if(err){
-                            responce.json({error:err})
-                        }
-                        else{
-                            responce.json({message:"Email Sent, Check Inbox"});
-                        }
-                    });        
-                }
-            })
-        }
-    })
-})
-
-router.post('/resetpassword', (request,responce)=>{
-    const tokenfromuser = request.body.token
-    const newpassword = request.body.password
-
-    if(resetLink){
-        jwt.verify(tokenfromuser, "secretkeyforgpass", (err,decodeddata)=>{
-            if(err){
-                res.status(401).json({error:"Not Verified"})
+        userprofile.findOne({email:emaily}, (err,user)=>{
+            if(err || !user){
+                response.json({error:"User Does not exist"})
             }
             else{
-                userprofile.findOne({resetLink: tokenfromuser}, (err,user)=>{
+                const token = jwt.sign({_id:user.id},"secretkeyforgpass", {expiresIn:"20m"})
+                const href = `linkhere/resetpassword/${token}`  /// Link hoga app ka is se pehle
+                const data ={
+                    to:emaily,
+                    from:"no-reply@ldf.com",
+                    subject:"Password Reset",
+                    html:`
+                    <p> You Requested for password reset</p>
+                    <h5> Click on this <a href = "${href}">link</a> to reset!</h5>`
+                }
+                user.updateOne({resetLink:token}, (err,sucess)=>{
                     if(err || !user){
-                        responce.status(400).json({error:"No user with token"})
+                        response.json({error:"Link Error"})
                     }
                     else{
-                        const hashedpassword = crypto.createHash('sha256').update(newpassword).digest('base64')
-                        const obj = {
-                            password: hashedpassword,
-                            resetLink: ''
-                        }
-                        user = _.extend(user,obj)
-                        user.save((err,result)=>{
+                        mg.messages().send(data, function (err, body) {
                             if(err){
-                                responce.status(400).json({error:"Not processed"})
+                                response.json({error:err})
                             }
                             else{
-                                responce.json({message:"Updated Successfully"})
+                                response.json({message:"Email Sent, Check Inbox"});
                             }
-                        })
+                        });        
                     }
                 })
             }
         })
     }
-    else{
-        res.status(401).json(({error:"Auth Error"}))
+    catch(err){
+        response.json({error:err})
+    }
+    
+})
+
+router.post('/resetpassword', (request,response)=>{
+    try{
+        const tokenfromuser = sanitize(request.body.token)
+        const newpassword = sanitize(request.body.password)
+
+        if(resetLink){
+            jwt.verify(tokenfromuser, "secretkeyforgpass", (err,decodeddata)=>{
+                if(err){
+                    res.json({error:"Not Verified"})
+                }
+                else{
+                    userprofile.findOne({resetLink: tokenfromuser}, (err,user)=>{
+                        if(err || !user){
+                            response.json({error:"No user with token"})
+                        }
+                        else{
+                            const hashedpassword = crypto.createHash('sha256').update(newpassword).digest('base64')
+                            const obj = {
+                                password: hashedpassword,
+                                resetLink: ''
+                            }
+                            user = _.extend(user,obj)
+                            user.save((err,result)=>{
+                                if(err){
+                                    response.json({error:"Not processed"})
+                                }
+                                else{
+                                    response.json({message:"Updated Successfully"})
+                                }
+                            })
+                        }
+                    })
+                }
+            })
+        }
+        else{
+            response.json(({error:"Auth Error"}))
+        }
+    }
+    catch(err){
+        response.json(({error:err}))
     }
 })
 
@@ -1629,9 +1678,9 @@ router.post('/uploadcourses', (request,response) => {
 })
 // pictures wala sara compnent
 
-
-
-
 module.exports = router
 
 
+// backenddata
+// message
+// error
