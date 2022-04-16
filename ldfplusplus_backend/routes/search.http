@@ -1,0 +1,7 @@
+GET  http://localhost:3001/app/events
+Content-Type: application/json
+
+{
+    "keywords": "Party",
+    "numberofposts":"3" 
+}

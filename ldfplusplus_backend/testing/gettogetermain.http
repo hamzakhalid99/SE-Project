@@ -1,0 +1,6 @@
+GET http://localhost:3001/app/gettogether
+Content-Type: application/json
+
+{
+    "numberofposts":7
+}

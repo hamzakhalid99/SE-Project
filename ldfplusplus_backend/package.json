@@ -2,7 +2,7 @@
   "name": "ldfplusplus_backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server.js"
@@ -15,6 +15,16 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
-    "express": "^4.17.3"
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "express-jwt": "^6.1.1",
+    "jsonwebtoken": "^8.5.1",
+    "lowdash": "^1.2.0",
+    "mailgun-js": "^0.22.0",
+    "mongo-sanitize": "^1.1.0",
+    "mongodb": "^4.5.0",
+    "mongoose": "^6.2.10",
+    "nodemailer": "^6.7.3",
+    "nodemailer-sendgrid-transport": "^0.2.0"
   }
 }

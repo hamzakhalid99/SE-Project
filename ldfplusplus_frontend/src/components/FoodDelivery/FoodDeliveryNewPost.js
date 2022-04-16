@@ -8,22 +8,47 @@ class FoodDeliveryNewPost extends React.Component {
         super(props);
         
         this.state = {
-            postTitle: '',
-            postDetails: ''
+            content: '',
+            title: '',
+            postedby: '',
+            contact: '',
+            compensation: '',
+            areafrom: '',
+            areato: ''
         }
     }
 
     onTitleChange = (event) => {
-        this.setState({ postTitle: event.target.value })
+        this.setState({ title: event.target.value })
     }
 
     onDetailsChange = (event) => {
-        this.setState({ postDetails: event.target.value })
+        this.setState({ content: event.target.value })
+    }
+
+    onPostedByChange = (event) => {
+        this.setState({ postedby: event.target.value })
+    }
+
+    onContactChange = (event) => {
+        this.setState({ contact: event.target.value })
+    }
+
+    onCompensationChange = (event) => {
+        this.setState({ compensation: event.target.value })
+    }
+
+    onAreaToChange = (event) => {
+        this.setState({ areato: event.target.value })
+    }
+
+    onAreaFromChange = (event) => {
+        this.setState({ areafrom: event.target.value })
     }
 
     onSubmitPost = (event) => {
         event.preventDefault()
-		fetch('http://localhost:3000/newpost', {
+		fetch('http://localhost:3000//fooddelivery/post', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
 			body: JSON.stringify(this.state)
@@ -33,7 +58,7 @@ class FoodDeliveryNewPost extends React.Component {
 			this.props.onRouteChange('fooddelivery')
 			
 		})
-	}
+	} 
 
 	render() {
 
@@ -51,10 +76,19 @@ class FoodDeliveryNewPost extends React.Component {
                         </div>
 
                 </div> 
+
+                
                 <div className="post-container">
                     <div>
                         <form className="postform" onSubmit={this.onSubmitPost}>
                             <input className="posttitle" placeholder="Post Title" type="text" onChange={this.onTitleChange} />
+
+                            <input className="posttitle" placeholder="Posted by" type="text" onChange={this.onPostedByChange} />
+                            <input className="posttitle" placeholder="Contact" type="text" onChange={this.onContactChange} />
+                            <input className="posttitle" placeholder="Compensation" type="text" onChange={this.onCompensationChange} />
+                            <input className="posttitle" placeholder="Area to" type="text" onChange={this.onAreaToChange} />
+                            <input className="posttitle" placeholder="Area from" type="text" onChange={this.onAreaFromChange} />
+
                             <input className="postdetails" placeholder="Post Details" type="text" onChange={this.onDetailsChange} />
                             
                             <input className="post-green-button" value="Post" type="submit" />

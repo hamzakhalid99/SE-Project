@@ -1,0 +1,7 @@
+GET http://localhost:3001/app/gettogether/myposts
+Content-Type: application/json
+
+{
+    "user_id":"6358e624c9b0ddad58e2f24e",
+    "_id":"6258ef3e415eac1b438aadc5"
+}

@@ -1,0 +1,9 @@
+POST  http://localhost:3001/app/gettogether/post
+Content-Type: application/json
+
+{
+    "content": "Post ",
+    "title": "Post deatils",
+    "contact": "01234",
+    "user_id": "6258e624c9b0ddad58e2f24e"
+}
