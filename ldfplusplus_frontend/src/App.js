@@ -30,7 +30,8 @@ const initialState = {
     adminstatus: '',
     status: '',
     superadmin: '',
-  }
+  },
+  post: null
 }
 
 class App extends Component {
@@ -49,6 +50,11 @@ class App extends Component {
 
   loadUser = (user) => {
     this.setState({ user: user, isSignedIn: true })
+  }
+
+  loadPost = (post) => {
+    this.setState({ post: post }) 
+    this.onRouteChange('ViewFoodDeliveryPost')
   }
 
   render() {
@@ -121,7 +127,10 @@ class App extends Component {
           <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <FoodDelivery 
           onRouteChange={this.onRouteChange} 
-            loadUser={this.loadUser}/>
+            loadUser={this.loadUser}
+            loadPost={this.loadPost}
+            user={this.state.user}
+            />
         </div>
       )
     } else if (route === 'marketplace') {
@@ -244,7 +253,9 @@ class App extends Component {
           <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <FoodDeliveryPostDetails
           onRouteChange={this.onRouteChange} 
-          loadUser={this.loadUser}/>
+          loadUser={this.loadUser}
+          post={this.state.post}
+          />
         </div>
       )
     }
