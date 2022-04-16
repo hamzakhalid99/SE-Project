@@ -1,6 +1,7 @@
 import React from 'react';
 import loginimg from "./login.png";
 import './Login.css';
+import BACKEND_LINK from './../../env.js'
 
 class Login extends React.Component {
     constructor(props) {
@@ -22,15 +23,21 @@ class Login extends React.Component {
 
     onSubmitLogin = (event) => {
         event.preventDefault()
-		fetch('http://localhost:3000/login', {
+		fetch(BACKEND_LINK + '/login', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
 			body: JSON.stringify(this.state)
 		})
 		.then(response => response.json())
-		.then(user => {
-			if (user.backenddata._id) {
-				this.props.loadUser(user.backenddata);
+		.then(response => {
+            if (response.error) {
+                alert(response.error)
+            }
+            else if (response.message) {
+                alert(response.message)
+            }
+			else if (response.backenddata) {
+				this.props.loadUser(response.backenddata);
 				this.props.onRouteChange('homepage');
 			}
 		})
