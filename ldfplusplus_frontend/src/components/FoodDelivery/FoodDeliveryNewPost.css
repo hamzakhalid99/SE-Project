@@ -201,6 +201,8 @@ border-radius: 20px;
 	/* background-color: white; */
 	margin: 40px 0px; 
 
+    margin-left: 25px;
+
 
     /* position: absolute; */
     width: 600px;
@@ -222,6 +224,8 @@ border-radius: 20px;
 {
     border-radius: 20px;
     margin-bottom: 40px;
+    margin-left: 25px;
+
     
     padding: 35px 40px;
 
@@ -255,8 +259,9 @@ border-radius: 20px;
 
 .postform {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: space-between;
+    flex-wrap: wrap;
 
     text-align: left;
 }
