@@ -1,13 +1,14 @@
 import React from 'react';
 import './SignUp.css';
 import signupimg from "./signup.png";
+import BACKEND_LINK from './../../env.js'
 
 class SignUp extends React.Component {
     constructor(props) {
         super(props);
         
         this.state = {
-            fullName: '',
+            fullname: '',
             email: '',
             password: '',
             confirmPassword: '',
@@ -17,7 +18,7 @@ class SignUp extends React.Component {
     }
 
     onFullNameChange = (event) => {
-        this.setState({ fullName: event.target.value })
+        this.setState({ fullname: event.target.value })
     }
 
     onEmailChange = (event) => {
@@ -40,18 +41,24 @@ class SignUp extends React.Component {
     }
 
     onSubmitSignUp = () => {
-		fetch('http://localhost:3000/signup', {
+		fetch(BACKEND_LINK + '/signup', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
 			body: JSON.stringify(this.state)
 		})
 		.then(response => response.json())
-		.then(user => {
-			if (user.id) {
-				this.props.loadUser(user);
-				this.props.onRouteChange('homepage')
-			}
-		})
+		.then(response => {
+            if (response.error) {
+                alert(response.error)
+            }
+            else if (response.message) {
+                alert(response.message)
+            }
+            else if (response.backenddata) {
+                this.props.loadUser(response.backenddata);
+                this.props.onRouteChange('homepage');
+            }
+        })
 	}
 
     // function to convert file to base64 encoding, from https://stackoverflow.com/questions/53944533/base64-encode-file-in-map-function

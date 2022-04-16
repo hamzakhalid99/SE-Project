@@ -16,7 +16,8 @@ import AddCourses from './components/AddCourses/AddCourses.js';
 import RemoveUser from './components/RemoveUser/RemoveUser.js';
 import RemoveAdmin from './components/RemoveAdmin/RemoveAdmin.js';
 import ForgotPassword from './components/ForgotPassword/ForgotPassword.js';
-
+import BACKEND_LINK from './env.js'
+console.log(BACKEND_LINK)
 
 const initialState = {
 	route: 'landing',
@@ -51,7 +52,7 @@ class App extends Component {
 
   render() {
   	const { route, isSignedIn } = this.state;
-
+    
     if (route === 'landing') {
       return (
         <div className="App">
@@ -78,7 +79,7 @@ class App extends Component {
       return (
         <div className="App">
           <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
-          <Homepage 
+          <Login 
             onRouteChange={this.onRouteChange} 
             loadUser={this.loadUser} />
         </div>
@@ -87,7 +88,9 @@ class App extends Component {
       return (
         <div className="App">
           <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
-          <Homepage />
+          <Homepage 
+          user={this.state.user}
+          />
         </div>
       )
     } else if (route === 'discussionportal') {
