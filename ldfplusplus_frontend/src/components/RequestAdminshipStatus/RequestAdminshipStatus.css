@@ -1,0 +1,51 @@
+.homepage {
+	display: flex;
+	justify-content: space-around;
+}
+
+.homepageprofile {
+	margin-left: 200px;
+}
+
+.homepagepicedit {
+	width: 230px;
+	height: auto;
+    margin-top: 40px;
+}
+
+.homepagepicedit ~ p {
+	font-size: 16px;
+	color: #737373;
+}
+
+.homepagepicedit ~ h1 {
+	font-size: 40px;
+	color: #252B42;
+}
+
+.homepagepicedit ~ h3 {
+	font-size: 18px;
+	color: #252B42;
+}
+
+.happening {
+	margin-left: 250px;
+}
+
+.happening h2 {
+	font-size: 24px;
+	color: #252B42;
+}
+
+.happeningCard {
+	box-shadow: 0px 13px 19px rgba(0, 0, 0, 0.07);
+	border-radius: 20px;
+	padding: 20px 50px;
+	width: auto;
+	background-color: white;
+	margin: 20px 0px;
+}
+
+.happeningCard p {
+	font-size: 16px;
+}
