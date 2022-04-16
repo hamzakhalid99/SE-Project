@@ -1579,17 +1579,18 @@ router.post('/forgotpassword', (request,response) => {
                 response.json({error:"User Does not exist"})
             }
             else{
-                const token = jwt.sign({_id:user.id},"secretkeyforgpass", {expiresIn:"20m"})
-                const href = `linkhere/resetpassword/${token}`  /// Link hoga app ka is se pehle
+                // const token = jwt.sign({_id:user.id},"secretkeyforgpass", {expiresIn:"20m"})
+                // const href = `linkhere/resetpassword/${token}`  /// Link hoga app ka is se pehle
+                const key =  crypto.randomBytes(32)
                 const data ={
                     to:emaily,
                     from:"no-reply@ldf.com",
                     subject:"Password Reset",
                     html:`
                     <p> You Requested for password reset</p>
-                    <h5> Click on this <a href = "${href}">link</a> to reset!</h5>`
+                    <h5> Reset Key is ${key}</h5>`
                 }
-                user.updateOne({resetLink:token}, (err,sucess)=>{
+                user.updateOne({resetlink:key, resettime: Date.now()+(600000*2)}, (err,sucess)=>{
                     if(err || !user){
                         response.json({error:"Link Error"})
                     }
@@ -1616,37 +1617,36 @@ router.post('/forgotpassword', (request,response) => {
 router.post('/resetpassword', (request,response)=>{
     try{
         const tokenfromuser = sanitize(request.body.token)
-        const newpassword = sanitize(request.body.password)
+        const newpassword = sanitize(request.body.newpassword)
 
-        if(resetLink){
-            jwt.verify(tokenfromuser, "secretkeyforgpass", (err,decodeddata)=>{
-                if(err){
-                    res.json({error:"Not Verified"})
+        if(tokenfromuser){
+        
+            userprofile.findOne({resetlink: tokenfromuser}, (err,user)=>{
+                if(err || !user){
+                    response.json({error:"No user with token"})
+                }
+                else if(user.resettime < Date.now){
+                    response.json({error:"Token Expired"})
                 }
                 else{
-                    userprofile.findOne({resetLink: tokenfromuser}, (err,user)=>{
-                        if(err || !user){
-                            response.json({error:"No user with token"})
+                    const hashedpassword = crypto.createHash('sha256').update(newpassword).digest('base64')
+                    const obj = {
+                        password: hashedpassword,
+                        resetlink: '',
+                        resettime: -1
+                    }
+                    user = _.extend(user,obj)
+                    user.save((err,result)=>{
+                        if(err){
+                            response.json({error:"Not processed"})
                         }
                         else{
-                            const hashedpassword = crypto.createHash('sha256').update(newpassword).digest('base64')
-                            const obj = {
-                                password: hashedpassword,
-                                resetLink: ''
-                            }
-                            user = _.extend(user,obj)
-                            user.save((err,result)=>{
-                                if(err){
-                                    response.json({error:"Not processed"})
-                                }
-                                else{
-                                    response.json({message:"Updated Successfully"})
-                                }
-                            })
+                            response.json({message:"Updated Successfully"})
                         }
                     })
                 }
             })
+            
         }
         else{
             response.json(({error:"Auth Error"}))

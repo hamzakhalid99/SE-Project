@@ -35,6 +35,9 @@ const usertemplate = new mongoose.Schema({
     resetlink:{
         data:String,
         default:''
+    },
+    resettime:{
+        type: Date
     }
 })
 
