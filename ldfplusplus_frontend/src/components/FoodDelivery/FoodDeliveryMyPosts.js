@@ -1,25 +1,25 @@
 import React from 'react';
 import fastfood from "./Fastfood.png";
-import './FoodDeliveryPostDetails.css'
+import './FoodDeliveryMyPosts.css'
 
-class FoodDelivery extends React.Component {
+class FoodDeliveryMyPosts extends React.Component {
 
     constructor(props) {
         super(props);
         
         // this.state = {
-        //     email: '',
-        //     password: '',
+        //     content: '',
+
+        //     user_id: this.props.user.id
         // }
     }
 
+
 	render() {
-		const studentName = "Zafir Ansari"
+
         const { onRouteChange } = this.props;
 
-		return (
-
-            
+        return (
             <div>
                 <div className="homepage body-center-align">
                     <div className="homepageprofile">
@@ -30,11 +30,12 @@ class FoodDelivery extends React.Component {
                         <p>Food Delivery</p>
                         </div>
 
-                </div>
+                </div> 
 
+                <div className='divwrapper'>
 
                 <div className="landinghappening">
-                        <div className="viewpostfood">
+                        <div className="viewmyfoodpost">
                             <h3>Sarah24</h3>
                             <h2>14/04/22</h2>
                             
@@ -43,13 +44,16 @@ class FoodDelivery extends React.Component {
                         
                 </div>
 
+                <button className="delete-button" onClick={() => { onRouteChange('fooddelivery') }}>Delete</button>
 
-                <a className="form-green-button" onClick={() => { onRouteChange('fooddelivery') }}>Back</a>
+                </div>
 
+                
+               
             </div>
-			
-		)
+        )
+		
 	}
 }
 
-export default FoodDelivery;
+export default FoodDeliveryMyPosts;

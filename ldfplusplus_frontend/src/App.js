@@ -10,6 +10,8 @@ import Homepage from './components/Homepage/Homepage.js';
 import FoodDelivery from './components/FoodDelivery/FoodDelivery.js';
 import FoodDeliveryPostDetails from './components/FoodDelivery/FoodDeliveryPostDetails.js';
 import FoodDeliveryNewPost from './components/FoodDelivery/FoodDeliveryNewPost.js';
+import FoodDeliveryMyPosts from './components/FoodDelivery/FoodDeliveryMyPosts.js';
+
 
 import ViewAdminRequests from './components/ViewAdminRequests/ViewAdminRequests.js';
 import AddCourses from './components/AddCourses/AddCourses.js';
@@ -251,7 +253,11 @@ class App extends Component {
       return (
         <div className="App">
           <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
-          <h1>view my food delivery posts</h1>
+          <FoodDeliveryMyPosts
+          onRouteChange={this.onRouteChange}
+          loadUser={this.loadUser}
+          user_id={this.state.user.id}
+          />
         </div>
       )
     }
@@ -263,7 +269,9 @@ class App extends Component {
           <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <FoodDeliveryNewPost
           onRouteChange={this.onRouteChange}
-          loadUser={this.loadUser}/>
+          loadUser={this.loadUser}
+          user_id={this.state.user.id}
+          />
         </div>
       )
     }

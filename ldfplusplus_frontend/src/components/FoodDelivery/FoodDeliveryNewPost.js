@@ -14,7 +14,8 @@ class FoodDeliveryNewPost extends React.Component {
             contact: '',
             compensation: '',
             areafrom: '',
-            areato: ''
+            areato: '',
+            user_id: this.props.user_id
         }
     }
 
@@ -82,13 +83,11 @@ class FoodDeliveryNewPost extends React.Component {
                     <div>
                         <form className="postform" onSubmit={this.onSubmitPost}>
                             <input className="posttitle" placeholder="Post Title" type="text" onChange={this.onTitleChange} />
-
                             <input className="posttitle" placeholder="Posted by" type="text" onChange={this.onPostedByChange} />
                             <input className="posttitle" placeholder="Contact" type="text" onChange={this.onContactChange} />
                             <input className="posttitle" placeholder="Compensation" type="text" onChange={this.onCompensationChange} />
                             <input className="posttitle" placeholder="Area to" type="text" onChange={this.onAreaToChange} />
                             <input className="posttitle" placeholder="Area from" type="text" onChange={this.onAreaFromChange} />
-
                             <input className="postdetails" placeholder="Post Details" type="text" onChange={this.onDetailsChange} />
                             
                             <input className="post-green-button" value="Post" type="submit" />
