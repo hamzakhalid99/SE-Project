@@ -18,7 +18,8 @@ const usertemplate = new mongoose.Schema({
         default: Date.now
     },
     image:{
-        type:Buffer
+        data: Buffer,
+        contentType: String
     },
     adminstatus:{
         type:Boolean,
@@ -31,8 +32,10 @@ const usertemplate = new mongoose.Schema({
         type:Boolean,
         default:false
     },
-    resettoken:String,
-    expiretoken:Date
+    resetlink:{
+        data:String,
+        default:''
+    }
 })
 
 module.exports = mongoose.model('userprofile', usertemplate)

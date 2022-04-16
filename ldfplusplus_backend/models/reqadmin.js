@@ -14,9 +14,9 @@ const reqadminTemp = new mongoose.Schema({
         required: true
     },
     postedby:{
-        type:String,
-        required:true
-    },
+        type:mongoose.SchemaTypes.ObjectId,
+        ref:"userprofile"
+    }
 })
 
 module.exports = mongoose.model('reqadmin', reqadminTemp)

@@ -10,8 +10,8 @@ const swapTemp = new mongoose.Schema({
         default:false
     },
     postedby:{
-        type:String,
-        required:true
+        type:mongoose.SchemaTypes.ObjectId,
+        ref:"userprofile"
     },
     date: {
         type: Date,

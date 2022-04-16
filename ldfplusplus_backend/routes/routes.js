@@ -9,7 +9,7 @@ const events = require('../models/events');
 const jobposting = require('../models/jobposting');
 const donations = require('../models/donation');
 const fooddelivery = require('../models/fooddelivery');
-const instructorreviews = require('../models/instructoreviws');
+const instructorreviews = require('../models/instructoreviews');
 const coursereviews = require('../models/coursereviews');
 const courses =  require('../models/courses');
 const discussionportal = require('../models/discussionportal');
@@ -17,8 +17,12 @@ const reqadmin = require('../models/reqadmin');
 const swaprequest = require('../models/swaprequest');
 const marketpalce = require('../models/marketplace');
 const sanitize = require('mongo-sanitize');
-
-
+const jwt = require('jsonwebtoken')
+const mailgun = require("mailgun-js");
+const DOMAIN = 'sandboxf3dda59e7eec4d0390aecf845b778728.mailgun.org';
+const api_key = '4c1b6bf25b1648865a70ae6f0f07b9a3-162d1f80-c68639a6';
+const mg = mailgun({apiKey: api_key, domain: DOMAIN});
+const _ = require('lowdash')
 function isSuperadmin(req, res, next) {
     try  
     {
@@ -73,11 +77,12 @@ router.post('/signup', (request, response) => {
         const emailtemp = sanitize(request.body.email)
         const password = sanitize(request.body.password)
         const fullname = sanitize(request.body.fullname)
-        userprofile.find({ email: emailtemp}, (err,docs) => {
+        userprofile.find({ email: (emailtemp).toLowerCase()}, (err,docs) => {
             if (err){
                 console.log(err)
             }
             else{
+                // console.log(docs)
                 if (docs.length >= 1)
                 {
                     response.json(false)
@@ -90,7 +95,7 @@ router.post('/signup', (request, response) => {
                         password: hashedpassword
                     })
                     signedUpUser.save().then(data => {
-                        response.json(data)
+                        response.json(true)
                     }).catch(error => {
                         response.json(error)
                     })
@@ -108,23 +113,28 @@ router.post('/login', (request,response) => {
         const emailtemp = sanitize(request.body.email)
         const passwordy = sanitize(request.body.password)
         const hashedpassword = crypto.createHash('sha256').update(passwordy).digest('base64')
-        userprofile.find({ email: emailtemp}, (err, docs) =>{
+        userprofile.find({ email: emailtemp}).lean().exec(function(err, docs) {
             if (err){
                 console.log(err);
             }
             else{
                 if (docs.length < 1)
                 {
-                    response.send(false)
+                    response.send({"Error":"Not Found"})
                 }
                 else{
                     const doc = docs[0]
                     if (doc.password == hashedpassword)
                     {
+                        // let key = "password";
+
+                        // delete doc[key];
+                        delete doc.password
+                        console.log(doc)
                         response.send(doc)
                     }
                     else{
-                        response.send(false)
+                        response.send({"Error":"Incorrect Password/Username"})
                     }
                 }
             }
@@ -151,7 +161,7 @@ router.get('/gettogether', (request,response) => {
                 {
                     response.send(docs.slice(0, numberofposts))
                 }
-                if(docs.length <= numberofposts)
+                else if(docs.length <= numberofposts)
                 {
                     response.send(docs)
                 }
@@ -369,7 +379,7 @@ router.get('/careerhelp', (request,response) => {
                 {
                     response.send(docs.slice(0, numberofposts))
                 }
-                if(docs.length <= numberofposts)
+                else if(docs.length <= numberofposts)
                 {
                     response.send(docs)
                 }
@@ -461,7 +471,7 @@ router.get('/donations', (request,response) => {
                 {
                     response.send(docs.slice(0, numberofposts))
                 }
-                if(docs.length <= numberofposts)
+                else if(docs.length <= numberofposts)
                 {
                     response.send(docs)
                 }
@@ -550,7 +560,7 @@ router.get('/fooddelivery', (request,response) => {
                 {
                     response.send(docs.slice(0, numberofposts))
                 }
-                if(docs.length <= numberofposts)
+                else if(docs.length <= numberofposts)
                 {
                     response.send(docs)
                 }
@@ -644,7 +654,7 @@ router.get('/instructorreviews', (request,response) => {
                 {
                     response.send(docs.slice(0, numbeofposts))
                 }
-                if(docs.length <= numbeofposts)
+                else if(docs.length <= numbeofposts)
                 {
                     response.send(docs)
                 }
@@ -734,7 +744,7 @@ router.get('/coursereviews', (request,response) => {
                 {
                     response.send(docs.slice(0, numbeofposts))
                 }
-                if(docs.length <= numbeofposts)
+                else if(docs.length <= numbeofposts)
                 {
                     response.send(docs)
                 }
@@ -817,7 +827,7 @@ router.get('/coursereviews/browse', (request,response) => {
                 {
                     response.send(docs.slice(0, numberofposts))
                 }
-                if(docs.length <= numberofposts)
+                else if(docs.length <= numberofposts)
                 {
                     response.send(docs)
                 }
@@ -852,7 +862,7 @@ router.get('/discussionportal', (request,response) => {
                 {
                     response.send(docs.slice(0, numberofposts))
                 }
-                if(docs.length <= numberofposts)
+                else if(docs.length <= numberofposts)
                 {
                     response.send(docs)
                 }
@@ -969,7 +979,7 @@ router.get('/discussionportal/comment', async (request,response) => {
                 {
                     response.send(docs.slice(0, numberofposts))
                 }
-                if(docs.length <= numberofposts)
+                else if(docs.length <= numberofposts)
                 {
                     response.send(docs)
                 }
@@ -1023,7 +1033,7 @@ router.get('/removeadmin',isSuperadmin, (request,response) => {
                 {
                     response.send(docs.slice(0, numberofposts))
                 }
-                if(docs.length <= numberofposts)
+                else if(docs.length <= numberofposts)
                 {
                     response.send(docs)
                 }
@@ -1129,7 +1139,7 @@ router.get('/adminreqs',isSuperadmin, (request,response) => {
                 {
                     response.send(docs.slice(0, numberofposts))
                 }
-                if(docs.length <= numberofposts)
+                else if(docs.length <= numberofposts)
                 {
                     response.send(docs)
                 }
@@ -1160,7 +1170,7 @@ router.get('/removeuser',isAdmin, (request,response) => {
                 {
                     response.send(docs.slice(0, numberofposts))
                 }
-                if(docs.length <= numberofposts)
+                else if(docs.length <= numberofposts)
                 {
                     response.send(docs)
                 }
@@ -1213,7 +1223,7 @@ router.get('/swaprequest', (request,response) => {
                 {
                     response.send(docs.slice(0, numbeofposts))
                 }
-                if(docs.length <= numbeofposts)
+                else if(docs.length <= numbeofposts)
                 {
                     response.send(docs)
                 }
@@ -1319,7 +1329,7 @@ router.get('/marketpalce', (request,response) => {
                 {
                     response.send(docs.slice(0, numbeofposts))
                 }
-                if(docs.length <= numbeofposts)
+                else if(docs.length <= numbeofposts)
                 {
                     response.send(docs)
                 }
@@ -1521,36 +1531,107 @@ router.post('/changedisplaypic', (request,response) => {
 })
 
 
-// To de Done
-router.post('/forgotpassword', (request,resppnse) => {
-    crypto.randomBytes(32, (err,buffer) => {
-        if(err)
-        {
-            console.log(err)
-        }
-        const token = buffer.toString('hex')
-        userprofile.findOne({_id:req.body.user_id})
-        .then(user => {
-            if(!user)
-            {
-                response.send({"Error":"Not Found"})
-            }
-            user.resettoken = token 
-            user.expiretoken = Date.now() + 3600000 // token valid for 1 hour
-            href = `http://localhost:3000/reset/${token}`
-            user.save().then(res=> {
-                transporter.sendMail({
-                    to:user.email,
-                    from:"no-reply@ldf.com",
-                    subject:"Password Reset",
-                    html:`
-                    <p> You Requested for password reset</p>
-                    <h5> Click on this <a href = "${href}">link</a> to reset!</h5>`
-                })
-            res.json({"message": "check email"})
+router.post('/forgotpassword', (request,responce) => {
 
+    const emaily = request.body.email
+
+    userprofile.findOne({email:emaily}, (err,user)=>{
+        if(err || !user){
+            responce.status(400).json({error:"User Does not exist"})
+        }
+        else{
+            const token = jwt.sign({_id:user.id},"secretkeyforgpass", {expiresIn:"20m"})
+            const href = `linkhere/resetpassword/${token}`  /// Link hoga app ka is se pehle
+            const data ={
+                to:emaily,
+                from:"no-reply@ldf.com",
+                subject:"Password Reset",
+                html:`
+                <p> You Requested for password reset</p>
+                <h5> Click on this <a href = "${href}">link</a> to reset!</h5>`
+            }
+            user.updateOne({resetLink:token}, (err,sucess)=>{
+                if(err || !user){
+                    responce.status(400).json({error:"Link Error"})
+                }
+                else{
+                    mg.messages().send(data, function (err, body) {
+                        if(err){
+                            responce.json({error:err})
+                        }
+                        else{
+                            responce.json({message:"Email Sent, Check Inbox"});
+                        }
+                    });        
+                }
             })
-        })
+        }
     })
 })
+
+router.post('/resetpassword', (request,responce)=>{
+    const tokenfromuser = request.body.token
+    const newpassword = request.body.password
+
+    if(resetLink){
+        jwt.verify(tokenfromuser, "secretkeyforgpass", (err,decodeddata)=>{
+            if(err){
+                res.status(401).json({error:"Not Verified"})
+            }
+            else{
+                userprofile.findOne({resetLink: tokenfromuser}, (err,user)=>{
+                    if(err || !user){
+                        responce.status(400).json({error:"No user with token"})
+                    }
+                    else{
+                        const hashedpassword = crypto.createHash('sha256').update(newpassword).digest('base64')
+                        const obj = {
+                            password: hashedpassword,
+                            resetLink: ''
+                        }
+                        user = _.extend(user,obj)
+                        user.save((err,result)=>{
+                            if(err){
+                                responce.status(400).json({error:"Not processed"})
+                            }
+                            else{
+                                responce.json({message:"Updated Successfully"})
+                            }
+                        })
+                    }
+                })
+            }
+        })
+    }
+    else{
+        res.status(401).json(({error:"Auth Error"}))
+    }
+})
+
+// To de Done
+//courses
+router.post('/uploadcourses', (request,response) => {
+    // image
+    // user_id
+    try{
+        userprofile.updateOne({ _id: sanitize(request.body.user_id)},{ $set: { image: sanitize(request.body.image)}}, (err) => {
+            if (err){
+                console.log(err);
+            }
+            else{
+                console.log('updated')
+            }
+        })
+    }
+    catch(err){
+        console.log(err)
+    }
+})
+// pictures wala sara compnent
+
+
+
+
 module.exports = router
+
+

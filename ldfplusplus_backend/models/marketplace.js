@@ -2,8 +2,8 @@ const mongoose = require('mongoose')
 
 const marketTemp = new mongoose.Schema({
     postedby:{
-        type:String,
-        required:true
+        type:mongoose.SchemaTypes.ObjectId,
+        ref:"userprofile"
     },
     date: {
         type: Date,
