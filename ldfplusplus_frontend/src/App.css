@@ -63,3 +63,30 @@ p {
   width: 100%;
   margin: 100px auto;
 }
+
+.usecase-heading {
+  font-size: 36px;
+  line-height: 24px;
+  text-align: center;
+  letter-spacing: 0.1px;
+  color: #598D35;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.usecase-img {
+  width: 40px;
+  height: auto;
+  margin-right: 20px;
+}
+
+.dialogText {
+  font-size: 18px;
+  line-height: 24px;
+  text-align: center;
+  letter-spacing: 0.1px;
+  color: #252B42;
+  opacity: 0.5;
+  border: 1px solid #EDEDED;
+}

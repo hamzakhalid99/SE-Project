@@ -46,7 +46,7 @@ class Login extends React.Component {
                         <form className="signupform" onSubmit={this.onSubmitLogin}>
                             <input className="signupform-input" placeholder="Email" type="email" onChange={this.onEmailChange} />
                             <input className="signupform-input" placeholder="Password" type="password" onChange={this.onPasswordChange} />
-                            <a className="forgotpassword" href="#">Forgot Password? Reset Here!</a>
+                            <a onClick={() => { onRouteChange('forgotpassword') }} className="forgotpassword" >Forgot Password? Reset Here!</a>
                             <input className="form-green-button" type="submit" value="Login"/>
                             <a className="form-green-button" onClick={() => { onRouteChange('signup') }}>New user? Sign up!</a>
                         </form>

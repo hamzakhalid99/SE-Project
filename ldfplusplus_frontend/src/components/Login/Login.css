@@ -1,5 +1,6 @@
 .forgotpassword {
 	color: #96BB7C;
+	cursor: pointer;
 }
 
 .forgotpassword:hover {
