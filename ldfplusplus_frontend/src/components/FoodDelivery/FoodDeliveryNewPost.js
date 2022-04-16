@@ -9,7 +9,7 @@ class FoodDeliveryNewPost extends React.Component {
         
         this.state = {
             postTitle: '',
-            postDetails: '',
+            postDetails: ''
         }
     }
 
@@ -21,18 +21,17 @@ class FoodDeliveryNewPost extends React.Component {
         this.setState({ postDetails: event.target.value })
     }
 
-    onSubmitPost = () => {
-		fetch('http://localhost:3000/signup', {
+    onSubmitPost = (event) => {
+        event.preventDefault()
+		fetch('http://localhost:3000/newpost', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
 			body: JSON.stringify(this.state)
 		})
 		.then(response => response.json())
-		.then(user => {
-			if (user.id) {
-				this.props.loadUser(user);
-				this.props.onRouteChange('fooddelivery')
-			}
+		.then(user => {	
+			this.props.onRouteChange('fooddelivery')
+			
 		})
 	}
 
@@ -51,10 +50,10 @@ class FoodDeliveryNewPost extends React.Component {
                         <p>Food Delivery</p>
                         </div>
 
-                </div>
+                </div> 
                 <div className="post-container">
                     <div>
-                        <form className="postform" onSubmit={this.onSubmitSignUp}>
+                        <form className="postform" onSubmit={this.onSubmitPost}>
                             <input className="posttitle" placeholder="Post Title" type="text" onChange={this.onTitleChange} />
                             <input className="postdetails" placeholder="Post Details" type="text" onChange={this.onDetailsChange} />
                             

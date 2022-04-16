@@ -204,7 +204,7 @@ border-radius: 20px;
 
     /* position: absolute; */
     width: 600px;
-    height: 100px;
+    height: 50px;
     left: 55px;
     top: 255px;
 
@@ -259,7 +259,6 @@ border-radius: 20px;
     align-items: space-between;
 
     text-align: left;
-
 }
 
 .postform-input {
@@ -268,7 +267,6 @@ border-radius: 20px;
     border: 1px solid #E6E6E6;
     background: #F9F9F9;
 }
-
 
 .post-green-button {
     margin: 5px;
@@ -282,10 +280,8 @@ border-radius: 20px;
     height:52; 
     width:93px;
 
-
-    position:absolute;
+    /* position:absolute; */
     bottom:0%;
-    left:650px;
+    margin-left:500px;
     text-align: center;
-
   }
