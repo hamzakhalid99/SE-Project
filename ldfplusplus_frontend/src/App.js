@@ -15,6 +15,7 @@ import ViewAdminRequests from './components/ViewAdminRequests/ViewAdminRequests.
 import AddCourses from './components/AddCourses/AddCourses.js';
 import RemoveUser from './components/RemoveUser/RemoveUser.js';
 import RemoveAdmin from './components/RemoveAdmin/RemoveAdmin.js';
+import ForgotPassword from './components/ForgotPassword/ForgotPassword.js';
 
 
 const initialState = {
@@ -257,6 +258,15 @@ class App extends Component {
           <FoodDeliveryNewPost
           onRouteChange={this.onRouteChange}
           loadUser={this.loadUser}/>
+        </div>
+      )
+    }
+
+    else if (route === 'forgotpassword') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <ForgotPassword />
         </div>
       )
     }
