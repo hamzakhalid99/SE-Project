@@ -15,4 +15,3 @@ const ForgotPasswordLinkCheck = ({ onLinkCheck }) => {
 }
 
 export default ForgotPasswordLinkCheck;
-
