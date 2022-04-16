@@ -22,9 +22,12 @@ const initialState = {
 	route: 'landing',
 	isSignedin: false,
   user: {
-    id: '',
+    _id: '',
     fullname: '',
-    email: ''
+    email: '',
+    adminstatus: '',
+    status: '',
+    superadmin: '',
   }
 }
 

@@ -29,8 +29,8 @@ class Login extends React.Component {
 		})
 		.then(response => response.json())
 		.then(user => {
-			if (user.id) {
-				this.props.loadUser(user);
+			if (user.backenddata._id) {
+				this.props.loadUser(user.backenddata);
 				this.props.onRouteChange('homepage');
 			}
 		})
