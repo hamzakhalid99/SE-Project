@@ -17,7 +17,6 @@ import RemoveUser from './components/RemoveUser/RemoveUser.js';
 import RemoveAdmin from './components/RemoveAdmin/RemoveAdmin.js';
 import ForgotPassword from './components/ForgotPassword/ForgotPassword.js';
 import BACKEND_LINK from './env.js'
-console.log(BACKEND_LINK)
 
 const initialState = {
 	route: 'landing',

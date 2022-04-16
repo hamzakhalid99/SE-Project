@@ -867,6 +867,22 @@ router.get('/coursereviews/browse', (request,response) => {
 
 // Discussion Portal
 
+router.get('/homepagehappenings', (request,response)=>{
+    try{
+        discussionportal.find({}).sort({date: -1}).populate("postedby", "fullname").exec((err, docs) => {   
+            if(err){
+                response.json({error:err})
+            }
+            else{
+                response.json({backenddata:docs.slice(0, 3)})
+            }
+        })
+    }
+    catch(err){
+        response.json({error:err})
+    }
+})
+
 // search based on keywords
 router.get('/discussionportal', (request,response) => {
     try{
