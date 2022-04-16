@@ -53,6 +53,7 @@ class App extends Component {
         <div className="App">
           <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn}/>
           <LandingPage />
+          {/* <h1>landing page</h1> */}
         </div>
       )
     } else if (route === 'about') {
@@ -73,7 +74,7 @@ class App extends Component {
       return (
         <div className="App">
           <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
-          <Login 
+          <Homepage 
             onRouteChange={this.onRouteChange} 
             loadUser={this.loadUser} />
         </div>
