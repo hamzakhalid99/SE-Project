@@ -8,10 +8,18 @@ class RequestAdminshipStatus extends React.Component {
 		super(props)
 
 		this.state = {
-			happenings: []
+			happenings: [],
+			name: '',
+			reason: ''
+
 		}
 	}
-
+	onNameChange = (event) => {
+        this.setState({ name: event.target.value })
+    }
+    onReasonChange = (event) => {
+        this.setState({ reason: event.target.value })
+    }
 	componentWillMount() {
 		fetch('http://localhost:3000/homepage', {
 			method: 'get',
@@ -41,11 +49,19 @@ class RequestAdminshipStatus extends React.Component {
 					<h1>{ studentName }</h1>
 					<h3>Student</h3>
 		</div>
-				<div className="happening">
+				{/*<div className="happening">
 					<h2>What's happening on campus?</h2>
 					<div className="happeningCard"><p>Enter Name{this.state.happenings[0]}</p></div>
 					<div className="happeningCard"><p>Reasons for application{this.state.happenings[1]}</p></div>
-				</div>
+				</div>*/}
+				<form className="postform" onSubmit={this.onSubmitPost}>
+                            <input className="posttitle" placeholder="Enter Name" type="text" onChange={this.onNameChange} />
+
+                            <input className="posttitle" placeholder="Enter Reason for application" type="text" onChange={this.onReasonChange} />
+                            
+                            
+                            <input className="green-button" value="Post" type="submit" />
+                </form>
 			</div>
 		)
 	}
