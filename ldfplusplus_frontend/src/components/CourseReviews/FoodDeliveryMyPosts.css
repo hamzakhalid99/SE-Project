@@ -1,0 +1,43 @@
+.divwrapper{
+    display: flex;
+	justify-content: space-around;
+}
+
+.delete-button{
+    margin: 50px;
+    padding: 10px 18px;
+    background: hsl(0, 97%, 43%);
+    border-radius: 20px;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+
+    height: 52px;
+    width: 93px;
+
+}
+
+.viewmyfoodpost
+{
+    /* box-shadow: 0px 13px 19px rgba(0, 0, 0, 0.07); */
+	border-radius: 20px;
+	padding: 35px 40px;
+	/* width: auto; */
+	/* background-color: white; */
+	margin: 40px 0px; 
+
+/* position: absolute; */
+width: 1049px;
+height: 200px;
+left: 56px;
+top: 510px;
+
+
+/* light-background-color */
+
+background: #f5fffa;
+/* accentued-drop-shadow */
+
+box-shadow: 0px 13px 19px rgba(0, 0, 0, 0.07);
+border-radius: 20px;
+}
