@@ -12,7 +12,8 @@ class EditName extends React.Component {
                 name: '',
                 password:'',
                 newpassword:'',
-                confirmpassword:''
+                confirmpassword:'',
+                user_id: this.props.user.user_id
                 
             }
 		
@@ -40,14 +41,14 @@ class EditName extends React.Component {
 
     onSubmitPost = (event) => {
         event.preventDefault()
-		fetch('http://localhost:3000//Editprofile/password', {
+		fetch('http://localhost:3000/changepassword', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
 			body: JSON.stringify(this.state)
 		})
 		.then(response => response.json())
 		.then(user => {	
-			this.props.onRouteChange('EditProfile')
+			this.props.onRouteChange('editprofile')
 			
 		})
 	}
