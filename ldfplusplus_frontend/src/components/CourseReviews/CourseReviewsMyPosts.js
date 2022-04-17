@@ -1,9 +1,9 @@
 import React from 'react';
 import fastfood from "./Fastfood.png";
-import './FoodDeliveryMyPosts.css'
+import './CourseReviewsMyPosts.css'
 import BACKEND_LINK from './../../env.js';
 
-class FoodDeliveryMyPosts extends React.Component {
+class CourseReviewsMyPosts extends React.Component {
 
     constructor(props) {
         super(props);
@@ -15,7 +15,7 @@ class FoodDeliveryMyPosts extends React.Component {
     }
 
     componentWillMount() {
-        fetch(BACKEND_LINK + '/fooddelivery/myposts', {
+        fetch(BACKEND_LINK + '/coursereviews/myposts', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(this.props.user)
@@ -35,7 +35,7 @@ class FoodDeliveryMyPosts extends React.Component {
     }
 
     onDelete = (post) => {
-        fetch(BACKEND_LINK + '/fooddelivery/delete', {
+        fetch(BACKEND_LINK + '/coursereviews/delete', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(post)
@@ -47,7 +47,7 @@ class FoodDeliveryMyPosts extends React.Component {
             }
             else if (response.message) {
                 alert(response.message)
-                fetch(BACKEND_LINK + '/fooddelivery/myposts', {
+                fetch(BACKEND_LINK + '/coursereviews/myposts', {
                     method: 'post',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify(this.props.user)
@@ -96,7 +96,7 @@ class FoodDeliveryMyPosts extends React.Component {
                     </div>
 
                         <div className="usecasename">
-                        <p>Food Delivery</p>
+                        <p>Course Reviews</p>
                         </div>
 
                 </div> 
@@ -110,7 +110,7 @@ class FoodDeliveryMyPosts extends React.Component {
                 
 
                 </div>
-                <a className="form-green-button" onClick={() => { onRouteChange('fooddelivery') }}>Back</a>
+                <a className="form-green-button" onClick={() => { onRouteChange('coursereviews') }}>Back</a>
                 
                
             </div>
@@ -119,4 +119,4 @@ class FoodDeliveryMyPosts extends React.Component {
 	}
 }
 
-export default FoodDeliveryMyPosts;
+export default CourseReviewsMyPosts;

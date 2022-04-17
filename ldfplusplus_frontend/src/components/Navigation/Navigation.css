@@ -16,6 +16,7 @@
 	/*Trick to prevent About and Contact from being mis-aligned with LDF++*/
 	height: 0;
 	min-height: 100%;
+	z-index: 2;
 }
 
 .header-logo, .header-list li {

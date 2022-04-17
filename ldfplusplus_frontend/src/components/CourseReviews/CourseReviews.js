@@ -1,9 +1,9 @@
 import React from 'react';
 import fastfood from "./Fastfood.png";
-import './FoodDelivery.css'
+import './CourseReviews.css'
 import BACKEND_LINK from './../../env.js';
 
-class FoodDelivery extends React.Component {
+class CourseReviews extends React.Component {
 
     constructor(props) {
         super(props);
@@ -17,7 +17,7 @@ class FoodDelivery extends React.Component {
     }
 
     componentWillMount() {
-        fetch(BACKEND_LINK + '/fooddelivery', {
+        fetch(BACKEND_LINK + '/coursereviews', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(this.state)
@@ -37,7 +37,7 @@ class FoodDelivery extends React.Component {
     }
 
     fetchMorePosts = () => {
-        fetch(BACKEND_LINK + '/fooddelivery', {
+        fetch(BACKEND_LINK + '/coursereviews', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(this.state)
@@ -69,7 +69,7 @@ class FoodDelivery extends React.Component {
                     <h3>{ post.postedby.fullname }</h3>
                     <h2>{ post.date.slice(0, 10) + " " + post.date.slice(11, 19)  }</h2>
                     <h1 > <u> { post.title } </u> { post.content.slice(0, 50) + "..." } </h1>
-                    <a className="form-green-button" onClick={() => { loadPost(post,'ViewFoodDeliveryPost') }}>View post</a>
+                    <a className="form-green-button" onClick={() => { loadPost(post,'ViewCourseReviewsPost') }}>View post</a>
                 </div>
             )
         })
@@ -83,7 +83,7 @@ class FoodDelivery extends React.Component {
                     </div>
 
                         <div className="usecasename">
-                        <p>Food Delivery</p>
+                        <p>Course Reviews</p>
                         </div>
 
                 </div>
@@ -93,8 +93,8 @@ class FoodDelivery extends React.Component {
                 </div>
 
                 
-                <a className="form-green-button-view"  onClick={() => { onRouteChange('ViewMyFoodDeliveryRequest') }}>View My Requests</a>
-                <a className="form-green-button-post"  onClick={() => { onRouteChange('PostFoodDeliveryRequest') }}>Post a Request</a>
+                <a className="form-green-button-view"  onClick={() => { onRouteChange('ViewMyCourseReviews') }}>View My Requests</a>
+                <a className="form-green-button-post"  onClick={() => { onRouteChange('PostCourseReview') }}>Post a Request</a>
                     
                 
 
@@ -104,4 +104,4 @@ class FoodDelivery extends React.Component {
 	}
 }
 
-export default FoodDelivery;
+export default CourseReviews;

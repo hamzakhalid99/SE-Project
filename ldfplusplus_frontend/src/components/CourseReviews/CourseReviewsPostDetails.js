@@ -26,7 +26,7 @@ class CourseReviews extends React.Component {
                     </div>
 
                         <div className="usecasename">
-                        <p>Food Delivery</p>
+                        <p>Course Reviews</p>
                         </div>
 
                 </div>
@@ -48,7 +48,7 @@ class CourseReviews extends React.Component {
                 </div>
 
 
-                <a className="form-green-button" onClick={() => { onRouteChange('fooddelivery') }}>Back</a>
+                <a className="form-green-button" onClick={() => { onRouteChange('coursereviews') }}>Back</a>
 
             </div>
 			
