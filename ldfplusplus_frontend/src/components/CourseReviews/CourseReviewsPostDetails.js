@@ -1,8 +1,8 @@
 import React from 'react';
 import fastfood from "./Fastfood.png";
-import './FoodDeliveryPostDetails.css'
+import './CourseReviewsPostDetails.css'
 
-class FoodDelivery extends React.Component {
+class CourseReviews extends React.Component {
 
     constructor(props) {
         super(props);
@@ -56,4 +56,4 @@ class FoodDelivery extends React.Component {
 	}
 }
 
-export default FoodDelivery;
+export default CourseReviews;

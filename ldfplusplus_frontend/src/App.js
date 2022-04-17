@@ -41,6 +41,11 @@ import EventsPortalPostDetails from './components/EventsPortal/EventsPortalPostD
 import EventsPortalNewPost from './components/EventsPortal/EventsPortalNewPost.js';
 import EventsPortalMyPosts from './components/EventsPortal/EventsPortalMyPosts.js';
 
+import CourseReviews from './components/CourseReviews/CourseReviews.js';
+import CourseReviewsPostDetails from './components/CourseReviews/CourseReviewsPostDetails.js';
+import CourseReviewsNewPost from './components/CourseReviews/CourseReviewsNewPost.js';
+import CourseReviewsMyPosts from './components/CourseReviews/CourseReviewsMyPosts.js';
+
 const initialState = {
 	route: 'landing',
 	isSignedin: false,
@@ -132,10 +137,59 @@ class App extends Component {
       return (
         <div className="App">
           <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
-          <h1>Course Reviews</h1>
+          <CourseReviews
+          onRouteChange={this.onRouteChange} 
+            loadUser={this.loadUser}
+            loadPost={this.loadPost}
+            user={this.state.user}
+            />
         </div>
       )
-    } else if (route === 'instructorreviews') {
+    } 
+    else if (route === 'ViewCourseReviewsPost') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <CourseReviewsPostDetails
+          onRouteChange={this.onRouteChange} 
+          loadUser={this.loadUser}
+          post={this.state.post}
+          />
+        </div>
+      )
+    }
+    //view my food delivery posts
+    else if (route === 'ViewMyCourseReviews') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <CourseReviewsMyPosts
+          onRouteChange={this.onRouteChange}
+          loadUser={this.loadUser}
+          user={this.state.user}
+          />
+        </div>
+      )
+    }
+
+    //post a food delivery request
+    else if (route === 'PostCourseReview') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <CourseReviewsNewPost
+          onRouteChange={this.onRouteChange}
+          loadUser={this.loadUser}
+          user={this.state.user}
+          />
+        </div>
+      )
+    }
+    
+    
+    
+    
+    else if (route === 'instructorreviews') {
       return (
         <div className="App">
           <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
@@ -166,7 +220,8 @@ class App extends Component {
             />
         </div>
       )
-    }else if (route === 'ViewMarketplacePost') {
+    }
+    else if (route === 'ViewMarketplacePost') {
       return (
         <div className="App">
           <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />

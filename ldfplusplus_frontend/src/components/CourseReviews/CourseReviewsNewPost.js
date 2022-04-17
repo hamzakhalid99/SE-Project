@@ -1,9 +1,9 @@
 import React from 'react';
 import fastfood from "./Fastfood.png";
-import './FoodDeliveryNewPost.css'
+import './CourseReviewsNewPost.css'
 import BACKEND_LINK from './../../env.js';
 
-class FoodDeliveryNewPost extends React.Component {
+class CourseReviewsNewPost extends React.Component {
 
     constructor(props) {
         super(props);
@@ -49,14 +49,14 @@ class FoodDeliveryNewPost extends React.Component {
 
     onSubmitPost = (event) => {
         event.preventDefault()
-		fetch(BACKEND_LINK+'/fooddelivery/post', {
+		fetch(BACKEND_LINK+'/coursereviews/post', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
 			body: JSON.stringify(this.state)
 		})
 		.then(response => response.json())
 		.then(user => {	
-			this.props.onRouteChange('fooddelivery')
+			this.props.onRouteChange('coursereviews')
 			
 		})
 	} 
@@ -73,7 +73,7 @@ class FoodDeliveryNewPost extends React.Component {
                     </div>
 
                         <div className="usecasename">
-                        <p>Food Delivery</p>
+                        <p>Course Reviews</p>
                         </div>
 
                 </div> 
@@ -90,7 +90,7 @@ class FoodDeliveryNewPost extends React.Component {
                             <input className="postdetails" placeholder="Post Details" type="text" onChange={this.onDetailsChange} />
                             
                             <input className="post-green-button" value="Post" type="submit" />
-                            <a className="form-red-button" onClick={() => { onRouteChange('fooddelivery') }}>Back</a>
+                            <a className="form-red-button" onClick={() => { onRouteChange('coursereviews') }}>Back</a>
                         </form>
                     </div>
                    
@@ -101,4 +101,4 @@ class FoodDeliveryNewPost extends React.Component {
 	}
 }
 
-export default FoodDeliveryNewPost;
+export default CourseReviewsNewPost;
