@@ -42,7 +42,7 @@ class EditProfile extends React.Component {
 
                 <a className="form-green-button-viewdisplay"  onClick={() => { onRouteChange('editname') }}>Change Display Name</a>
                 <a className="form-green-button-postdisplay"  onClick={() => { onRouteChange('editpassword') }}>Change Password</a>
-                <a className="form-green-button-changedisplay"  onClick={() => { onRouteChange('PostFoodDeliveryRequest') }}>Change Display Picture</a>
+                {/* <a className="form-green-button-changedisplay"  onClick={() => { onRouteChange('PostFoodDeliveryRequest') }}>Change Display Picture</a> */}
 			</div>
 		)
 	}
