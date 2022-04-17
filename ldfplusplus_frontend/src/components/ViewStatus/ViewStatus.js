@@ -25,6 +25,7 @@ class ViewStatus extends React.Component {
 
 	render() {
 		const studentName = "Zafir Ansari"
+		const { user } = this.props
 
 		return (
             
@@ -38,15 +39,15 @@ class ViewStatus extends React.Component {
                         	
 					<img className="homepagepicedit" src={ zafirtest } />
 					<p>In love with this new app!</p>
-					<h1>{ studentName }</h1>
+					<h1>{ user.fullname }</h1>
 					<h3>Student</h3>
 		</div>
 				<div className="happening">
 					<h2>What's happening on campus?</h2>
-					<div className="happeningCard"><p>Status{this.state.happenings[0]}</p></div>
-					<div className="happeningCard"><p>Status{this.state.happenings[1]}</p></div>
-					<div className="happeningCard"><p>Status{this.state.happenings[1]}</p></div>
-					<div className="happeningCard"><p>Enter New Status{this.state.happenings[1]}</p></div>
+					<div className="happeningCard"><p>Coolest boy of lums{this.state.happenings[0]}</p></div>
+					<div className="happeningCard"><p>call me rafffaayy{this.state.happenings[1]}</p></div>
+					<div className="happeningCard"><p>my number +9234235802{this.state.happenings[1]}</p></div>
+					{/* <div className="happeningCard"><p>Enter New Status{this.state.happenings[1]}</p></div> */}
 				</div>
 			</div>
 		)
