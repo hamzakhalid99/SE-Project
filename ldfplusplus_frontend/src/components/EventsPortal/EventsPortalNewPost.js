@@ -1,9 +1,9 @@
 import React from 'react';
 import fastfood from "./Fastfood.png";
-import './FoodDeliveryNewPost.css'
+import './EventsPortalNewPost.css'
 import BACKEND_LINK from './../../env.js';
 
-class FoodDeliveryNewPost extends React.Component {
+class EventsPortalNewPost extends React.Component {
 
     constructor(props) {
         super(props);
@@ -12,9 +12,8 @@ class FoodDeliveryNewPost extends React.Component {
             content: '',
             title: '',
             contact: '',
-            compensation: '',
-            areafrom: '',
-            areato: '',
+            interested: '',
+            going: '',
             user_id: this.props.user.user_id
         }
     }
@@ -35,28 +34,25 @@ class FoodDeliveryNewPost extends React.Component {
         this.setState({ contact: event.target.value })
     }
 
-    onCompensationChange = (event) => {
-        this.setState({ compensation: event.target.value })
+    onInterestedChange = (event) => {
+        this.setState({ interested: event.target.value })
     }
 
-    onAreaToChange = (event) => {
-        this.setState({ areato: event.target.value })
+    onGoingChange = (event) => {
+        this.setState({ going: event.target.value })
     }
 
-    onAreaFromChange = (event) => {
-        this.setState({ areafrom: event.target.value })
-    }
 
     onSubmitPost = (event) => {
         event.preventDefault()
-		fetch(BACKEND_LINK+'/fooddelivery/post', {
+		fetch(BACKEND_LINK+'/eventsportal/post', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
 			body: JSON.stringify(this.state)
 		})
 		.then(response => response.json())
 		.then(user => {	
-			this.props.onRouteChange('fooddelivery')
+			this.props.onRouteChange('eventsportal')
 			
 		})
 	} 
@@ -73,7 +69,7 @@ class FoodDeliveryNewPost extends React.Component {
                     </div>
 
                         <div className="usecasename">
-                        <p>Food Delivery</p>
+                        <p>Events</p>
                         </div>
 
                 </div> 
@@ -84,13 +80,12 @@ class FoodDeliveryNewPost extends React.Component {
                         <form className="postform" onSubmit={this.onSubmitPost}>
                             <input className="posttitle" placeholder="Post Title" type="text" onChange={this.onTitleChange} />
                             <input className="posttitle" placeholder="Contact" type="text" onChange={this.onContactChange} />
-                            <input className="posttitle" placeholder="Compensation" type="text" onChange={this.onCompensationChange} />
-                            <input className="posttitle" placeholder="Area to" type="text" onChange={this.onAreaToChange} />
-                            <input className="posttitle" placeholder="Area from" type="text" onChange={this.onAreaFromChange} />
+                            <input className="posttitle" placeholder="Interested (Yes/No)" type="text" onChange={this.onInterestedChange} />
+                            <input className="posttitle" placeholder="Going (Yes/No)" type="text" onChange={this.onGoingChange} />
                             <input className="postdetails" placeholder="Post Details" type="text" onChange={this.onDetailsChange} />
                             
                             <input className="post-green-button" value="Post" type="submit" />
-                            <a className="form-red-button" onClick={() => { onRouteChange('fooddelivery') }}>Back</a>
+                            <a className="form-red-button" onClick={() => { onRouteChange('eventsportal') }}>Back</a>
                         </form>
                     </div>
                    
@@ -101,4 +96,4 @@ class FoodDeliveryNewPost extends React.Component {
 	}
 }
 
-export default FoodDeliveryNewPost;
+export default EventsPortalNewPost;

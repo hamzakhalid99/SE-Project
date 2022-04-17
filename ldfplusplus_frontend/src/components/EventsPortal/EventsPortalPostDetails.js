@@ -1,8 +1,8 @@
 import React from 'react';
 import fastfood from "./Fastfood.png";
-import './FoodDeliveryPostDetails.css'
+import './EventsPortalPostDetails.css'
 
-class FoodDelivery extends React.Component {
+class EventsPortal extends React.Component {
 
     constructor(props) {
         super(props);
@@ -26,7 +26,7 @@ class FoodDelivery extends React.Component {
                     </div>
 
                         <div className="usecasename">
-                        <p>Food Delivery</p>
+                        <p>Events</p>
                         </div>
 
                 </div>
@@ -38,9 +38,6 @@ class FoodDelivery extends React.Component {
                             <h2>{ post.date.slice(0, 10) + " " + post.date.slice(11, 19)  }</h2>
                             <h1 > <u> { post.title } </u>  </h1>
                             <h1>{ post.content }</h1>
-                            <h1>FROM: { post.areafrom }</h1>
-                            <h1>TO: { post.areato }</h1>
-                            <h1>COMPENSATION: { post.compensation }</h1>
                             <h1>CONTACT: { post.contact }</h1>
                         </div>
 
@@ -48,7 +45,7 @@ class FoodDelivery extends React.Component {
                 </div>
 
 
-                <a className="form-green-button" onClick={() => { onRouteChange('fooddelivery') }}>Back</a>
+                <a className="form-green-button" onClick={() => { onRouteChange('eventsportal') }}>Back</a>
 
             </div>
 			
@@ -56,4 +53,4 @@ class FoodDelivery extends React.Component {
 	}
 }
 
-export default FoodDelivery;
+export default EventsPortal;

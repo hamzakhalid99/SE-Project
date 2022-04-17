@@ -37,9 +37,9 @@ import BACKEND_LINK from './env.js'
 // import Marketplace from '../../ldfplusplus_backend/models/marketplace';
 
 import EventsPortal from './components/EventsPortal/EventsPortal.js';
-// import EventsPortalPostDetails from './components/EventsPortal/EventsPortalPostDetails.js';
-// import EventsPortalNewPost from './components/EventsPortal/EventsPortalNewPost.js';
-// import EventsPortalMyPosts from './components/EventsPortal/EventsPortalMyPosts.js';
+import EventsPortalPostDetails from './components/EventsPortal/EventsPortalPostDetails.js';
+import EventsPortalNewPost from './components/EventsPortal/EventsPortalNewPost.js';
+import EventsPortalMyPosts from './components/EventsPortal/EventsPortalMyPosts.js';
 
 const initialState = {
 	route: 'landing',
@@ -320,7 +320,51 @@ class App extends Component {
             />
         </div>
       )
-    } else if (route === 'gettogethers') {
+    } 
+    
+    else if (route === 'ViewEventPost') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <EventsPortalPostDetails
+          onRouteChange={this.onRouteChange} 
+          loadUser={this.loadUser}
+          post={this.state.post}
+          />
+        </div>
+      )
+    }
+    //view my event posts
+    else if (route === 'ViewMyEventRequest') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <EventsPortalMyPosts
+          onRouteChange={this.onRouteChange}
+          loadUser={this.loadUser}
+          user={this.state.user}
+          />
+        </div>
+      )
+    }
+
+    //post a food delivery request
+    else if (route === 'PostEventRequest') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <EventsPortalNewPost
+          onRouteChange={this.onRouteChange}
+          loadUser={this.loadUser}
+          user={this.state.user}
+          />
+        </div>
+      )
+    }
+    
+    
+    
+    else if (route === 'gettogethers') {
       return (
         <div className="App">
           <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />

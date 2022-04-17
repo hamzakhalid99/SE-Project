@@ -1,5 +1,5 @@
 import React from 'react';
-import Event from "./Event.png";
+import fastfood from "./Fastfood.png";
 import './EventsPortal.css'
 import BACKEND_LINK from './../../env.js';
 
@@ -17,7 +17,7 @@ class EventsPortal extends React.Component {
     }
 
     componentWillMount() {
-        fetch(BACKEND_LINK + '/events', {
+        fetch(BACKEND_LINK + '/eventsportal', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(this.state)
@@ -37,7 +37,7 @@ class EventsPortal extends React.Component {
     }
 
     fetchMorePosts = () => {
-        fetch(BACKEND_LINK + '/events', {
+        fetch(BACKEND_LINK + '/eventsportal', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(this.state)
@@ -66,10 +66,10 @@ class EventsPortal extends React.Component {
         const posts = this.state.posts.map(function(post) {
             return (
                 <div className="landingpost" key={ post._id } >
-                    {/* <h3>{ post.postedby.fullname }</h3> */}
+                    <h3>{ post.postedby.fullname }</h3>
                     <h2>{ post.date.slice(0, 10) + " " + post.date.slice(11, 19)  }</h2>
                     <h1 > <u> { post.title } </u> { post.content.slice(0, 50) + "..." } </h1>
-                    <a className="form-green-button" onClick={() => { loadPost(post,'ViewFoodDeliveryPost') }}>View post</a>
+                    <a className="form-green-button" onClick={() => { loadPost(post,'ViewEventPost') }}>View post</a>
                 </div>
             )
         })
@@ -79,7 +79,7 @@ class EventsPortal extends React.Component {
             <div>
                 <div className="homepage body-center-align">
                     <div className="homepageprofile">
-                    <img className="iconpic" src={ Event } />  
+                    <img className="iconpic" src={ fastfood } />  
                     </div>
 
                         <div className="usecasename">
@@ -93,8 +93,8 @@ class EventsPortal extends React.Component {
                 </div>
 
                 
-                <a className="form-green-button-view"  onClick={() => { onRouteChange('ViewMyFoodDeliveryRequest') }}>View My Requests</a>
-                <a className="form-green-button-post"  onClick={() => { onRouteChange('PostFoodDeliveryRequest') }}>Post a Request</a>
+                <a className="form-green-button-view"  onClick={() => { onRouteChange('ViewMyEventRequest') }}>View My Events</a>
+                <a className="form-green-button-post"  onClick={() => { onRouteChange('PostEventRequest') }}>Post an Event</a>
                     
                 
 
