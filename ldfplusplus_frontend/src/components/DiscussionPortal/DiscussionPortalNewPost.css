@@ -260,7 +260,6 @@ border-radius: 20px;
 .postform {
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
     align-items: space-between;
     flex-wrap: wrap;
 

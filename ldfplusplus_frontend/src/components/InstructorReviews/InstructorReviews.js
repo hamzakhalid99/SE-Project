@@ -34,7 +34,7 @@ class InstructorReviews extends React.Component {
                 alert(response.message)
             }
             else if (response.backenddata) {
-                console.log(response.backenddata)
+                // console.log(response.backenddata)
                 this.setState({ posts: response.backenddata, rem: response.rem, numberofposts: response.backenddata.length + 3 })
             }
         })
@@ -45,9 +45,26 @@ class InstructorReviews extends React.Component {
     }
 
     onSubmitSearch = (event) => {
-        this.setState({keywords:event.target.value})
         
-
+        fetch(BACKEND_LINK + '/instructorreviews', {
+            method: 'post',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(this.state)
+        })
+        .then(response => response.json())
+        .then(response => {
+            console.log(response)
+            if (response.error) {
+                alert(response.error)
+            }
+            else if (response.message) {
+                alert(response.message)
+            }
+            else if (response.backenddata) {
+                console.log(response.backenddata)
+                this.setState({ posts: response.backenddata, rem: response.rem, numberofposts: response.backenddata.length + 3 })
+            }
+        })
     }
 
     fetchMorePosts = () => {
@@ -107,7 +124,12 @@ class InstructorReviews extends React.Component {
 
                 </div>
 
-                <SearchBox searchChange={this.onSearchChange} onSubmit={this.onSubmitSearch}/>
+                <div className="post-container">
+                    <div>
+                        <input className="posttitle" placeholder="search" type="search" onChange={this.onSearchChange}/>
+                        <input className="post-green-button-discussion" value="Search" type="submit" onClick={this.onSubmitSearch}/>
+                    </div>  
+                </div>
 
                 <div className="landinghappening">
                         { posts}       
@@ -116,7 +138,7 @@ class InstructorReviews extends React.Component {
 
                 
                 <a className="form-green-button-view"  onClick={() => { onRouteChange('ViewMyInstructorReviews') }}>View My Reviews</a>
-                <a className="form-green-button-post"  onClick={() => { onRouteChange('PostInstructorReview') }}>Post a Review</a>
+                <a className="form-green-button-post"  onClick={() => { onRouteChange('PostInstructorReviews') }}>Post a Review</a>
 
             </div>
 			

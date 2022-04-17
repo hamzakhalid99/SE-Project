@@ -71,6 +71,10 @@ import GetTogetherPostDetails from './components/GetTogether/GetTogetherPostDeta
 import GetTogetherNewPost from './components/GetTogether/GetTogetherNewPost.js';
 import GetTogetherMyPosts from './components/GetTogether/GetTogetherMyPosts.js';
 
+import DiscussionPortal from './components/DiscussionPortal/DiscussionPortal.js';
+import DiscussionPortalNewPost from './components/DiscussionPortal/DiscussionPortalNewPost.js';
+import DiscussionPortalMyPosts from './components/DiscussionPortal/DiscussionPortalMyPosts.js';
+import DiscussionPortalPostDetails from './components/DiscussionPortal/DiscussionPortalPostDetails.js';
 
 
 const initialState = {
@@ -120,7 +124,7 @@ class App extends Component {
       return (
         <div className="App">
           <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn}/>
-          <LandingPage />
+          <LandingPage onRouteChange={this.onRouteChange}/>
           {/* <h1>landing page</h1> */}
         </div>
       )
@@ -168,14 +172,61 @@ class App extends Component {
           />
         </div>
       )
-    } else if (route === 'discussionportal') {
+    }
+    else if (route === 'discussionportal') {
       return (
         <div className="App">
           <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
-          <h1>Discussion Portal</h1>
+          <DiscussionPortal
+          onRouteChange={this.onRouteChange} 
+            loadUser={this.loadUser}
+            loadPost={this.loadPost}
+            user={this.state.user}
+            />
         </div>
       )
-    } else if (route === 'coursereviews') {
+    } 
+    else if (route === 'ViewDiscussionPost') {
+      return (
+        <div className="App">
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <DiscussionPortalPostDetails
+          onRouteChange={this.onRouteChange} 
+          loadUser={this.loadUser}
+          post={this.state.post}
+          />
+        </div>
+      )
+    }
+    //view my food delivery posts
+    else if (route === 'ViewMyDiscussion') {
+      return (
+        <div className="App">
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <DiscussionPortalMyPosts
+          onRouteChange={this.onRouteChange}
+          loadUser={this.loadUser}
+          user={this.state.user}
+          />
+        </div>
+      )
+    }
+
+    //post a food delivery request
+    else if (route === 'PostDiscussion') {
+      return (
+        <div className="App">
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <DiscussionPortalNewPost
+          onRouteChange={this.onRouteChange}
+          loadUser={this.loadUser}
+          user={this.state.user}
+          />
+        </div>
+      )
+    }
+    
+    else if (route === 'coursereviews') {
       return (
         <div className="App">
           <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
@@ -227,14 +278,10 @@ class App extends Component {
         </div>
       )
     }
-    
-    
-    
     else if (route === 'instructorreviews') {
       return (
         <div className="App">
-
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <InstructorReviews
           onRouteChange={this.onRouteChange} 
             loadUser={this.loadUser}
@@ -247,7 +294,7 @@ class App extends Component {
     else if (route === 'ViewInstructorReviewsPost') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <InstructorReviewsPostDetails
           onRouteChange={this.onRouteChange} 
           loadUser={this.loadUser}
@@ -260,7 +307,7 @@ class App extends Component {
     else if (route === 'ViewMyInstructorReviews') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <InstructorReviewsMyPosts
           onRouteChange={this.onRouteChange}
           loadUser={this.loadUser}
@@ -271,10 +318,10 @@ class App extends Component {
     }
 
     //post a food delivery request
-    else if (route === 'PostInstructorReview') {
+    else if (route === 'PostInstructorReviews') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <InstructorReviewsNewPost
           onRouteChange={this.onRouteChange}
           loadUser={this.loadUser}
@@ -284,8 +331,6 @@ class App extends Component {
       )
     }
 
-
-    
      else if (route === 'fooddelivery') {
       return (
         <div className="App">
@@ -512,7 +557,7 @@ class App extends Component {
     else if (route === 'gettogethers') {
       return (
         <div className="App">
-        <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+        <Navigation  user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
         <GetTogether 
         onRouteChange={this.onRouteChange} 
           loadUser={this.loadUser}
@@ -524,7 +569,7 @@ class App extends Component {
     } else if (route === 'ViewGetTogetherPost') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation  user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <GetTogetherPostDetails
           onRouteChange={this.onRouteChange} 
           loadUser={this.loadUser}
@@ -537,7 +582,7 @@ class App extends Component {
     else if (route === 'ViewGetTogetherRequest') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation  user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <GetTogetherMyPosts
           onRouteChange={this.onRouteChange}
           loadUser={this.loadUser}
@@ -551,7 +596,7 @@ class App extends Component {
     else if (route === 'PostGetTogetherRequest') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation  user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <GetTogetherNewPost
           onRouteChange={this.onRouteChange}
           loadUser={this.loadUser}

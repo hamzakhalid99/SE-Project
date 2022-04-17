@@ -23,7 +23,9 @@ import descriptionimg from "./Description.png";
 import logout from "./Logout.png";
 
 const Navigation = ({ onRouteChange, isSignedIn, user }) => {
+	console.log(user)
 	return (
+		
 		<header className="header">
 			<a onClick={() => onRouteChange(isSignedIn ? 'homepage' : 'landing')} className="header-logo" href="#">
 			<h1 className="header-text">
@@ -60,10 +62,10 @@ const Navigation = ({ onRouteChange, isSignedIn, user }) => {
 						<ul className="MenuActive profileMenu">
 							<li onClick={() => onRouteChange('viewprofile')}><img src= { viewprofile } />View Profile</li>
 							<li onClick={() => onRouteChange('editprofile')}><img className="extraMarginNeeded" src= { editprofile } />Edit Profile</li>
-							<li onClick={() => onRouteChange('deactivateaccount')}><img src= { removecircle } />Deactivate Account</li>
+							{/* <li onClick={() => onRouteChange('deactivateaccount')}><img src= { removecircle } />Deactivate Account</li> */}
 							<li onClick={() => onRouteChange('viewstatus')}><img src= { descriptionimg } />View Status</li>
 							{ !user.adminstatus && !user.superadmin ? <li onClick={() => onRouteChange('requestadminship')}><img className="extraMarginNeeded" src= { addmod } />Request Adminship</li> : null }
-							<li onClick={() => onRouteChange('logout')}><img src= { logout } />Logout</li>
+							<li onClick={() => window.location.reload()}><img src= { logout } />Logout</li>
 						</ul>
 						</li>
 					</ul>

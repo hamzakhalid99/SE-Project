@@ -647,7 +647,7 @@ router.post('/fooddelivery/delete', async (request,response) => {
 router.post('/instructorreviews', (request,response) => {
     try{
         const numberofposts = sanitize(request.body.numberofposts)
-        const tmp = `.*`+sanitize(request.body.keywords)+'.*'
+        const tmp = `.*`+sanitize(request.body.search)+'.*'
         instructorreviews.find({ "title": { "$regex": tmp, "$options": "i" } }).sort({date: -1}).populate("postedby", "fullname").exec((err, docs) => {   
             if(err)
             {
@@ -876,9 +876,9 @@ router.get('/homepagehappenings', (request,response)=>{
 })
 
 // search based on keywords
-router.get('/discussionportal', (request,response) => {
+router.post('/discussionportal', (request,response) => {
     try{
-        const tmp = `.*`+sanitize(request.body.keywords)+'.*'
+        const tmp = `.*`+sanitize(request.body.search)+'.*'
         const numberofposts = request.body.numberofposts
         discussionportal.find({ "title": { "$regex": tmp, "$options": "i" } }).sort({date: -1}).populate("postedby", "fullname").exec((err, docs) => {   
             if(err)
@@ -931,7 +931,7 @@ router.post('/discussionportal/post', async (request,response) => {
 })
 
 // render my posts
-router.get('/discussionportal/myposts', async (request,response) => {
+router.post('/discussionportal/myposts', async (request,response) => {
     try{
         discussionportal.find({ postedby: sanitize(request.body.user_id)}, (err, docs) =>{
             if (err){
@@ -949,7 +949,7 @@ router.get('/discussionportal/myposts', async (request,response) => {
 })
 
 // delete selected post
-router.post('/discussionportal/myposts', async (request,response) => {
+router.post('/discussionportal/delete', async (request,response) => {
     try{
         discussionportal.deleteOne({ postedby: sanitize(request.body.user_id), _id:sanitize(request.body._id)}, (err) =>{
             if (err){
@@ -1517,7 +1517,7 @@ router.post('/changepassword', (request,response) => {
                 }
                 else{
                     const newhashpass = crypto.createHash('sha256').update(sanitize(request.body.newpassword)).digest('base64')
-                    userprofile.updateOne({ email: sanitize(request.body.email)},{$set:{password:newhashpass}}, (err) => {
+                    userprofile.updateOne({ _id: sanitize(request.body.user_id)},{$set:{password:newhashpass}}, (err) => {
                         if(err){
                             response.json({error:err})
                         }
