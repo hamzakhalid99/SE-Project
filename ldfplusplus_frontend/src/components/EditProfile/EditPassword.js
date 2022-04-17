@@ -13,7 +13,8 @@ class EditName extends React.Component {
                 name: '',
                 password:'',
                 newpassword:'',
-                confirmpassword:''
+                confirmpassword:'',
+                user_id: this.props.user.user_id
                 
             }
 		
@@ -48,7 +49,7 @@ class EditName extends React.Component {
 		})
 		.then(response => response.json())
 		.then(user => {	
-			this.props.onRouteChange('EditProfile')
+			this.props.onRouteChange('editprofile')
 			
 		})
 	}
