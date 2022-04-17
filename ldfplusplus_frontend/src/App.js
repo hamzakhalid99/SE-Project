@@ -32,8 +32,14 @@ import Careerhelp from './components/Careerhelp/Careerhelp.js';
 import CareerhelpPostDetails from './components/Careerhelp/CareerhelpPostDetails.js';
 import CareerhelpNewPost from './components/Careerhelp/CareerhelpNewPost.js';
 import CareerhelpMyPosts from './components/Careerhelp/CareerhelpMyPosts.js';
+
 import BACKEND_LINK from './env.js'
 // import Marketplace from '../../ldfplusplus_backend/models/marketplace';
+
+import EventsPortal from './components/EventsPortal/EventsPortal.js';
+// import EventsPortalPostDetails from './components/EventsPortal/EventsPortalPostDetails.js';
+// import EventsPortalNewPost from './components/EventsPortal/EventsPortalNewPost.js';
+// import EventsPortalMyPosts from './components/EventsPortal/EventsPortalMyPosts.js';
 
 const initialState = {
 	route: 'landing',
@@ -306,7 +312,12 @@ class App extends Component {
       return (
         <div className="App">
           <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
-          <h1>Events Portal</h1>
+          <EventsPortal
+          onRouteChange={this.onRouteChange} 
+            loadUser={this.loadUser}
+            loadPost={this.loadPost}
+            user={this.state.user}
+            />
         </div>
       )
     } else if (route === 'gettogethers') {
