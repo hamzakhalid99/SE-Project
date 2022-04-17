@@ -460,7 +460,9 @@ class App extends Component {
           <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <ViewAdminRequests
           onRouteChange={this.onRouteChange} 
-          loadUser={this.loadUser}/>
+          loadUser={this.loadUser}
+          user={this.state.user}
+          />
         </div>
       )
     } else if (route === 'viewprofile') {
@@ -501,7 +503,9 @@ class App extends Component {
           <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <RequestAdminshipStatus
           onRouteChange={this.onRouteChange} 
-          loadUser={this.loadUser}/>
+          loadUser={this.loadUser}
+          user={this.state.user}
+          />
         </div>
       )
     } else if (route === 'logout') {
