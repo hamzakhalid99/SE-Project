@@ -45,13 +45,14 @@ class EventsPortalNewPost extends React.Component {
 
     onSubmitPost = (event) => {
         event.preventDefault()
-		fetch(BACKEND_LINK+'/eventsportal/post', {
+		fetch(BACKEND_LINK+'/events/post', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
 			body: JSON.stringify(this.state)
 		})
 		.then(response => response.json())
 		.then(user => {	
+            console.log(user)
 			this.props.onRouteChange('eventsportal')
 			
 		})
@@ -80,8 +81,8 @@ class EventsPortalNewPost extends React.Component {
                         <form className="postform" onSubmit={this.onSubmitPost}>
                             <input className="posttitle" placeholder="Post Title" type="text" onChange={this.onTitleChange} />
                             <input className="posttitle" placeholder="Contact" type="text" onChange={this.onContactChange} />
-                            <input className="posttitle" placeholder="Interested (Yes/No)" type="text" onChange={this.onInterestedChange} />
-                            <input className="posttitle" placeholder="Going (Yes/No)" type="text" onChange={this.onGoingChange} />
+                            {/* <input className="posttitle" placeholder="Interested (Yes/No)" type="text" onChange={this.onInterestedChange} />
+                            <input className="posttitle" placeholder="Going (Yes/No)" type="text" onChange={this.onGoingChange} /> */}
                             <input className="postdetails" placeholder="Post Details" type="text" onChange={this.onDetailsChange} />
                             
                             <input className="post-green-button" value="Post" type="submit" />
