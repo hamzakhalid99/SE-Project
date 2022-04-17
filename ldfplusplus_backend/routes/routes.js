@@ -223,7 +223,7 @@ router.post('/gettogether/myposts', async (request,response) => {
 /// Events
 
 // load posts view more button, view post simply uses the object returned here
-router.get('/events', (request,response) => {
+router.post('/events', (request,response) => {
     try{
         const numberofposts = sanitize(request.body.numberofposts)
         events.find({}).sort({date: -1}).populate("postedby", "fullname").exec((err, docs) => {   
@@ -311,7 +311,7 @@ router.post('/events/post', async (request,response) => {
 })
 
 // render my posts
-router.get('/events/myposts', async (request,response) => {
+router.post('/events/myposts', async (request,response) => {
     try{
         events.find({ postedby: sanitize(request.body.user_id)}, (err, docs) =>{
             if (err){
@@ -330,9 +330,9 @@ router.get('/events/myposts', async (request,response) => {
 })
 
 // delete selected post
-router.post('/events/myposts', async (request,response) => {
+router.post('/events/delete', async (request,response) => {
     try{
-        events.deleteOne({ postedby: sanitize(request.body.user_id), _id:sanitize(request.body._id)}, (err) =>{
+        events.deleteOne({_id:sanitize(request.body._id)}, (err) =>{
             if (err){
                 response.json({error:err})
             }

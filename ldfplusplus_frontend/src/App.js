@@ -54,6 +54,12 @@ import CourseReviewsPostDetails from './components/CourseReviews/CourseReviewsPo
 import CourseReviewsNewPost from './components/CourseReviews/CourseReviewsNewPost.js';
 import CourseReviewsMyPosts from './components/CourseReviews/CourseReviewsMyPosts.js';
 
+import GetTogether from './components/GetTogether/GetTogether.js';
+import GetTogetherPostDetails from './components/GetTogether/GetTogetherPostDetails.js';
+import GetTogetherNewPost from './components/GetTogether/GetTogetherNewPost.js';
+import GetTogetherMyPosts from './components/GetTogether/GetTogetherMyPosts.js';
+
+
 const initialState = {
 	route: 'landing',
 	isSignedin: false,
@@ -433,11 +439,54 @@ class App extends Component {
     else if (route === 'gettogethers') {
       return (
         <div className="App">
+        <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+        <GetTogether 
+        onRouteChange={this.onRouteChange} 
+          loadUser={this.loadUser}
+          loadPost={this.loadPost}
+          user={this.state.user}
+          />
+      </div>
+      )
+    } else if (route === 'ViewGetTogetherPost') {
+      return (
+        <div className="App">
           <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
-          <h1>Get Togethers</h1>
+          <GetTogetherPostDetails
+          onRouteChange={this.onRouteChange} 
+          loadUser={this.loadUser}
+          post={this.state.post}
+          />
         </div>
       )
-    } 
+    }
+    //view my food delivery posts
+    else if (route === 'ViewGetTogetherRequest') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <GetTogetherMyPosts
+          onRouteChange={this.onRouteChange}
+          loadUser={this.loadUser}
+          user={this.state.user}
+          />
+        </div>
+      )
+    }
+
+    //post a food delivery request
+    else if (route === 'PostGetTogetherRequest') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <GetTogetherNewPost
+          onRouteChange={this.onRouteChange}
+          loadUser={this.loadUser}
+          user={this.state.user}
+          />
+        </div>
+      )
+    }
     
     // else if (route === 'enrollmentswap') {
     //   return (
