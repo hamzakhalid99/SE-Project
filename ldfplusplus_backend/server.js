@@ -14,8 +14,8 @@ mongoose.connect(process.env.DATABASE_ACCESS, () => {
 // order matters for these lines below
 app.use(express.json())
 app.use(cors())
-app.use('/app', routesURLs) // base path is /app
-app.listen(3001, () => {
+app.use('', routesURLs) // base path is /app
+app.listen(3000, () => {
 	console.log("Server is running!")
 })
 
