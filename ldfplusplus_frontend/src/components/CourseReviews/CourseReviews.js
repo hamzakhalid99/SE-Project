@@ -2,6 +2,7 @@ import React from 'react';
 import fastfood from "./Fastfood.png";
 import './CourseReviews.css'
 import BACKEND_LINK from './../../env.js';
+import SearchBox from './../SearchBox/SearchBox'
 
 class CourseReviews extends React.Component {
 
@@ -9,10 +10,12 @@ class CourseReviews extends React.Component {
         super(props);
         
         this.state = {
-            numberofposts: 3,
+            numberofposts: 30,
             rem: null,
             posts: [],
-            viewsingle: false
+            viewsingle: false,
+            search: '',
+            keywords: ''
         }
     }
 
@@ -31,6 +34,34 @@ class CourseReviews extends React.Component {
                 alert(response.message)
             }
             else if (response.backenddata) {
+                // console.log(response.backenddata)
+                this.setState({ posts: response.backenddata, rem: response.rem, numberofposts: response.backenddata.length + 3 })
+            }
+        })
+    }
+
+    onSearchChange = (event) => {
+        this.setState({search:event.target.value})
+    }
+
+    onSubmitSearch = (event) => {
+        
+        fetch(BACKEND_LINK + '/coursereviews', {
+            method: 'post',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(this.state)
+        })
+        .then(response => response.json())
+        .then(response => {
+            console.log(response)
+            if (response.error) {
+                alert(response.error)
+            }
+            else if (response.message) {
+                alert(response.message)
+            }
+            else if (response.backenddata) {
+                console.log(response.backenddata)
                 this.setState({ posts: response.backenddata, rem: response.rem, numberofposts: response.backenddata.length + 3 })
             }
         })
@@ -44,6 +75,7 @@ class CourseReviews extends React.Component {
         })
         .then(response => response.json())
         .then(response => {
+            console.log(response)
             if (response.error) {
                 alert(response.error)
             }
@@ -51,6 +83,8 @@ class CourseReviews extends React.Component {
                 alert(response.message)
             }
             else if (response.backenddata) {
+
+                console.log(response.backenddata)
                 this.setState({ posts: response.backenddata, rem: response.rem, numberofposts: response.backenddata.length + 3 })
                 
                 if (response.rem === 0) {
@@ -60,9 +94,12 @@ class CourseReviews extends React.Component {
         })
     }
 
+    
+
 	render() {
         const { user } = this.props
         const { onRouteChange, loadPost } = this.props;
+
         const posts = this.state.posts.map(function(post) {
             return (
                 <div className="landingpost" key={ post._id } >
@@ -87,6 +124,13 @@ class CourseReviews extends React.Component {
 
                 </div>
 
+                <div className="post-container">
+                    <div>
+                        <input className="posttitle" placeholder="search" type="search" onChange={this.onSearchChange}/>
+                        <input className="post-green-button-discussion" value="Search" type="submit" onClick={this.onSubmitSearch}/>
+                    </div>  
+                </div>
+
                 <div className="landinghappening">
                         { posts}       
                         <a className="form-green-button-view viewmore" onClick={this.fetchMorePosts} >View More</a>
@@ -95,7 +139,6 @@ class CourseReviews extends React.Component {
                 
                 <a className="form-green-button-view"  onClick={() => { onRouteChange('ViewMyCourseReviews') }}>View My Reviews</a>
                 <a className="form-green-button-post"  onClick={() => { onRouteChange('PostCourseReview') }}>Post a Review</a>
-                
 
             </div>
 			
