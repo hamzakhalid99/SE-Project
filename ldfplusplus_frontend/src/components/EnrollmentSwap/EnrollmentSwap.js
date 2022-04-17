@@ -68,7 +68,8 @@ class EnrollmentSwap extends React.Component {
                 <div className="landingpost" key={ post._id } >
                     <h3>{ post.postedby.fullname }</h3>
                     <h2>{ post.date.slice(0, 10) + " " + post.date.slice(11, 19)  }</h2>
-                    {/* <h1 > <u> { post.title } </u> { post.content.slice(0, 50) + "..." } </h1> */}
+                    {/* <h1 > <u> { post.title } </u></h1> */}
+                    <h1> { "HAVE: "+post.have+ "  WANT:" + post.want } </h1>
                     <a className="form-green-button" onClick={() => { loadPost(post,'ViewEnrollmentSwapPost') }}>View post</a>
                 </div>
             )
