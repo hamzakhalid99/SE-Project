@@ -27,6 +27,10 @@ import Marketplace from './components/Marketplace/Marketplace.js';
 import MarketplacePostDetails from './components/Marketplace/MarketplacePostDetails.js';
 import MarketplaceNewPost from './components/Marketplace/MarketplaceNewPost.js';
 import MarketplaceMyPosts from './components/Marketplace/MarketplaceMyPosts.js';
+import GetTogether from './components/GetTogether/GetTogether.js';
+import GetTogetherPostDetails from './components/GetTogether/GetTogetherPostDetails.js';
+import GetTogetherNewPost from './components/GetTogether/GetTogetherNewPost.js';
+import GetTogetherMyPosts from './components/GetTogether/GetTogetherMyPosts.js';
 
 import Careerhelp from './components/Careerhelp/Careerhelp.js';
 import CareerhelpPostDetails from './components/Careerhelp/CareerhelpPostDetails.js';
@@ -309,14 +313,64 @@ class App extends Component {
           <h1>Events Portal</h1>
         </div>
       )
-    } else if (route === 'gettogethers') {
+    } 
+
+
+// GET TOGETHER
+    else if (route === 'gettogethers') {
+      return (
+        <div className="App">
+        <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+        <GetTogether 
+        onRouteChange={this.onRouteChange} 
+          loadUser={this.loadUser}
+          loadPost={this.loadPost}
+          user={this.state.user}
+          />
+      </div>
+      )
+    } else if (route === 'ViewGetTogetherPost') {
       return (
         <div className="App">
           <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
-          <h1>Get Togethers</h1>
+          <GetTogetherPostDetails
+          onRouteChange={this.onRouteChange} 
+          loadUser={this.loadUser}
+          post={this.state.post}
+          />
         </div>
       )
-    } else if (route === 'enrollmentswap') {
+    }
+    //view my food delivery posts
+    else if (route === 'ViewGetTogetherRequest') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <GetTogetherMyPosts
+          onRouteChange={this.onRouteChange}
+          loadUser={this.loadUser}
+          user={this.state.user}
+          />
+        </div>
+      )
+    }
+
+    //post a food delivery request
+    else if (route === 'PostGetTogetherRequest') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <GetTogetherNewPost
+          onRouteChange={this.onRouteChange}
+          loadUser={this.loadUser}
+          user={this.state.user}
+          />
+        </div>
+      )
+    }
+
+
+    else if (route === 'enrollmentswap') {
       return (
         <div className="App">
           <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
