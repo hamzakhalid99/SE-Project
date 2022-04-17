@@ -11,8 +11,9 @@ import FoodDelivery from './components/FoodDelivery/FoodDelivery.js';
 import FoodDeliveryPostDetails from './components/FoodDelivery/FoodDeliveryPostDetails.js';
 import FoodDeliveryNewPost from './components/FoodDelivery/FoodDeliveryNewPost.js';
 import FoodDeliveryMyPosts from './components/FoodDelivery/FoodDeliveryMyPosts.js';
-
-
+import ViewProfile from './components/ViewProfile/ViewProfile.js'
+import ViewStatus from './components/ViewStatus/ViewStatus.js'
+import RequestAdminshipStatus from './components/RequestAdminshipStatus/RequestAdminshipStatus.js'
 import ViewAdminRequests from './components/ViewAdminRequests/ViewAdminRequests.js';
 import AddCourses from './components/AddCourses/AddCourses.js';
 import RemoveUser from './components/RemoveUser/RemoveUser.js';
@@ -209,7 +210,9 @@ class App extends Component {
       return (
         <div className="App">
           <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
-          <h1>View Profile</h1>
+          <ViewProfile
+          onRouteChange={this.onRouteChange} 
+          loadUser={this.loadUser}/>
         </div>
       )
     } else if (route === 'editprofile') {
@@ -230,14 +233,18 @@ class App extends Component {
       return (
         <div className="App">
           <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
-          <h1>View Status</h1>
+          <ViewStatus
+          onRouteChange={this.onRouteChange} 
+          loadUser={this.loadUser}/>
         </div>
       )
     } else if (route === 'requestadminship') {
       return (
         <div className="App">
           <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
-          <h1>Request Adminship</h1>
+          <RequestAdminshipStatus
+          onRouteChange={this.onRouteChange} 
+          loadUser={this.loadUser}/>
         </div>
       )
     } else if (route === 'logout') {
