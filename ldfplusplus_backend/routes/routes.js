@@ -615,7 +615,8 @@ router.post('/fooddelivery/post', async (request,response) => {
 })
 
 // render my posts
-router.get('/fooddelivery/myposts', async (request,response) => {
+router.post('/fooddelivery/myposts', async (request,response) => {
+    console.log(request.body)
     try{
         fooddelivery.find({ postedby: sanitize(request.body.user_id)}, (err, docs) =>{
             if (err){
@@ -633,9 +634,9 @@ router.get('/fooddelivery/myposts', async (request,response) => {
 })
 
 // delete selected post
-router.post('/fooddelivery/myposts', async (request,response) => {
+router.post('/fooddelivery/delete', async (request,response) => {
     try{
-        fooddelivery.deleteOne({ postedby: sanitize(request.body.user_id), _id:sanitize(request.body._id)}, (err) =>{
+        fooddelivery.deleteOne({ _id:sanitize(request.body._id)}, (err) =>{
             if (err){
                 response.json({error:err})
             }

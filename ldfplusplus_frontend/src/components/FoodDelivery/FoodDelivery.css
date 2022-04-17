@@ -192,6 +192,7 @@ border-radius: 20px;
 	right: 10%;
 	top: 25%;
 	bottom: 68%;
+	height: 35px;
 	}
 
 	.form-green-button-post {
@@ -207,4 +208,5 @@ border-radius: 20px;
 		right: 10%;
 		top: 35%;
 		bottom: 58%;
+		height: 35px;
 		}
