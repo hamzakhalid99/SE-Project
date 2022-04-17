@@ -1251,7 +1251,7 @@ router.post('/removeuser/delete', isAdmin, (request,response)=> {
 /// Swap Reqeust
 
 // load posts view more button, view post simply uses the object returned here
-router.get('/swaprequest', (request,response) => {
+router.post('/swaprequest', (request,response) => {
     try{
         const numberofposts = sanitize(request.body.numberofposts)
         swaprequest.find({fullfilled:false}).sort({date: -1}).populate("postedby", "fullname").exec((err, docs) => {   
@@ -1304,7 +1304,7 @@ router.post('/swaprequest/post', async (request,response) => {
 })
 
 // render my posts
-router.get('/swaprequest/myposts', async (request,response) => {
+router.post('/swaprequest/myposts', async (request,response) => {
     try{
         swaprequest.find({ postedby: sanitize(request.body.user_id)}, (err, docs) =>{
             if (err){
@@ -1322,9 +1322,9 @@ router.get('/swaprequest/myposts', async (request,response) => {
 })
 
 // delete selected post
-router.post('/swaprequest/myposts', async (request,response) => {
+router.post('/swaprequest/delete', async (request,response) => {
     try{
-        swaprequest.deleteOne({ postedby: sanitize(request.body.user_id), _id:sanitize(request.body._id)}, (err) =>{
+        swaprequest.deleteOne({  _id:sanitize(request.body._id)}, (err) =>{
             if (err){
                 response.json({error:err})
             }
