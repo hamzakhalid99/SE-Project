@@ -1,9 +1,9 @@
 import React from 'react';
-import fastfood from "./Fastfood.png";
-import './FoodDeliveryNewPost.css'
+import donations from "./Donations.png";
+import './DonationsNewPost.css'
 import BACKEND_LINK from './../../env.js';
 
-class FoodDeliveryNewPost extends React.Component {
+class DonationsNewPost extends React.Component {
 
     constructor(props) {
         super(props);
@@ -11,10 +11,6 @@ class FoodDeliveryNewPost extends React.Component {
         this.state = {
             content: '',
             title: '',
-            contact: '',
-            compensation: '',
-            areafrom: '',
-            areato: '',
             user_id: this.props.user.user_id
         }
     }
@@ -27,37 +23,16 @@ class FoodDeliveryNewPost extends React.Component {
         this.setState({ content: event.target.value })
     }
 
-    onPostedByChange = (event) => {
-        this.setState({ postedby: event.target.value })
-    }
-
-    onContactChange = (event) => {
-        this.setState({ contact: event.target.value })
-    }
-
-    onCompensationChange = (event) => {
-        this.setState({ compensation: event.target.value })
-    }
-
-    onAreaToChange = (event) => {
-        this.setState({ areato: event.target.value })
-    }
-
-    onAreaFromChange = (event) => {
-        this.setState({ areafrom: event.target.value })
-    }
-
     onSubmitPost = (event) => {
         event.preventDefault()
-		fetch(BACKEND_LINK+'/fooddelivery/post', {
+		fetch(BACKEND_LINK+'/donations/post', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
 			body: JSON.stringify(this.state)
 		})
 		.then(response => response.json())
 		.then(user => {	
-			this.props.onRouteChange('fooddelivery')
-			
+			this.props.onRouteChange('donations')	
 		})
 	} 
 
@@ -69,11 +44,11 @@ class FoodDeliveryNewPost extends React.Component {
             <div>
                 <div className="homepage body-center-align">
                     <div className="homepageprofile">
-                    <img className="iconpic" src={ fastfood } />  
+                    <img className="iconpic" src={ donations } />  
                     </div>
 
                         <div className="usecasename">
-                        <p>Food Delivery</p>
+                        <p>Donations</p>
                         </div>
 
                 </div> 
@@ -83,14 +58,15 @@ class FoodDeliveryNewPost extends React.Component {
                     <div>
                         <form className="postform" onSubmit={this.onSubmitPost}>
                             <input className="posttitle" placeholder="Post Title" type="text" onChange={this.onTitleChange} />
-                            <input className="posttitle" placeholder="Contact" type="text" onChange={this.onContactChange} />
-                            <input className="posttitle" placeholder="Compensation" type="text" onChange={this.onCompensationChange} />
-                            <input className="posttitle" placeholder="Area to" type="text" onChange={this.onAreaToChange} />
-                            <input className="posttitle" placeholder="Area from" type="text" onChange={this.onAreaFromChange} />
+                            {/* <input className="posttitle" placeholder="Contact" type="text" onChange={this.onContactChange} /> */}
+                            {/* <input className="posttitle" placeholder="Compensation" type="text" onChange={this.onCompensationChange} /> */}
+                            {/* <input className="posttitle" placeholder="Area to" type="text" onChange={this.onAreaToChange} /> */}
+                            {/* <input className="posttitle" placeholder="Area from" type="text" onChange={this.onAreaFromChange} /> */}
                             <input className="postdetails" placeholder="Post Details" type="text" onChange={this.onDetailsChange} />
                             
                             <input className="post-green-button" value="Post" type="submit" />
-                            <a className="form-red-button" onClick={() => { onRouteChange('fooddelivery') }}>Back</a>
+                            <a className="form-red-button" onClick={() => { onRouteChange('donations') }}>Back</a>
+                            
                         </form>
                     </div>
                    
@@ -101,4 +77,4 @@ class FoodDeliveryNewPost extends React.Component {
 	}
 }
 
-export default FoodDeliveryNewPost;
+export default DonationsNewPost;

@@ -1,8 +1,8 @@
 import React from 'react';
-import fastfood from "./Fastfood.png";
-import './FoodDeliveryPostDetails.css'
+import careerhelp from "./Careerhelp.png";
+import './CareerhelpPostDetails.css'
 
-class FoodDelivery extends React.Component {
+class Careerhelp extends React.Component {
 
     constructor(props) {
         super(props);
@@ -22,11 +22,11 @@ class FoodDelivery extends React.Component {
             <div>
                 <div className="homepage body-center-align">
                     <div className="homepageprofile">
-                    <img className="iconpic" src={ fastfood } />  
+                    <img className="iconpic" src={ careerhelp } />  
                     </div>
 
                         <div className="usecasename">
-                        <p>Food Delivery</p>
+                        <p>Career Help</p>
                         </div>
 
                 </div>
@@ -38,17 +38,15 @@ class FoodDelivery extends React.Component {
                             <h2>{ post.date.slice(0, 10) + " " + post.date.slice(11, 19)  }</h2>
                             <h1 > <u> { post.title } </u>  </h1>
                             <h1>{ post.content }</h1>
-                            <h1>FROM: { post.areafrom }</h1>
-                            <h1>TO: { post.areato }</h1>
-                            <h1>COMPENSATION: { post.compensation }</h1>
-                            <h1>CONTACT: { post.contact }</h1>
+                            <h1>Salary: { post.salary }</h1>
+                            <h1>Location: { post.location }</h1>
                         </div>
 
                         
                 </div>
 
 
-                <a className="form-green-button" onClick={() => { onRouteChange('fooddelivery') }}>Back</a>
+                <a className="form-green-button" onClick={() => { onRouteChange('careerhelp') }}>Back</a>
 
             </div>
 			
@@ -56,4 +54,4 @@ class FoodDelivery extends React.Component {
 	}
 }
 
-export default FoodDelivery;
+export default Careerhelp;
