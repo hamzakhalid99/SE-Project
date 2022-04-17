@@ -3,7 +3,7 @@ import './AddCourses.css';
 import addcourses from './Library Add.png';
 import uploadicon from './File Upload.png';
 import loadingicon from './green_style.gif';
-
+import BACKEND_LINK from './../../env.js';
 class AddCourses extends React.Component {
 	constructor(props) {
 		super(props)
@@ -50,7 +50,7 @@ class AddCourses extends React.Component {
     }
 
     onClickSubmit = (event) => {
-    	fetch('http://localhost:3000/addcourses', {
+    	fetch(BACKEND_LINK+'/addcourses', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
 			body: JSON.stringify(this.state)

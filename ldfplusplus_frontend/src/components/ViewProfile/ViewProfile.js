@@ -2,6 +2,7 @@ import React from 'react';
 import zafirtest from './zafirtest.png';
 import headerLogo from "./Person.png";
 import './ViewProfile.css'
+import BACKEND_LINK from '../../env';
 
 class ViewProfile extends React.Component {
 	constructor(props) {
@@ -13,7 +14,7 @@ class ViewProfile extends React.Component {
 	}
 
 	componentWillMount() {
-		fetch('http://localhost:3000/homepage', {
+		fetch(BACKEND_LINK+'/homepage', {
 			method: 'get',
 			headers: {'Content-Type': 'application/json'}
 		})

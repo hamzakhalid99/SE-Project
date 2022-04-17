@@ -2,6 +2,7 @@ import React from 'react';
 import zafirtest from './zafirtest.png';
 import headerLogo from "./Add Moderator.png";
 import './RequestAdminshipStatus.css'
+import BACKEND_LINK from '../../env';
 
 class RequestAdminshipStatus extends React.Component {
 	constructor(props) {
@@ -21,7 +22,7 @@ class RequestAdminshipStatus extends React.Component {
     }
 	onSubmitPost = (event) => {
 		event.preventDefault()
-		fetch('http://localhost:3000/requestadminship', {
+		fetch(BACKEND_LINK+ '/requestadminship', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
 			body: JSON.stringify({fullname: this.props.user.fullname, content: this.state.reason, user_id: this.props.user.user_id})
