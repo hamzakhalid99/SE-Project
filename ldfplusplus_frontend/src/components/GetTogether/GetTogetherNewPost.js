@@ -12,9 +12,6 @@ class GetTogetherNewPost extends React.Component {
             content: '',
             title: '',
             contact: '',
-            compensation: '',
-            areafrom: '',
-            areato: '',
             user_id: this.props.user.user_id
         }
     }
@@ -35,18 +32,6 @@ class GetTogetherNewPost extends React.Component {
         this.setState({ contact: event.target.value })
     }
 
-    onCompensationChange = (event) => {
-        this.setState({ compensation: event.target.value })
-    }
-
-    onAreaToChange = (event) => {
-        this.setState({ areato: event.target.value })
-    }
-
-    onAreaFromChange = (event) => {
-        this.setState({ areafrom: event.target.value })
-    }
-
     onSubmitPost = (event) => {
         event.preventDefault()
         fetch(BACKEND_LINK+'/gettogether/post', {
@@ -56,7 +41,7 @@ class GetTogetherNewPost extends React.Component {
         })
         .then(response => response.json())
         .then(user => { 
-            this.props.onRouteChange('gettogether')
+            this.props.onRouteChange('gettogethers')
             
         })
     } 
@@ -84,13 +69,10 @@ class GetTogetherNewPost extends React.Component {
                         <form className="postform" onSubmit={this.onSubmitPost}>
                             <input className="posttitle" placeholder="Post Title" type="text" onChange={this.onTitleChange} />
                             <input className="posttitle" placeholder="Contact" type="text" onChange={this.onContactChange} />
-                            <input className="posttitle" placeholder="Compensation" type="text" onChange={this.onCompensationChange} />
-                            <input className="posttitle" placeholder="Area to" type="text" onChange={this.onAreaToChange} />
-                            <input className="posttitle" placeholder="Area from" type="text" onChange={this.onAreaFromChange} />
                             <input className="postdetails" placeholder="Post Details" type="text" onChange={this.onDetailsChange} />
                             
                             <input className="post-green-button" value="Post" type="submit" />
-                            <a className="form-red-button" onClick={() => { onRouteChange('gettogether') }}>Back</a>
+                            <a className="form-red-button" onClick={() => { onRouteChange('gettogethers') }}>Back</a>
                         </form>
                     </div>
                    

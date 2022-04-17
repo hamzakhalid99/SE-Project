@@ -110,7 +110,7 @@ class GetTogetherMyPosts extends React.Component {
                 
 
                 </div>
-                <a className="form-green-button" onClick={() => { onRouteChange('gettogether') }}>Back</a>
+                <a className="form-green-button" onClick={() => { onRouteChange('gettogethers') }}>Back</a>
                 
                
             </div>
