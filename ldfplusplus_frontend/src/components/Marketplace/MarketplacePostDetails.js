@@ -1,8 +1,8 @@
 import React from 'react';
-import fastfood from "./Fastfood.png";
-import './FoodDeliveryPostDetails.css'
+import marketplace from "./Marketplace.png";
+import './MarketplacePostDetails.css'
 
-class FoodDelivery extends React.Component {
+class Marketplace extends React.Component {
 
     constructor(props) {
         super(props);
@@ -22,11 +22,11 @@ class FoodDelivery extends React.Component {
             <div>
                 <div className="homepage body-center-align">
                     <div className="homepageprofile">
-                    <img className="iconpic" src={ fastfood } />  
+                    <img className="iconpic" src={ marketplace } />  
                     </div>
 
                         <div className="usecasename">
-                        <p>Food Delivery</p>
+                        <p>Marketplace</p>
                         </div>
 
                 </div>
@@ -37,10 +37,10 @@ class FoodDelivery extends React.Component {
                             <h3>{ post.postedby.fullname }</h3>
                             <h2>{ post.date.slice(0, 10) + " " + post.date.slice(11, 19)  }</h2>
                             <h1 > <u> { post.title } </u>  </h1>
+                            <h1>Field: { post.field }</h1>
                             <h1>{ post.content }</h1>
-                            <h1>FROM: { post.areafrom }</h1>
-                            <h1>TO: { post.areato }</h1>
-                            <h1>COMPENSATION: { post.compensation }</h1>
+                            {/* <h1>TO: { post.areato }</h1> */}
+                            {/* <h1>COMPENSATION: { post.compensation }</h1> */}
                             <h1>CONTACT: { post.contact }</h1>
                         </div>
 
@@ -48,7 +48,7 @@ class FoodDelivery extends React.Component {
                 </div>
 
 
-                <a className="form-green-button" onClick={() => { onRouteChange('fooddelivery') }}>Back</a>
+                <a className="form-green-button" onClick={() => { onRouteChange('marketplace') }}>Back</a>
 
             </div>
 			
@@ -56,4 +56,4 @@ class FoodDelivery extends React.Component {
 	}
 }
 
-export default FoodDelivery;
+export default Marketplace;

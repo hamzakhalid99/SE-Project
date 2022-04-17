@@ -14,7 +14,7 @@ const courses =  require('../models/courses');
 const discussionportal = require('../models/discussionportal');
 const reqadmin = require('../models/reqadmin');
 const swaprequest = require('../models/swaprequest');
-const marketpalce = require('../models/marketplace');
+const marketplace = require('../models/marketplace');
 const sanitize = require('mongo-sanitize');
 const jwt = require('jsonwebtoken')
 const mailgun = require("mailgun-js");
@@ -366,7 +366,7 @@ router.post('/events/myposts', async (request,response) => {
 /// Job Posting/Career help
 
 // load posts view more button, view post simply uses the object returned here
-router.get('/careerhelp', (request,response) => {
+router.post('/careerhelp', (request,response) => {
     try{
         const numberofposts = sanitize(request.body.numberofposts)
         jobposting.find({}).sort({date: -1}).populate("postedby", "fullname").exec((err, docs) => {   
@@ -423,7 +423,7 @@ router.post('/careerhelp/post', async (request,response) => {
 })
 
 // render my posts
-router.get('/careerhelp/myposts', async (request,response) => {
+router.post('/careerhelp/myposts', async (request,response) => {
     try{
         jobposting.find({ postedby: sanitize(request.body.user_id)}, (err, docs) =>{
             if (err){
@@ -442,9 +442,9 @@ router.get('/careerhelp/myposts', async (request,response) => {
 })
 
 // delete selected post
-router.post('/careerhelp/myposts', async (request,response) => {
+router.post('/careerhelp/delete', async (request,response) => {
     try{
-        jobposting.deleteOne({ postedby: sanitize(request.body.user_id), _id:sanitize(request.body._id)}, (err) =>{
+        jobposting.deleteOne({_id:sanitize(request.body._id)}, (err) =>{
             if (err){
                 response.json({error:err})
             }
@@ -464,8 +464,9 @@ router.post('/careerhelp/myposts', async (request,response) => {
 // Donations
 
 // load posts view more button, view post simply uses the object returned here
-router.get('/donations', (request,response) => {
+router.post('/donations', (request,response) => {
     try{
+        console.log(request.body)
         const numberofposts = request.body.numberofposts
         donations.find({}).sort({date: -1}).populate("postedby", "fullname").exec((err, docs) => {   
             if(err)
@@ -500,6 +501,7 @@ router.get('/donations', (request,response) => {
 // post 
 router.post('/donations/post', async (request,response) => {
     try{
+        console.log(request.body)
         const donationpost = new donations({
             content: sanitize(request.body.content),
             title: sanitize(request.body.title),
@@ -518,8 +520,9 @@ router.post('/donations/post', async (request,response) => {
 })
 
 // render my posts
-router.get('/donations/myposts', async (request,response) => {
+router.post('/donations/myposts', async (request,response) => {
     try{
+        console.log(request.body)
         donations.find({ postedby: sanitize(request.body.user_id)}, (err, docs) =>{
             if (err){
                 response.json({error:err})
@@ -536,9 +539,10 @@ router.get('/donations/myposts', async (request,response) => {
 })
 
 // delete selected post
-router.post('/donations/myposts', async (request,response) => {
+router.post('/donations/delete', async (request,response) => {
     try{
-        donations.deleteOne({ postedby: sanitize(request.body.user_id), _id:sanitize(request.body._id)}, (err) =>{
+        console.log(request.body)
+        donations.deleteOne({ _id:sanitize(request.body._id)}, (err) =>{
             if (err){
                 response.json({error:err})
             }
@@ -1364,10 +1368,10 @@ router.post('/swaprequest/myposts/fulfilled', async (request,response) => {
 //// Marketplace
 
 // load posts view more button, view post simply uses the object returned here
-router.get('/marketpalce', (request,response) => {
+router.post('/marketplace', (request,response) => {
     try{
         const numberofposts = request.body.numberofposts
-        marketpalce.find().sort({date: -1}).populate("postedby", "fullname").exec((err, docs) => {   
+        marketplace.find().sort({date: -1}).populate("postedby", "fullname").exec((err, docs) => {   
             if(err)
             {
                 response.json({error:err})
@@ -1396,9 +1400,9 @@ router.get('/marketpalce', (request,response) => {
 })
 
 // post 
-router.post('/marketpalce/post', async (request,response) => {
+router.post('/marketplace/post', async (request,response) => {
     try{
-        const marketpost = new marketpalce({
+        const marketpost = new marketplace({
             field: sanitize(request.body.field),
             contact: sanitize(request.body.contact),
             content: sanitize(request.body.content),
@@ -1419,9 +1423,9 @@ router.post('/marketpalce/post', async (request,response) => {
 })
 
 // render my posts
-router.get('/marketpalce/myposts', async (request,response) => {
+router.post('/marketplace/myposts', async (request,response) => {
     try{
-        marketpalce.find({ postedby: sanitize(request.body.user_id)}, (err, docs) =>{
+        marketplace.find({ postedby: sanitize(request.body.user_id)}, (err, docs) =>{
             if (err){
                 response.json({error:err})
             }
@@ -1437,9 +1441,9 @@ router.get('/marketpalce/myposts', async (request,response) => {
 })
 
 // delete selected post
-router.post('/marketpalce/myposts', async (request,response) => {
+router.post('/marketplace/delete', async (request,response) => {
     try{
-        marketpalce.deleteOne({ postedby: sanitize(request.body.user_id), _id:sanitize(request.body._id)}, (err) =>{
+        marketplace.deleteOne({_id:sanitize(request.body._id)}, (err) =>{
             if (err){
                 response.json({error:err})
             }

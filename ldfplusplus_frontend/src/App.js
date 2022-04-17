@@ -19,7 +19,21 @@ import AddCourses from './components/AddCourses/AddCourses.js';
 import RemoveUser from './components/RemoveUser/RemoveUser.js';
 import RemoveAdmin from './components/RemoveAdmin/RemoveAdmin.js';
 import ForgotPassword from './components/ForgotPassword/ForgotPassword.js';
+import Donations from './components/Donations/Donations.js';
+import DonationsPostDetails from './components/Donations/DonationsPostDetails.js';
+import DonationsNewPost from './components/Donations/DonationsNewPost.js';
+import DonationsMyPosts from './components/Donations/DonationsMyPosts.js';
+import Marketplace from './components/Marketplace/Marketplace.js';
+import MarketplacePostDetails from './components/Marketplace/MarketplacePostDetails.js';
+import MarketplaceNewPost from './components/Marketplace/MarketplaceNewPost.js';
+import MarketplaceMyPosts from './components/Marketplace/MarketplaceMyPosts.js';
+
+import Careerhelp from './components/Careerhelp/Careerhelp.js';
+import CareerhelpPostDetails from './components/Careerhelp/CareerhelpPostDetails.js';
+import CareerhelpNewPost from './components/Careerhelp/CareerhelpNewPost.js';
+import CareerhelpMyPosts from './components/Careerhelp/CareerhelpMyPosts.js';
 import BACKEND_LINK from './env.js'
+// import Marketplace from '../../ldfplusplus_backend/models/marketplace';
 
 const initialState = {
 	route: 'landing',
@@ -53,9 +67,9 @@ class App extends Component {
     this.setState({ user: user, isSignedIn: true })
   }
 
-  loadPost = (post) => {
+  loadPost = (post,change) => {
     this.setState({ post: post }) 
-    this.onRouteChange('ViewFoodDeliveryPost')
+    this.onRouteChange(change)
   }
 
   render() {
@@ -138,24 +152,157 @@ class App extends Component {
       return (
         <div className="App">
           <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
-          <h1>Marketplace</h1>
+          <Marketplace 
+          onRouteChange={this.onRouteChange} 
+            loadUser={this.loadUser}
+            loadPost={this.loadPost}
+            user={this.state.user}
+            />
         </div>
       )
-    } else if (route === 'donations') {
+    }else if (route === 'ViewMarketplacePost') {
       return (
         <div className="App">
           <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
-          <h1>Donations</h1>
+          <MarketplacePostDetails
+          onRouteChange={this.onRouteChange} 
+          loadUser={this.loadUser}
+          post={this.state.post}
+          />
         </div>
       )
-    } else if (route === 'careerhelp') {
+    }
+    //view my food delivery posts
+    else if (route === 'ViewMyMarketplaceRequest') {
       return (
         <div className="App">
           <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
-          <h1>Career Help</h1>
+          <MarketplaceMyPosts
+          onRouteChange={this.onRouteChange}
+          loadUser={this.loadUser}
+          user={this.state.user}
+          />
         </div>
       )
-    } else if (route === 'eventsportal') {
+    }
+
+    //post a food delivery request
+    else if (route === 'PostMarketplaceRequest') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <MarketplaceNewPost
+          onRouteChange={this.onRouteChange}
+          loadUser={this.loadUser}
+          user={this.state.user}
+          />
+        </div>
+      )
+    }
+     else if (route === 'donations') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Donations 
+          onRouteChange={this.onRouteChange} 
+            loadUser={this.loadUser}
+            loadPost={this.loadPost}
+            user={this.state.user}
+            />
+        </div>
+      )
+    }else if (route === 'ViewDonationsPost') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <DonationsPostDetails
+          onRouteChange={this.onRouteChange} 
+          loadUser={this.loadUser}
+          post={this.state.post}
+          />
+        </div>
+      )
+    }
+    //view my food delivery posts
+    else if (route === 'ViewMyDonationsRequest') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <DonationsMyPosts
+          onRouteChange={this.onRouteChange}
+          loadUser={this.loadUser}
+          user={this.state.user}
+          />
+        </div>
+      )
+    }
+
+    //post a food delivery request
+    else if (route === 'PostDonationsRequest') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <DonationsNewPost
+          onRouteChange={this.onRouteChange}
+          loadUser={this.loadUser}
+          user={this.state.user}
+          />
+        </div>
+      )
+    }
+     else if (route === 'careerhelp') {
+      return (
+        <div className="App">
+        <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+        <Careerhelp 
+        onRouteChange={this.onRouteChange} 
+          loadUser={this.loadUser}
+          loadPost={this.loadPost}
+          user={this.state.user}
+          />
+      </div>
+      )
+    } else if (route === 'ViewCareerhelpPost') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <CareerhelpPostDetails
+          onRouteChange={this.onRouteChange} 
+          loadUser={this.loadUser}
+          post={this.state.post}
+          />
+        </div>
+      )
+    }
+    //view my food delivery posts
+    else if (route === 'ViewMyCareerhelpRequest') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <CareerhelpMyPosts
+          onRouteChange={this.onRouteChange}
+          loadUser={this.loadUser}
+          user={this.state.user}
+          />
+        </div>
+      )
+    }
+
+    //post a food delivery request
+    else if (route === 'PostCareerhelpRequest') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <CareerhelpNewPost
+          onRouteChange={this.onRouteChange}
+          loadUser={this.loadUser}
+          user={this.state.user}
+          />
+        </div>
+      )
+    }
+    
+    else if (route === 'eventsportal') {
       return (
         <div className="App">
           <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
