@@ -644,7 +644,7 @@ router.post('/fooddelivery/delete', async (request,response) => {
 // Instructor Reviews
 
 // search based on keywords
-router.get('/instructorreviews', (request,response) => {
+router.post('/instructorreviews', (request,response) => {
     try{
         const numberofposts = sanitize(request.body.numberofposts)
         const tmp = `.*`+sanitize(request.body.keywords)+'.*'
@@ -698,7 +698,7 @@ router.post('/instructorreviews/post', async (request,response) => {
 })
 
 // render my posts
-router.get('/instructorreviews/myposts', async (request,response) => {
+router.post('/instructorreviews/myposts', async (request,response) => {
     try{
         instructorreviews.find({ postedby: sanitize(request.body.user_id)}, (err, docs) =>{
             if (err){
@@ -717,9 +717,9 @@ router.get('/instructorreviews/myposts', async (request,response) => {
 })
 
 // delete selected post
-router.post('/instructorreviews/myposts', async (request,response) => {
+router.post('/instructorreviews/delete', async (request,response) => {
     try{
-        instructorreviews.deleteOne({ postedby: sanitize(request.body.user_id), _id:sanitize(request.body._id)}, (err) =>{
+        instructorreviews.deleteOne({  _id:sanitize(request.body._id)}, (err) =>{
             if (err){
                 response.json({error:err})
             }
