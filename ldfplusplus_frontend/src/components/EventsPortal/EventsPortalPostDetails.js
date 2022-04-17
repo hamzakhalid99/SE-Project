@@ -15,7 +15,7 @@ class EventsPortal extends React.Component {
 
 	render() {
         const { onRouteChange, post } = this.props;
-        console.log(post)
+        // console.log(post)
 		return (
 
             

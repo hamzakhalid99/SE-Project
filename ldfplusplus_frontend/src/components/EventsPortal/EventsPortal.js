@@ -64,9 +64,10 @@ class EventsPortal extends React.Component {
         const { user } = this.props
         const { onRouteChange, loadPost } = this.props;
         const posts = this.state.posts.map(function(post) {
+
             return (
                 <div className="landingpost" key={ post._id } >
-                    <h3>{ post.postedby.fullname }</h3>
+                    {/* <h3>{ post.postedby.fullname }</h3> */}
                     <h2>{ post.date.slice(0, 10) + " " + post.date.slice(11, 19)  }</h2>
                     <h1 > <u> { post.title } </u> { post.content.slice(0, 50) + "..." } </h1>
                     <a className="form-green-button" onClick={() => { loadPost(post,'ViewEventPost') }}>View post</a>
