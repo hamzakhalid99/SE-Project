@@ -55,6 +55,7 @@ class EditName extends React.Component {
 	render() {
 		const studentName = "Zafir Ansari"
         const { onRouteChange } = this.props;
+        const { user } = this.props;
 		return (
             
             
@@ -67,7 +68,7 @@ class EditName extends React.Component {
                         <div></div>
 					<img className="homepagepicedit" src={ zafirtest } />
 					{/* <p>In love with this new app!</p> */}
-					<h1>{ studentName }</h1>
+					<h1>{ user.fullname }</h1>
 					{/* <h3>Student</h3> */}
 				</div>
 				

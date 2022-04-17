@@ -9,13 +9,14 @@ class EditName extends React.Component {
 
 		
 			this.state = {
-                name: ''
+                displayname: '',
+                user_id: this.props.user.user_id
                 
             }
 		
 	}
     onNameChange = (event) => {
-        this.setState({ name: event.target.value })
+        this.setState({ displayname: event.target.value })
     }
 
 	// componentWillMount() {
@@ -29,16 +30,18 @@ class EditName extends React.Component {
 	// 	})
 	// }
 
+    
+
     onSubmitPost = (event) => {
         event.preventDefault()
-		fetch('http://localhost:3000//Editprofile/name', {
+		fetch('http://localhost:3000/changedisplayname', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
 			body: JSON.stringify(this.state)
 		})
 		.then(response => response.json())
 		.then(user => {	
-			this.props.onRouteChange('EditProfile')
+			this.props.onRouteChange('editprofile')
 			
 		})
 	}
@@ -46,6 +49,7 @@ class EditName extends React.Component {
 	render() {
 		const studentName = "Zafir Ansariiii"
         const { onRouteChange } = this.props;
+        const { user } = this.props
 		return (
             
             
@@ -58,7 +62,7 @@ class EditName extends React.Component {
                         <div></div>
 					<img className="homepagepicedit" src={ zafirtest } />
 					{/* <p>In love with this new app!</p> */}
-					<h1>{ studentName }</h1>
+					<h1>{ user.fullname }</h1>
 					{/* <h3>Student</h3> */}
 				</div>
 				

@@ -12,20 +12,12 @@ class EditProfile extends React.Component {
 		}
 	}
 
-	componentWillMount() {
-		fetch('http://localhost:3000/homepage', {
-			method: 'get',
-			headers: {'Content-Type': 'application/json'}
-		})
-		.then(response => response.json())
-		.then(json => {
-			this.setState({ happenings: json })
-		})
-	}
+
 
 	render() {
 		const studentName = "Zafir Ansariiii"
         const { onRouteChange } = this.props;
+        const { user } = this.props;
 		return (
             
             
@@ -38,7 +30,7 @@ class EditProfile extends React.Component {
                         <div></div>
 					<img className="homepagepicedit" src={ zafirtest } />
 					<p>In love with this new app!</p>
-					<h1>{ studentName }</h1>
+					<h1>{ user.fullname }</h1>
 					<h3>Student</h3>
 				</div>
 				<div className="happening">
