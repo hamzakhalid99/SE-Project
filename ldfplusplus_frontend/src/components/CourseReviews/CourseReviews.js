@@ -10,7 +10,7 @@ class CourseReviews extends React.Component {
         super(props);
         
         this.state = {
-            numberofposts: 3,
+            numberofposts: 30,
             rem: null,
             posts: [],
             viewsingle: false,
@@ -33,10 +33,13 @@ class CourseReviews extends React.Component {
                 alert(response.message)
             }
             else if (response.backenddata) {
+                console.log(response.backenddata)
                 this.setState({ posts: response.backenddata, rem: response.rem, numberofposts: response.backenddata.length + 3 })
             }
         })
     }
+
+
 
     onSearchChange = (event) => {
         this.setState({search:event.target.value})
@@ -58,6 +61,8 @@ class CourseReviews extends React.Component {
                 alert(response.message)
             }
             else if (response.backenddata) {
+
+                console.log(response.backenddata)
                 this.setState({ posts: response.backenddata, rem: response.rem, numberofposts: response.backenddata.length + 3 })
                 
                 if (response.rem === 0) {
@@ -65,6 +70,10 @@ class CourseReviews extends React.Component {
                 }
             }
         })
+    }
+
+    onSubmitSearch = (event) => {
+        this.setState({search:event.target.value})
     }
 
 	render() {
@@ -95,7 +104,7 @@ class CourseReviews extends React.Component {
 
                 </div>
 
-                <SearchBox searchChange={this.onSearchChange}/>
+                <SearchBox searchChange={this.onSearchChange} onSubmit={this.onSubmitSearch}/>
 
                 <div className="landinghappening">
                         { posts}       
