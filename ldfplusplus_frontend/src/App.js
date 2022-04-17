@@ -61,6 +61,8 @@ import InstructorReviewsPostDetails from './components/InstructorReviews/Instruc
 import InstructorReviewsNewPost from './components/InstructorReviews/InstructorReviewsNewPost.js';
 import InstructorReviewsMyPosts from './components/InstructorReviews/InstructorReviewsMyPosts.js';
 
+import ContactPage from './components/ContactPage/ContactPage.js';
+
 const initialState = {
 	route: 'landing',
 	isSignedin: false,
@@ -119,7 +121,19 @@ class App extends Component {
           <AboutPage />
         </div>
       )
-    } else if (route === 'signup') {
+    }
+    
+    else if (route === 'contact') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <ContactPage />
+        </div>
+      )
+    }
+    
+    
+    else if (route === 'signup') {
       return (
         <div className="App">
           <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
