@@ -1,9 +1,9 @@
 import React from 'react';
-import iconpic from "./Groups.png";
+import fastfood from "./Fastfood.png";
 import './DiscussionPortalNewPost.css'
 import BACKEND_LINK from './../../env.js';
 
-class DiscussionPortalNewPost extends React.Component {
+class DiscussionNewPost extends React.Component {
 
     constructor(props) {
         super(props);
@@ -11,8 +11,7 @@ class DiscussionPortalNewPost extends React.Component {
         this.state = {
             content: '',
             title: '',
-            postedby: '',
-            // anonymous: false,
+            rating: '',
             user_id: this.props.user.user_id
         }
     }
@@ -21,22 +20,13 @@ class DiscussionPortalNewPost extends React.Component {
         this.setState({ title: event.target.value })
     }
 
-    onDetailsChange = (event) => {
+    onRatingChange = (event) => {
+        this.setState({ rating: event.target.value })
+    }
+
+    onContentChange = (event) => {
         this.setState({ content: event.target.value })
     }
-
-    onPostedByChange = (event) => {
-        this.setState({ postedby: event.target.value })
-    }
-
-    onContactChange = (event) => {
-        this.setState({ contact: event.target.value })
-    }
-
-    onAnonymousChange = (event) => {
-        this.setState({ anonymous: event.target.value })
-    }
-
 
     onSubmitPost = (event) => {
         event.preventDefault()
@@ -60,10 +50,10 @@ class DiscussionPortalNewPost extends React.Component {
             <div>
                 <div className="homepage body-center-align">
                     <div className="homepageprofile">
-                    <img className="iconpic" src={ iconpic } />  
+                    <img className="iconpic" src={ fastfood } />  
                     </div>
 
-                        <div className="usecasename">
+                        <div className="usecasenameCR">
                         <p>Discussion Portal</p>
                         </div>
 
@@ -73,11 +63,9 @@ class DiscussionPortalNewPost extends React.Component {
                 <div className="post-container">
                     <div>
                         <form className="postform" onSubmit={this.onSubmitPost}>
-                            <input className="posttitle" placeholder="Post Title" type="text" onChange={this.onTitleChange} />
-                            <input className="posttitle" placeholder="Contact" type="text" onChange={this.onContactChange} />
-                            {/*<input className="posttitle" placeholder="Post Anonymously" type="checkbox" onChange={this.onAnonymousChange} />*/}
-                            <input className="postdetails" placeholder="Post Details" type="text" onChange={this.onDetailsChange} />
-                            
+                            <input className="posttitle" placeholder="Review Title" type="text" onChange={this.onTitleChange} />
+                            <input className="posttitle" placeholder="Rating" type="text" onChange={this.onRatingChange} />
+                            <input className="postdetails" placeholder="Content" type="text" onChange={this.onContentChange} />
                             
                             <input className="post-green-button" value="Post" type="submit" />
                             <a className="form-red-button" onClick={() => { onRouteChange('discussionportal') }}>Back</a>
@@ -91,4 +79,4 @@ class DiscussionPortalNewPost extends React.Component {
 	}
 }
 
-export default DiscussionPortalNewPost;
+export default DiscussionNewPost;

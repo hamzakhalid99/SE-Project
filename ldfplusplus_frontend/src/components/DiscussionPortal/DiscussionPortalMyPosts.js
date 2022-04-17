@@ -1,9 +1,9 @@
 import React from 'react';
-import iconpic from "./Groups.png";
+import fastfood from "./Fastfood.png";
 import './DiscussionPortalMyPosts.css'
 import BACKEND_LINK from './../../env.js';
 
-class DiscussionPortal extends React.Component {
+class DiscussionMyPosts extends React.Component {
 
     constructor(props) {
         super(props);
@@ -35,7 +35,7 @@ class DiscussionPortal extends React.Component {
     }
 
     onDelete = (post) => {
-        fetch(BACKEND_LINK + '/discussionportal/myposts', {
+        fetch(BACKEND_LINK + '/discussionportal/delete', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(post)
@@ -72,7 +72,7 @@ class DiscussionPortal extends React.Component {
     }
 
 
-    render() {
+	render() {
 
         const { onRouteChange, user } = this.props;
         const onDeleteVar = this.onDelete
@@ -92,10 +92,10 @@ class DiscussionPortal extends React.Component {
             <div>
                 <div className="homepage body-center-align">
                     <div className="homepageprofile">
-                    <img className="iconpic" src={ iconpic } />  
+                    <img className="iconpic" src={ fastfood } />  
                     </div>
 
-                        <div className="usecasename">
+                        <div className="usecasenameCR">
                         <p>Discussion Portal</p>
                         </div>
 
@@ -115,8 +115,8 @@ class DiscussionPortal extends React.Component {
                
             </div>
         )
-        
-    }
+		
+	}
 }
 
-export default DiscussionPortal;
+export default DiscussionMyPosts;

@@ -1,21 +1,21 @@
 import React from 'react';
-import iconpic from "./Groups.png";
+import fastfood from "./Fastfood.png";
 import './DiscussionPortal.css'
 import BACKEND_LINK from './../../env.js';
 import SearchBox from './../SearchBox/SearchBox'
 
-
-class DiscussionPortal extends React.Component {
+class Discussion extends React.Component {
 
     constructor(props) {
         super(props);
         
         this.state = {
-            numberofposts: 3,
+            numberofposts: 30,
             rem: null,
             posts: [],
-            keyword: '',
-            viewsingle: false
+            viewsingle: false,
+            search: '',
+            keywords: ''
         }
     }
 
@@ -34,6 +34,35 @@ class DiscussionPortal extends React.Component {
                 alert(response.message)
             }
             else if (response.backenddata) {
+                // console.log(response.backenddata)
+                this.setState({ posts: response.backenddata, rem: response.rem, numberofposts: response.backenddata.length + 3 })
+            }
+        })
+    }
+
+    onSearchChange = (event) => {
+        this.setState({search:event.target.value})
+    }
+
+    onSubmitSearch = (event) => {
+        
+        fetch(BACKEND_LINK + '/discussionportal', {
+            method: 'post',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(this.state)
+        })
+        .then(response => response.json())
+        .then(response => {
+            console.log(response)
+            console.log(response)
+            if (response.error) {
+                alert(response.error)
+            }
+            else if (response.message) {
+                alert(response.message)
+            }
+            else if (response.backenddata) {
+                console.log(response.backenddata)
                 this.setState({ posts: response.backenddata, rem: response.rem, numberofposts: response.backenddata.length + 3 })
             }
         })
@@ -47,6 +76,7 @@ class DiscussionPortal extends React.Component {
         })
         .then(response => response.json())
         .then(response => {
+            console.log(response)
             if (response.error) {
                 alert(response.error)
             }
@@ -54,6 +84,8 @@ class DiscussionPortal extends React.Component {
                 alert(response.message)
             }
             else if (response.backenddata) {
+
+                console.log(response.backenddata)
                 this.setState({ posts: response.backenddata, rem: response.rem, numberofposts: response.backenddata.length + 3 })
                 
                 if (response.rem === 0) {
@@ -63,53 +95,57 @@ class DiscussionPortal extends React.Component {
         })
     }
 
-    onSearchChange = (event) => {
-        this.setState({keyword: event.target.value})
-    }
+    
 
-    render() {
+	render() {
         const { user } = this.props
         const { onRouteChange, loadPost } = this.props;
+
         const posts = this.state.posts.map(function(post) {
+            console.log(post)
             return (
                 <div className="landingpost" key={ post._id } >
                     <h3>{ post.postedby.fullname }</h3>
                     <h2>{ post.date.slice(0, 10) + " " + post.date.slice(11, 19)  }</h2>
                     <h1 > <u> { post.title } </u> { post.content.slice(0, 50) + "..." } </h1>
-                    <a className="form-green-button" onClick={() => { loadPost(post,'ViewPostDetails') }}>View post</a>
+                    <a className="form-green-button" onClick={() => { loadPost(post,'ViewDiscussionPost') }}>View post</a>
                 </div>
             )
-        })
-        
+        })     
 
-        return (
+		return (
             <div>
                 <div className="homepage body-center-align">
                     <div className="homepageprofile">
-                    <img className="iconpic" src={ iconpic } />  
+                    <img className="iconpic" src={ fastfood } />  
                     </div>
 
-                        <div className="usecasename">
+                        <div className="usecasenameCR">
                         <p>Discussion Portal</p>
                         </div>
 
                 </div>
-                    <div className="landinghappening">
-                        <SearchBox searchChange={this.onSearchChange} onSubmit={this.onSubmitSearch}/>
-                        { posts} 
+
+                <div className="post-container">
+                    <div>
+                        <input className="posttitle" placeholder="search" type="search" onChange={this.onSearchChange}/>
+                        <input className="post-green-button-discussion" value="Search" type="submit" onClick={this.onSubmitSearch}/>
+                    </div>  
+                </div>
+
+                <div className="landinghappening">
+                        { posts}       
                         <a className="form-green-button-view viewmore" onClick={this.fetchMorePosts} >View More</a>
                 </div>
 
                 
-                <a className="form-green-button-view"  onClick={() => { onRouteChange('ViewMyDiscussionPortalRequest') }}>View My Requests</a>
-                <a className="form-green-button-post"  onClick={() => { onRouteChange('PostDiscussionPortalRequest') }}>Post a Request</a>
-                    
-                
+                <a className="form-green-button-view"  onClick={() => { onRouteChange('ViewMyDiscussion') }}>View My Reviews</a>
+                <a className="form-green-button-post"  onClick={() => { onRouteChange('PostDiscussion') }}>Post a Review</a>
 
             </div>
-            
-        )
-    }
+			
+		)
+	}
 }
 
-export default DiscussionPortal;
+export default Discussion;

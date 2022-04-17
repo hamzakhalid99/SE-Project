@@ -63,7 +63,7 @@ class InstructorReviewsNewPost extends React.Component {
                 <div className="post-container">
                     <div>
                         <form className="postform" onSubmit={this.onSubmitPost}>
-                            <input className="posttitle" placeholder="Review Title and Course name" type="text" onChange={this.onTitleChange} />
+                            <input className="posttitle" placeholder="Review Title" type="text" onChange={this.onTitleChange} />
                             <input className="posttitle" placeholder="Rating" type="text" onChange={this.onRatingChange} />
                             <input className="postdetails" placeholder="Content" type="text" onChange={this.onContentChange} />
                             

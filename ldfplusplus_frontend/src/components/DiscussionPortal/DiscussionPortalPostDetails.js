@@ -1,8 +1,8 @@
 import React from 'react';
-import iconpic from "./Groups.png";
+import fastfood from "./Fastfood.png";
 import './DiscussionPortalPostDetails.css'
 
-class DiscussionPortalPostDetails extends React.Component {
+class Discussion extends React.Component {
 
     constructor(props) {
         super(props);
@@ -22,23 +22,33 @@ class DiscussionPortalPostDetails extends React.Component {
             <div>
                 <div className="homepage body-center-align">
                     <div className="homepageprofile">
-                    <img className="iconpic" src={ iconpic } />  
+                    <img className="iconpic" src={ fastfood } />  
                     </div>
 
-                        <div className="usecasename">
+                        <div className="usecasenameCR">
                         <p>Discussion Portal</p>
                         </div>
 
                 </div>
 
 
-            <div className="landinghappening">
-                        {/* {posts}*/}
-                        <h2>post</h2>
-                        <a className="form-green-button-view viewmore" >View More</a>
+                <div className="landinghappening">
+                        <div className="viewpostfood">
+                            <h3>{ post.postedby.fullname }</h3>
+                            <h2>{ post.date.slice(0, 10) + " " + post.date.slice(11, 19)  }</h2>
+                            <h1 > <u> { post.title } </u>  </h1>
+                            <h1>{ post.content }</h1>
+                            {/* <h1>FROM: { post.areafrom }</h1>
+                            <h1>TO: { post.areato }</h1>
+                            <h1>COMPENSATION: { post.compensation }</h1>
+                            <h1>CONTACT: { post.contact }</h1> */}
+                        </div>
+
+                        
                 </div>
 
-                
+
+                <a className="form-green-button" onClick={() => { onRouteChange('discussionportal') }}>Back</a>
 
             </div>
 			
@@ -46,4 +56,4 @@ class DiscussionPortalPostDetails extends React.Component {
 	}
 }
 
-export default DiscussionPortalPostDetails;
+export default Discussion;
