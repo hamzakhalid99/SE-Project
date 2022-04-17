@@ -37,6 +37,7 @@ class Login extends React.Component {
                 alert(response.message)
             }
 			else if (response.backenddata) {
+                response.backenddata.user_id = response.backenddata._id
 				this.props.loadUser(response.backenddata);
 				this.props.onRouteChange('homepage');
 			}

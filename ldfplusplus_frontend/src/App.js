@@ -24,7 +24,7 @@ const initialState = {
 	route: 'landing',
 	isSignedin: false,
   user: {
-    _id: '',
+    user_id: '',
     fullname: '',
     email: '',
     adminstatus: '',
@@ -267,7 +267,7 @@ class App extends Component {
           <FoodDeliveryMyPosts
           onRouteChange={this.onRouteChange}
           loadUser={this.loadUser}
-          user_id={this.state.user.id}
+          user={this.state.user}
           />
         </div>
       )
@@ -281,7 +281,7 @@ class App extends Component {
           <FoodDeliveryNewPost
           onRouteChange={this.onRouteChange}
           loadUser={this.loadUser}
-          user_id={this.state.user.id}
+          user={this.state.user}
           />
         </div>
       )
