@@ -216,7 +216,7 @@ router.post('/gettogether/myposts', async (request,response) => {
 })
 
 // delete selected post
-router.post('/gettogether/myposts', async (request,response) => {
+router.post('/gettogether/delete', async (request,response) => {
     try{
         gettogehter.deleteOne({  _id:sanitize(request.body._id)}, (err) =>{
             if (err){
@@ -889,7 +889,7 @@ router.get('/homepagehappenings', (request,response)=>{
 })
 
 // search based on keywords
-router.get('/discussionportal', (request,response) => {
+router.post('/discussionportal', (request,response) => {
     try{
         const tmp = `.*`+sanitize(request.body.keywords)+'.*'
         const numberofposts = request.body.numberofposts
@@ -913,6 +913,7 @@ router.get('/discussionportal', (request,response) => {
                     response.json({backenddata:docs,rem:0})
                     // response.send(docs)
                 }
+                console.log('Sendding',docs)
             }
         })
     }
@@ -929,7 +930,7 @@ router.post('/discussionportal/post', async (request,response) => {
             content: sanitize(request.body.content),
             title: sanitize(request.body.title),
             postedby: sanitize(request.body.user_id),
-            anonymous: sanitize(request.body.anonymous)
+            anonymous: false
         })
         const disp = await disport.populate("postedby", "fullname")
         disp.save().then(data => {
@@ -944,7 +945,7 @@ router.post('/discussionportal/post', async (request,response) => {
 })
 
 // render my posts
-router.get('/discussionportal/myposts', async (request,response) => {
+router.post('/discussionportal/myposts', async (request,response) => {
     try{
         discussionportal.find({ postedby: sanitize(request.body.user_id)}, (err, docs) =>{
             if (err){
@@ -962,9 +963,9 @@ router.get('/discussionportal/myposts', async (request,response) => {
 })
 
 // delete selected post
-router.post('/discussionportal/myposts', async (request,response) => {
+router.post('/discussionportal/delete', async (request,response) => {
     try{
-        discussionportal.deleteOne({ postedby: sanitize(request.body.user_id), _id:sanitize(request.body._id)}, (err) =>{
+        discussionportal.deleteOne({  _id:sanitize(request.body._id)}, (err) =>{
             if (err){
                 response.json({error:err})
             }
@@ -1463,7 +1464,7 @@ router.post('/marketplace/delete', async (request,response) => {
 // load posts view more button, view post simply uses the object returned here
 
 // render my status
-router.get('/myprofile/status', async (request,response) => {
+router.post('/myprofile/status', async (request,response) => {
 
     try{
         userprofile.find({ postedby: sanitize(request.body.user_id)}).select({ "status": 1})
@@ -1485,7 +1486,7 @@ router.get('/myprofile/status', async (request,response) => {
 // add to status
 router.post('/myprofile/poststatus', async (request,response) => {    
     try{
-        userprofile.updateOne({ postedby: sanitize(request.body.user_id), _id:sanitize(request.body._id)},{ $push: { "status": sanitize(request.body.status) }}, (err) => {
+        userprofile.updateOne({_id:sanitize(request.body.user_id)},{ $push: { "status": sanitize(request.body.status) }}, (err) => {
             if (err){
                 response.json({error:err})
             }
