@@ -36,6 +36,14 @@ import CareerhelpMyPosts from './components/Careerhelp/CareerhelpMyPosts.js';
 import BACKEND_LINK from './env.js'
 // import Marketplace from '../../ldfplusplus_backend/models/marketplace';
 
+import EnrollmentSwap from './components/EnrollmentSwap/EnrollmentSwap.js';
+import EnrollmentSwapPostDetails from './components/EnrollmentSwap/EnrollmentSwapPostDetails.js';
+import EnrollmentSwapNewPost from './components/EnrollmentSwap/EnrollmentSwapNewPost.js';
+import EnrollmentSwapMyPosts from './components/EnrollmentSwap/EnrollmentSwapMyPosts.js';
+import EditProfile from './components/EditProfile/EditProfile.js';
+import EditName from './components/EditProfile/EditName.js';
+import EditPassword from './components/EditProfile/EditPassword.js';
+// import Edit from './components/EditProfile/EditName.js';
 import EventsPortal from './components/EventsPortal/EventsPortal.js';
 import EventsPortalPostDetails from './components/EventsPortal/EventsPortalPostDetails.js';
 import EventsPortalNewPost from './components/EventsPortal/EventsPortalNewPost.js';
@@ -77,6 +85,9 @@ class App extends Component {
   loadUser = (user) => {
     this.setState({ user: user, isSignedIn: true })
   }
+  
+  
+  
 
   loadPost = (post,change) => {
     this.setState({ post: post }) 
@@ -426,14 +437,18 @@ class App extends Component {
           <h1>Get Togethers</h1>
         </div>
       )
-    } else if (route === 'enrollmentswap') {
-      return (
-        <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
-          <h1>Enrollment Swap</h1>
-        </div>
-      )
-    } else if (route === 'removeuser') {
+    } 
+    
+    // else if (route === 'enrollmentswap') {
+    //   return (
+    //     <div className="App">
+    //       <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+    //       <h1>Enrollment Swap</h1>
+    //     </div>
+    //   )
+    // }
+    
+    else if (route === 'removeuser') {
       return (
         <div className="App">
           <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
@@ -474,14 +489,7 @@ class App extends Component {
           loadUser={this.loadUser}/>
         </div>
       )
-    } else if (route === 'editprofile') {
-      return (
-        <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
-          <h1>Edit Profile</h1>
-        </div>
-      )
-    } else if (route === 'deactivateaccount') {
+    }  else if (route === 'deactivateaccount') {
       return (
         <div className="App">
           <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
@@ -561,6 +569,101 @@ class App extends Component {
           <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <ForgotPassword />
         </div>
+      )
+    }
+
+
+    else if (route === 'enrollmentswap') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <EnrollmentSwap 
+          onRouteChange={this.onRouteChange} 
+            loadUser={this.loadUser}
+            loadPost={this.loadPost}
+            user={this.state.user}
+            />
+        </div>
+      )
+    }else if (route === 'ViewEnrollmentSwapPost') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <EnrollmentSwapPostDetails
+          onRouteChange={this.onRouteChange} 
+          loadUser={this.loadUser}
+          post={this.state.post}
+          />
+        </div>
+      )
+    }
+    //view my food delivery posts
+    else if (route === 'ViewEnrollmentSwapRequest') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <EnrollmentSwapMyPosts
+          onRouteChange={this.onRouteChange}
+          loadUser={this.loadUser}
+          user={this.state.user}
+          />
+        </div>
+      )
+    }
+
+    //post a food delivery request
+    else if (route === 'PostEnrollmentSwapRequest') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <EnrollmentSwapNewPost
+          onRouteChange={this.onRouteChange}
+          loadUser={this.loadUser}
+          user={this.state.user}
+          />
+        </div>
+      )
+    }
+
+
+    else if (route === 'editprofile') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <EditProfile
+          onRouteChange={this.onRouteChange} 
+          loadUser={this.loadUser}
+          user={this.state.user}/>
+        </div>
+        
+      )
+    }
+
+    else if (route === 'editname') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <EditName
+          onRouteChange={this.onRouteChange} 
+          loadUser={this.loadUser}
+          user={this.state.user}
+          />
+          
+        </div>
+        
+      )
+    }
+
+    else if (route === 'editpassword') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <EditPassword
+          onRouteChange={this.onRouteChange} 
+          loadUser={this.loadUser}
+          user={this.state.user}/>
+        </div>
+        
       )
     }
 
