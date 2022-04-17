@@ -2,6 +2,7 @@ import React from 'react';
 import zafirtest from './zafirtest.png';
 import Edit from "./Edit.png";
 import './EditName.css'
+import BACKEND_LINK from './../../env.js';
 
 class EditName extends React.Component {
 	constructor(props) {
@@ -40,7 +41,7 @@ class EditName extends React.Component {
 
     onSubmitPost = (event) => {
         event.preventDefault()
-		fetch('http://localhost:3000//Editprofile/password', {
+		fetch(BACKEND_LINK+'/Editprofile/password', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
 			body: JSON.stringify(this.state)
