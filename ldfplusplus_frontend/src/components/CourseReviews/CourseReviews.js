@@ -44,6 +44,7 @@ class CourseReviews extends React.Component {
         })
         .then(response => response.json())
         .then(response => {
+            console.log(response)
             if (response.error) {
                 alert(response.error)
             }
@@ -95,7 +96,6 @@ class CourseReviews extends React.Component {
                 
                 <a className="form-green-button-view"  onClick={() => { onRouteChange('ViewMyCourseReviews') }}>View My Reviews</a>
                 <a className="form-green-button-post"  onClick={() => { onRouteChange('PostCourseReview') }}>Post a Review</a>
-                
 
             </div>
 			

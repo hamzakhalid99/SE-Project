@@ -210,3 +210,19 @@ border-radius: 20px;
 		bottom: 58%;
 		height: 35px;
 		}
+
+.form-green-button-browse {
+	margin: 5px;
+	padding: 10px 18px;
+	background: #9eb982;
+	border-radius: 20px;
+	cursor: pointer;
+	color: white;
+	font-weight: bold;
+	position: absolute;
+	left: 80%;
+	right: 10%;
+	top: 35%;
+	bottom: 58%;
+	height: 35px;
+	}
