@@ -63,6 +63,9 @@ import InstructorReviewsNewPost from './components/InstructorReviews/InstructorR
 import InstructorReviewsMyPosts from './components/InstructorReviews/InstructorReviewsMyPosts.js';
 
 
+import ContactPage from './components/ContactPage/ContactPage.js';
+
+
 import GetTogether from './components/GetTogether/GetTogether.js';
 import GetTogetherPostDetails from './components/GetTogether/GetTogetherPostDetails.js';
 import GetTogetherNewPost from './components/GetTogether/GetTogetherNewPost.js';
@@ -128,7 +131,19 @@ class App extends Component {
           <AboutPage />
         </div>
       )
-    } else if (route === 'signup') {
+    }
+    
+    else if (route === 'contact') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <ContactPage />
+        </div>
+      )
+    }
+    
+    
+    else if (route === 'signup') {
       return (
         <div className="App">
           <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
