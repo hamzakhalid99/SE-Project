@@ -2,6 +2,7 @@ import React from 'react';
 import fastfood from "./Fastfood.png";
 import './CourseReviews.css'
 import BACKEND_LINK from './../../env.js';
+import SearchBox from './../SearchBox/SearchBox'
 
 class CourseReviews extends React.Component {
 
@@ -12,7 +13,8 @@ class CourseReviews extends React.Component {
             numberofposts: 3,
             rem: null,
             posts: [],
-            viewsingle: false
+            viewsingle: false,
+            search: ''
         }
     }
 
@@ -34,6 +36,10 @@ class CourseReviews extends React.Component {
                 this.setState({ posts: response.backenddata, rem: response.rem, numberofposts: response.backenddata.length + 3 })
             }
         })
+    }
+
+    onSearchChange = (event) => {
+        this.setState({search:event.target.value})
     }
 
     fetchMorePosts = () => {
@@ -64,6 +70,7 @@ class CourseReviews extends React.Component {
 	render() {
         const { user } = this.props
         const { onRouteChange, loadPost } = this.props;
+
         const posts = this.state.posts.map(function(post) {
             return (
                 <div className="landingpost" key={ post._id } >
@@ -87,6 +94,8 @@ class CourseReviews extends React.Component {
                         </div>
 
                 </div>
+
+                <SearchBox searchChange={this.onSearchChange}/>
 
                 <div className="landinghappening">
                         { posts}       
