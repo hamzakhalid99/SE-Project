@@ -20,28 +20,12 @@ class CourseReviewsNewPost extends React.Component {
         this.setState({ title: event.target.value })
     }
 
-    onDetailsChange = (event) => {
+    onRatingChange = (event) => {
+        this.setState({ rating: event.target.value })
+    }
+
+    onContentChange = (event) => {
         this.setState({ content: event.target.value })
-    }
-
-    onPostedByChange = (event) => {
-        this.setState({ postedby: event.target.value })
-    }
-
-    onContactChange = (event) => {
-        this.setState({ contact: event.target.value })
-    }
-
-    onCompensationChange = (event) => {
-        this.setState({ compensation: event.target.value })
-    }
-
-    onAreaToChange = (event) => {
-        this.setState({ areato: event.target.value })
-    }
-
-    onAreaFromChange = (event) => {
-        this.setState({ areafrom: event.target.value })
     }
 
     onSubmitPost = (event) => {
@@ -79,12 +63,9 @@ class CourseReviewsNewPost extends React.Component {
                 <div className="post-container">
                     <div>
                         <form className="postform" onSubmit={this.onSubmitPost}>
-                            <input className="posttitle" placeholder="Post Title" type="text" onChange={this.onTitleChange} />
-                            <input className="posttitle" placeholder="Contact" type="text" onChange={this.onContactChange} />
-                            <input className="posttitle" placeholder="Compensation" type="text" onChange={this.onCompensationChange} />
-                            <input className="posttitle" placeholder="Area to" type="text" onChange={this.onAreaToChange} />
-                            <input className="posttitle" placeholder="Area from" type="text" onChange={this.onAreaFromChange} />
-                            <input className="postdetails" placeholder="Post Details" type="text" onChange={this.onDetailsChange} />
+                            <input className="posttitle" placeholder="Review Title" type="text" onChange={this.onTitleChange} />
+                            <input className="posttitle" placeholder="Rating" type="text" onChange={this.onRatingChange} />
+                            <input className="postdetails" placeholder="Content" type="text" onChange={this.onContentChange} />
                             
                             <input className="post-green-button" value="Post" type="submit" />
                             <a className="form-red-button" onClick={() => { onRouteChange('coursereviews') }}>Back</a>

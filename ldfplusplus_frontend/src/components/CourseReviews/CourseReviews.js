@@ -2,6 +2,7 @@ import React from 'react';
 import fastfood from "./Fastfood.png";
 import './CourseReviews.css'
 import BACKEND_LINK from './../../env.js';
+import SearchBox from './../SearchBox/SearchBox'
 
 class CourseReviews extends React.Component {
 
@@ -12,7 +13,8 @@ class CourseReviews extends React.Component {
             numberofposts: 3,
             rem: null,
             posts: [],
-            viewsingle: false
+            viewsingle: false,
+            search: ''
         }
     }
 
@@ -36,6 +38,10 @@ class CourseReviews extends React.Component {
         })
     }
 
+    onSearchChange = (event) => {
+        this.setState({search:event.target.value})
+    }
+
     fetchMorePosts = () => {
         fetch(BACKEND_LINK + '/coursereviews', {
             method: 'post',
@@ -44,6 +50,7 @@ class CourseReviews extends React.Component {
         })
         .then(response => response.json())
         .then(response => {
+            console.log(response)
             if (response.error) {
                 alert(response.error)
             }
@@ -63,6 +70,7 @@ class CourseReviews extends React.Component {
 	render() {
         const { user } = this.props
         const { onRouteChange, loadPost } = this.props;
+
         const posts = this.state.posts.map(function(post) {
             return (
                 <div className="landingpost" key={ post._id } >
@@ -87,6 +95,8 @@ class CourseReviews extends React.Component {
 
                 </div>
 
+                <SearchBox searchChange={this.onSearchChange}/>
+
                 <div className="landinghappening">
                         { posts}       
                         <a className="form-green-button-view viewmore" onClick={this.fetchMorePosts} >View More</a>
@@ -95,7 +105,6 @@ class CourseReviews extends React.Component {
                 
                 <a className="form-green-button-view"  onClick={() => { onRouteChange('ViewMyCourseReviews') }}>View My Reviews</a>
                 <a className="form-green-button-post"  onClick={() => { onRouteChange('PostCourseReview') }}>Post a Review</a>
-                
 
             </div>
 			
