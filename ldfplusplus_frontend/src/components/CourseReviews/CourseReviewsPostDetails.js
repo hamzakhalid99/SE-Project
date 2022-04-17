@@ -25,7 +25,7 @@ class CourseReviews extends React.Component {
                     <img className="iconpic" src={ fastfood } />  
                     </div>
 
-                        <div className="usecasename">
+                        <div className="usecasenameCR">
                         <p>Course Reviews</p>
                         </div>
 

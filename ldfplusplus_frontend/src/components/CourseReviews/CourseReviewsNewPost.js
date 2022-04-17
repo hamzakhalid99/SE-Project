@@ -11,10 +11,7 @@ class CourseReviewsNewPost extends React.Component {
         this.state = {
             content: '',
             title: '',
-            contact: '',
-            compensation: '',
-            areafrom: '',
-            areato: '',
+            rating: '',
             user_id: this.props.user.user_id
         }
     }
@@ -72,7 +69,7 @@ class CourseReviewsNewPost extends React.Component {
                     <img className="iconpic" src={ fastfood } />  
                     </div>
 
-                        <div className="usecasename">
+                        <div className="usecasenameCR">
                         <p>Course Reviews</p>
                         </div>
 

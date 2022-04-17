@@ -72,8 +72,7 @@ class CourseReviews extends React.Component {
                     <a className="form-green-button" onClick={() => { loadPost(post,'ViewCourseReviewsPost') }}>View post</a>
                 </div>
             )
-        })
-        
+        })     
 
 		return (
             <div>
@@ -82,20 +81,20 @@ class CourseReviews extends React.Component {
                     <img className="iconpic" src={ fastfood } />  
                     </div>
 
-                        <div className="usecasename">
+                        <div className="usecasenameCR">
                         <p>Course Reviews</p>
                         </div>
 
                 </div>
-                    <div className="landinghappening">
+
+                <div className="landinghappening">
                         { posts}       
                         <a className="form-green-button-view viewmore" onClick={this.fetchMorePosts} >View More</a>
                 </div>
 
                 
-                <a className="form-green-button-view"  onClick={() => { onRouteChange('ViewMyCourseReviews') }}>View My Requests</a>
-                <a className="form-green-button-post"  onClick={() => { onRouteChange('PostCourseReview') }}>Post a Request</a>
-                    
+                <a className="form-green-button-view"  onClick={() => { onRouteChange('ViewMyCourseReviews') }}>View My Reviews</a>
+                <a className="form-green-button-post"  onClick={() => { onRouteChange('PostCourseReview') }}>Post a Review</a>
                 
 
             </div>
