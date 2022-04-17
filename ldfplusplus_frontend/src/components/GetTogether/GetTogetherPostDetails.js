@@ -1,8 +1,8 @@
 import React from 'react';
-import fastfood from "./Fastfood.png";
-import './CourseReviewsPostDetails.css'
+import iconpic from "./Group Work.png";
+import './GetTogetherPostDetails.css'
 
-class CourseReviews extends React.Component {
+class GetTogether extends React.Component {
 
     constructor(props) {
         super(props);
@@ -13,20 +13,20 @@ class CourseReviews extends React.Component {
         // }
     }
 
-	render() {
+    render() {
         const { onRouteChange, post } = this.props;
         console.log(post)
-		return (
+        return (
 
             
             <div>
                 <div className="homepage body-center-align">
                     <div className="homepageprofile">
-                    <img className="iconpic" src={ fastfood } />  
+                    <img className="iconpic" src={ iconpic } />  
                     </div>
 
-                        <div className="usecasenameCR">
-                        <p>Course Reviews</p>
+                        <div className="usecasename">
+                        <p>Get Together</p>
                         </div>
 
                 </div>
@@ -38,22 +38,19 @@ class CourseReviews extends React.Component {
                             <h2>{ post.date.slice(0, 10) + " " + post.date.slice(11, 19)  }</h2>
                             <h1 > <u> { post.title } </u>  </h1>
                             <h1>{ post.content }</h1>
-                            {/* <h1>FROM: { post.areafrom }</h1>
-                            <h1>TO: { post.areato }</h1>
-                            <h1>COMPENSATION: { post.compensation }</h1>
-                            <h1>CONTACT: { post.contact }</h1> */}
+                            <h1>CONTACT: { post.contact }</h1>
                         </div>
 
                         
                 </div>
 
 
-                <a className="form-green-button" onClick={() => { onRouteChange('coursereviews') }}>Back</a>
+                <a className="form-green-button" onClick={() => { onRouteChange('gettogethers') }}>Back</a>
 
             </div>
-			
-		)
-	}
+            
+        )
+    }
 }
 
-export default CourseReviews;
+export default GetTogether;

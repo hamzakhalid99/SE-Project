@@ -1,11 +1,9 @@
 import React from 'react';
-import iconpic from "./Groups.png";
-import './DiscussionPortal.css'
+import iconpic from "./Group Work.png";
+import './GetTogether.css'
 import BACKEND_LINK from './../../env.js';
-import SearchBox from './../SearchBox/SearchBox'
 
-
-class DiscussionPortal extends React.Component {
+class GetTogether extends React.Component {
 
     constructor(props) {
         super(props);
@@ -14,13 +12,12 @@ class DiscussionPortal extends React.Component {
             numberofposts: 3,
             rem: null,
             posts: [],
-            keyword: '',
             viewsingle: false
         }
     }
 
     componentWillMount() {
-        fetch(BACKEND_LINK + '/discussionportal', {
+        fetch(BACKEND_LINK + '/gettogether', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(this.state)
@@ -40,7 +37,7 @@ class DiscussionPortal extends React.Component {
     }
 
     fetchMorePosts = () => {
-        fetch(BACKEND_LINK + '/discussionportal', {
+        fetch(BACKEND_LINK + '/gettogether', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(this.state)
@@ -63,11 +60,7 @@ class DiscussionPortal extends React.Component {
         })
     }
 
-    onSearchChange = (event) => {
-        this.setState({keyword: event.target.value})
-    }
-
-    render() {
+	render() {
         const { user } = this.props
         const { onRouteChange, loadPost } = this.props;
         const posts = this.state.posts.map(function(post) {
@@ -76,13 +69,13 @@ class DiscussionPortal extends React.Component {
                     <h3>{ post.postedby.fullname }</h3>
                     <h2>{ post.date.slice(0, 10) + " " + post.date.slice(11, 19)  }</h2>
                     <h1 > <u> { post.title } </u> { post.content.slice(0, 50) + "..." } </h1>
-                    <a className="form-green-button" onClick={() => { loadPost(post,'ViewPostDetails') }}>View post</a>
+                    <a className="form-green-button" onClick={() => { loadPost(post,'ViewGetTogetherPost') }}>View post</a>
                 </div>
             )
         })
         
 
-        return (
+		return (
             <div>
                 <div className="homepage body-center-align">
                     <div className="homepageprofile">
@@ -90,26 +83,25 @@ class DiscussionPortal extends React.Component {
                     </div>
 
                         <div className="usecasename">
-                        <p>Discussion Portal</p>
+                        <p>Get Together</p>
                         </div>
 
                 </div>
                     <div className="landinghappening">
-                        <SearchBox searchChange={this.onSearchChange} onSubmit={this.onSubmitSearch}/>
-                        { posts} 
+                        { posts}       
                         <a className="form-green-button-view viewmore" onClick={this.fetchMorePosts} >View More</a>
                 </div>
 
                 
-                <a className="form-green-button-view"  onClick={() => { onRouteChange('ViewMyDiscussionPortalRequest') }}>View My Requests</a>
-                <a className="form-green-button-post"  onClick={() => { onRouteChange('PostDiscussionPortalRequest') }}>Post a Request</a>
+                <a className="form-green-button-view"  onClick={() => { onRouteChange('ViewGetTogetherRequest') }}>View My Requests</a>
+                <a className="form-green-button-post"  onClick={() => { onRouteChange('PostGetTogetherRequest') }}>Post a Request</a>
                     
                 
 
             </div>
-            
-        )
-    }
+			
+		)
+	}
 }
 
-export default DiscussionPortal;
+export default GetTogether;

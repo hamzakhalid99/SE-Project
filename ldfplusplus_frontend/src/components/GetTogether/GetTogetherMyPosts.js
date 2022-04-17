@@ -1,9 +1,9 @@
 import React from 'react';
-import fastfood from "./Fastfood.png";
-import './EventsPortalMyPosts.css'
+import iconpic from "./Group Work.png";
+import './GetTogether.css'
 import BACKEND_LINK from './../../env.js';
 
-class EventsPortalMyPosts extends React.Component {
+class GetTogetherMyPosts extends React.Component {
 
     constructor(props) {
         super(props);
@@ -15,7 +15,7 @@ class EventsPortalMyPosts extends React.Component {
     }
 
     componentWillMount() {
-        fetch(BACKEND_LINK + '/events/myposts', {
+        fetch(BACKEND_LINK + '/gettogether/myposts', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(this.props.user)
@@ -35,7 +35,7 @@ class EventsPortalMyPosts extends React.Component {
     }
 
     onDelete = (post) => {
-        fetch(BACKEND_LINK + '/events/delete', {
+        fetch(BACKEND_LINK + '/gettogether/delete', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(post)
@@ -47,7 +47,7 @@ class EventsPortalMyPosts extends React.Component {
             }
             else if (response.message) {
                 alert(response.message)
-                fetch(BACKEND_LINK + '/events/myposts', {
+                fetch(BACKEND_LINK + '/gettogether/myposts', {
                     method: 'post',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify(this.props.user)
@@ -92,11 +92,11 @@ class EventsPortalMyPosts extends React.Component {
             <div>
                 <div className="homepage body-center-align">
                     <div className="homepageprofile">
-                    <img className="iconpic" src={ fastfood } />  
+                    <img className="iconpic" src={ iconpic } />  
                     </div>
 
                         <div className="usecasename">
-                        <p>Events</p>
+                        <p>Get Together</p>
                         </div>
 
                 </div> 
@@ -110,7 +110,7 @@ class EventsPortalMyPosts extends React.Component {
                 
 
                 </div>
-                <a className="form-green-button" onClick={() => { onRouteChange('eventsportal') }}>Back</a>
+                <a className="form-green-button" onClick={() => { onRouteChange('gettogethers') }}>Back</a>
                 
                
             </div>
@@ -119,4 +119,4 @@ class EventsPortalMyPosts extends React.Component {
 	}
 }
 
-export default EventsPortalMyPosts;
+export default GetTogetherMyPosts;

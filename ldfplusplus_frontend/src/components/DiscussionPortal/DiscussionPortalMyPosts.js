@@ -1,9 +1,9 @@
 import React from 'react';
-import fastfood from "./Fastfood.png";
-import './EventsPortalMyPosts.css'
+import iconpic from "./Groups.png";
+import './DiscussionPortalMyPosts.css'
 import BACKEND_LINK from './../../env.js';
 
-class EventsPortalMyPosts extends React.Component {
+class DiscussionPortal extends React.Component {
 
     constructor(props) {
         super(props);
@@ -15,7 +15,7 @@ class EventsPortalMyPosts extends React.Component {
     }
 
     componentWillMount() {
-        fetch(BACKEND_LINK + '/events/myposts', {
+        fetch(BACKEND_LINK + '/discussionportal/myposts', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(this.props.user)
@@ -35,7 +35,7 @@ class EventsPortalMyPosts extends React.Component {
     }
 
     onDelete = (post) => {
-        fetch(BACKEND_LINK + '/events/delete', {
+        fetch(BACKEND_LINK + '/discussionportal/myposts', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(post)
@@ -47,7 +47,7 @@ class EventsPortalMyPosts extends React.Component {
             }
             else if (response.message) {
                 alert(response.message)
-                fetch(BACKEND_LINK + '/events/myposts', {
+                fetch(BACKEND_LINK + '/discussionportal/myposts', {
                     method: 'post',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify(this.props.user)
@@ -72,7 +72,7 @@ class EventsPortalMyPosts extends React.Component {
     }
 
 
-	render() {
+    render() {
 
         const { onRouteChange, user } = this.props;
         const onDeleteVar = this.onDelete
@@ -92,11 +92,11 @@ class EventsPortalMyPosts extends React.Component {
             <div>
                 <div className="homepage body-center-align">
                     <div className="homepageprofile">
-                    <img className="iconpic" src={ fastfood } />  
+                    <img className="iconpic" src={ iconpic } />  
                     </div>
 
                         <div className="usecasename">
-                        <p>Events</p>
+                        <p>Discussion Portal</p>
                         </div>
 
                 </div> 
@@ -110,13 +110,13 @@ class EventsPortalMyPosts extends React.Component {
                 
 
                 </div>
-                <a className="form-green-button" onClick={() => { onRouteChange('eventsportal') }}>Back</a>
+                <a className="form-green-button" onClick={() => { onRouteChange('discussionportal') }}>Back</a>
                 
                
             </div>
         )
-		
-	}
+        
+    }
 }
 
-export default EventsPortalMyPosts;
+export default DiscussionPortal;

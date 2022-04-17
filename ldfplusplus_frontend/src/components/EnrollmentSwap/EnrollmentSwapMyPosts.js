@@ -82,9 +82,9 @@ class EnrollmentSwapMyPosts extends React.Component {
                 <div className="viewmyfoodpost" key={ post._id }>
                     <h3>{ post.user_id }</h3>
                     <h2>{ post.date.slice(0, 10) + " " + post.date.slice(11, 19)  }</h2>
-                    <h1>Want:  <u> { post.want } </u> { post.content }</h1>
-                    <h1>Have:  <u> { post.have } </u> { post.content }</h1>
-                    <h1>Contact:  <u> { post.contact } </u> { post.content }</h1>
+                    <h1>Want:  <u> { post.want } </u> { post.content }  Have:  <u> { post.have } </u> { post.content }</h1>
+                    {/* <h1>Have:  <u> { post.have } </u> { post.content }</h1> */}
+                    {/* <h1>Contact:  <u> { post.contact } </u> { post.content }</h1> */}
                     <button className="delete-button" onClick={() => { onDeleteVar(post) } }>Delete</button>
                 </div>
             )
