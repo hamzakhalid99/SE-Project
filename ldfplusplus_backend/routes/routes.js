@@ -26,24 +26,10 @@ const _ = require('lowdash')
 function isSuperadmin(req, res, next) {
     try  
     {
-        userprofile.findById(req.body.user_id, (err,docs) =>{
-            if (err){
-                res.send({"Error": "Not Super Admin"})
-            }
-            else{
-                if (docs.length <=0)
-                {
-                    res.send({"Error": "Not Super Admin"})
-                }
-                if (docs.length ==1 && docs[0].superadmin == true)
-                {
-                    next()
-                } 
-            }
-        })
-    }
+           return true
+        }
     catch{
-        res.send({"Error": "Not Super Admin"})
+        return false
     }
 }
 
@@ -1096,12 +1082,12 @@ router.get('/removeadmin',isSuperadmin, (request,response) => {
     }
 })
 //remove admin based on _id
-router.post('/removeadmin', isSuperadmin, (request,response)=> {
+router.post('/removeadmin', (request,response)=> {
     // request.body.toremove
     try{
-        userprofile.updateOne({ _id: sanitize(request.body.toremove)},{ $set: { "adminstatus": false }}, (err) => {
+        userprofile.updateOne({ _id: sanitize(request.body._id)},{ $set: { "adminstatus": false }}, (err) => {
             if (err){
-                rresponse.json({error:err})
+                response.json({error:err})
             }
             else{
                 response.json({message:"Admin Removed"})
@@ -1113,16 +1099,16 @@ router.post('/removeadmin', isSuperadmin, (request,response)=> {
     }
 })
 //reject admin request based on postid
-router.post('/adminreqs/reject', isSuperadmin, (request,response)=> {
+router.post('/adminreqs/reject', (request,response)=> {
     // request.body.toremove
     // request.body.postid // id of to delete request
     try{
-        reqadmin.deleteOne({ _id:sanitize(request.body.postid)}, (err) =>{
+        reqadmin.deleteOne({ _id:sanitize(request.body._id)}, (err) =>{
             if (err){
                 response.json({error:err})
             }
             else{
-                response.json({message:"Rejected Post"})
+                response.json({message:"Rejected Adminship"})
             }
         })    
     }
@@ -1132,13 +1118,13 @@ router.post('/adminreqs/reject', isSuperadmin, (request,response)=> {
 })
 
 //accept admin request based on postid, 
-router.post('/adminreqs/accept', isSuperadmin, (request,response)=> {
+router.post('/adminreqs/accept', (request,response)=> {
     // request.body.toremove
     // request.body.postid // id of to delete request
     try{
-        userprofile.findOne({$and: [{_id: sanitize(req.body.user_id)}, { "adminstatus": false }]}, (err,docs) =>{
+        userprofile.findOne({$and: [{_id: sanitize(request.body.postedby)}, { "adminstatus": false }]}, (err,docs) =>{
             if (err){
-                response.json({error:err})
+                response.json({error:"err1"})
             }
             else{
                 if (docs.length <=0)
@@ -1147,14 +1133,15 @@ router.post('/adminreqs/accept', isSuperadmin, (request,response)=> {
                 }
                 else 
                 {
-                    userprofile.updateOne({ _id: sanitize(request.body.toadd)},{ $set: { "adminstatus": true }}, (err) => {
+                    userprofile.updateOne({ _id: sanitize(request.body.postedby)},{ $set: { "adminstatus": true }}, (err) => {
                         if (err){
-                            response.json({error:err})
+
+                            response.json({error:"err2"})
                         }
                         else{
-                            reqadmin.deleteOne({ _id:sanitize(request.body.postid)}, (err) =>{
+                            reqadmin.deleteOne({ _id:sanitize(request.body._id)}, (err) =>{
                                 if (err){
-                                    response.json({error:err})
+                                    response.json({error:"err3"})
                                 }
                                 else{
                                     response.json({message:"Added Admin"})
@@ -1172,31 +1159,35 @@ router.post('/adminreqs/accept', isSuperadmin, (request,response)=> {
 })
 
 // get all admin requests
-router.get('/adminreqs',isSuperadmin, (request,response) => {
+router.post('/adminreqs', (request,response) => {
     try{
-        const numberofposts = request.body.numberofposts
-        reqadmin.find({}).sort({date: -1}).exec((err, docs) => {   
-            if(err)
-            {
-                response.json({error:err})
-            }
-            else{
-                if(docs.length > numberofposts)
+        if (request.body.superadmin) {
+            reqadmin.find({}).sort({date: -1}).exec((err, docs) => {   
+                if(err)
                 {
-                    response.json({backenddata:docs.slice(0, numberofposts),rem:docs.length-numberofposts})
-                    // response.send()
-                }
-                else if(docs.length <= numberofposts)
-                {
-                    response.json({backenddata:docs,rem:0})
-                    // response.send(docs)
+                    response.json({error:err})
                 }
                 else{
-                    response.json({backenddata:docs,rem:0})
-                    // response.send(docs)
+                    // if(docs.length > numberofposts)
+                    // {
+                    //     response.json({backenddata:docs.slice(0, numberofposts),rem:docs.length-numberofposts})
+                    //     // response.send()
+                    // }
+                    // else if(docs.length <= numberofposts)
+                    // {
+                    //     response.json({backenddata:docs,rem:0})
+                    //     // response.send(docs)
+                    // }
+                    // else{
+                        response.json({backenddata:docs,rem:0})
+                        // response.send(docs)
+                    // }
                 }
-            }
-        })
+            })
+        }
+        else {
+            response.json({error: "Not Super Admin"})
+        }
     }
     catch(err){
         response.json({error:err})
@@ -1237,7 +1228,7 @@ router.get('/removeuser',isAdmin, (request,response) => {
 })
 
 // remove user based on _id
-router.post('/removeuser', isAdmin, (request,response)=> {
+router.post('/removeuser/delete', isAdmin, (request,response)=> {
     // request.body.toremove
     try{
         userprofile.deleteOne({ _id: sanitize(request.body.toremove)}, (err) => {

@@ -1,21 +1,129 @@
 import React from 'react';
 import Adminicon from "./AddModerator.png";
 import './ViewAdminRequests.css'
+import BACKEND_LINK from './../../env.js'
 
 class AdminRequest extends React.Component {
 
     constructor(props) {
         super(props);
         
-        // this.state = {
-        //     email: '',
-        //     password: '',
-        // }
+        this.state = {
+            requests: []
+        }
+    }
+
+    componentWillMount() {
+        fetch(BACKEND_LINK + '/adminreqs', {
+            method: 'post',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(this.props.user)
+        })
+        .then(response => response.json())
+        .then(response => {
+            if (response.error) {
+                alert(response.error)
+            }
+            else if (response.message) {
+                alert(response.message)
+            }
+            else if (response.backenddata) {
+                this.setState({ requests: response.backenddata})
+            }
+        })
+    }
+
+    addAdmin = (request) => {
+        fetch(BACKEND_LINK + '/adminreqs/accept', {
+            method: 'post',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(request)
+        })
+        .then(response => response.json())
+        .then(response => {
+            if (response.error) {
+                alert(response.error)
+            }
+            else if (response.message) {
+                alert(response.message)
+                fetch(BACKEND_LINK + '/adminreqs', {
+                    method: 'post',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(this.props.user)
+                })
+                .then(response => response.json())
+                .then(response => {
+                    if (response.error) {
+                        alert(response.error)
+                    }
+                    else if (response.message) {
+                        alert(response.message)
+                    }
+                    else if (response.backenddata) {
+                        this.setState({ requests: response.backenddata })
+                    }
+                })
+            }
+            else if (response.backenddata) {
+                this.setState({ requests: response.backenddata })
+            }
+        })
+    }
+
+    rejectAdmin = (request) => {
+        fetch(BACKEND_LINK + '/adminreqs/reject', {
+            method: 'post',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(request)
+        })
+        .then(response => response.json())
+        .then(response => {
+            if (response.error) {
+                alert(response.error)
+            }
+            else if (response.message) {
+                alert(response.message)
+                fetch(BACKEND_LINK + '/adminreqs', {
+                    method: 'post',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(this.props.user)
+                })
+                .then(response => response.json())
+                .then(response => {
+                    if (response.error) {
+                        alert(response.error)
+                    }
+                    else if (response.message) {
+                        alert(response.message)
+                    }
+                    else if (response.backenddata) {
+                        this.setState({ requests: response.backenddata })
+                    }
+                })
+            }
+            else if (response.backenddata) {
+                this.setState({ requests: response.backenddata })
+            }
+        })
     }
 
 	render() {
-		const studentName = "Zafir Ansari"
         const { onRouteChange } = this.props;
+        const addAdmin = this.addAdmin
+        const rejectAdmin = this.rejectAdmin
+
+        const requests = this.state.requests.map(function(request) {
+            return (
+                <div className="landingpost" key={ request._id }>
+                    <h4>Adminship Request</h4>
+                    <h3>{ request.fullname }</h3>
+                    <h1>{ request.content}</h1>
+                    <h2>{ request.date.slice(0, 10) + " " + request.date.slice(11, 19)  }</h2>
+                    <a className="form-green-button" onClick={() => addAdmin(request)}>Add Admin</a>
+                    <a className="form-red-button" onClick={() => rejectAdmin(request)} >Reject Request</a>
+                </div>
+            )
+        })
 
 		return (
             <div>
@@ -30,37 +138,7 @@ class AdminRequest extends React.Component {
 
                 </div>
                     <div className="landinghappeningadmin">
-                        <div className="landingpost" >
-                        
-                        
-                            <h4>Adminship Request</h4>
-                            <h3 onClick={() => { onRouteChange('homepage') }}><a href="#">Sarah24</a></h3>
-                            <h1>mere ko bana do mujhey bara shauk hai</h1>
-                            <h2>14/04/22</h2>
-                            
-                            
-                            
-                            <a className="form-green-button" onClick={() => { onRouteChange('ViewFoodDeliveryPost') }}>Add Admin</a>
-                            <a className="form-red-button" onClick={() => { onRouteChange('ViewFoodDeliveryPost') }}>Remove Admin</a>
-                        </div>
-                        <div className="landingpost">
-                            <h4>Adminship Request</h4>
-                            <h3 onClick={() => { onRouteChange('homepage') }}><a href="#">Humayun123</a></h3>
-                            <h1>wow grape</h1>
-                            <h2>14/04/22</h2>
-                            
-                            <a className="form-green-button" onClick={() => { onRouteChange('ViewFoodDeliveryPost') }}>Add Admin</a>
-                            <a className="form-red-button" onClick={() => { onRouteChange('ViewFoodDeliveryPost') }}>Remove Admin</a>
-                        </div>
-                        <div className="landingpost">
-                            <h4>Adminship Request</h4>
-                            <h3 onClick={() => { onRouteChange('homepage') }}><a href="#">Naveed09</a></h3>
-                            <h1>I am the best</h1>
-                            <h2>13/04/22</h2>
-                            
-                            <a className="form-green-button" onClick={() => { onRouteChange('ViewFoodDeliveryPost') }}>Add Admin</a>
-                            <a className="form-red-button" onClick={() => { onRouteChange('ViewFoodDeliveryPost') }}>Remove Admin</a>
-                        </div>
+                        { requests }
                 </div>
 
                 

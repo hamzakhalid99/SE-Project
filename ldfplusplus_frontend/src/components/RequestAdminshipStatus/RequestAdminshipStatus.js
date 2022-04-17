@@ -8,7 +8,6 @@ class RequestAdminshipStatus extends React.Component {
 		super(props)
 
 		this.state = {
-			happenings: [],
 			name: '',
 			reason: ''
 
@@ -20,19 +19,36 @@ class RequestAdminshipStatus extends React.Component {
     onReasonChange = (event) => {
         this.setState({ reason: event.target.value })
     }
-	componentWillMount() {
-		fetch('http://localhost:3000/homepage', {
-			method: 'get',
-			headers: {'Content-Type': 'application/json'}
+	onSubmitPost = (event) => {
+		event.preventDefault()
+		fetch('http://localhost:3000/requestadminship', {
+			method: 'post',
+			headers: {'Content-Type': 'application/json'},
+			body: JSON.stringify({fullname: this.props.user.fullname, content: this.state.reason, user_id: this.props.user.user_id})
 		})
 		.then(response => response.json())
-		.then(json => {
-			this.setState({ happenings: json })
+		.then(response => {
+			if (response.error) {
+                alert(response.error)
+            }
+            else if (response.message) {
+                alert(response.message)
+            }
 		})
 	}
 
 	render() {
-		const studentName = "Zafir Ansari"
+		const { user } = this.props
+
+		let status = null
+
+		if (user.superadmin) {
+			status = "Super Admin"
+		} else if (user.adminstatus) {
+			status = "Admin"
+		} else {
+			status = "Student"
+		}
 
 		return (
             
@@ -45,9 +61,9 @@ class RequestAdminshipStatus extends React.Component {
                         		</div>
                         	
 					<img className="homepagepicedit" src={ zafirtest } />
-					<p>In love with this new app!</p>
-					<h1>{ studentName }</h1>
-					<h3>Student</h3>
+					<p>{ user.status[user.status.length - 1] }</p>
+					<h1>{ user.fullname }</h1>
+					<h3>{ status }</h3>
 		</div>
 				{/*<div className="happening">
 					<h2>What's happening on campus?</h2>
@@ -55,7 +71,7 @@ class RequestAdminshipStatus extends React.Component {
 					<div className="happeningCard"><p>Reasons for application{this.state.happenings[1]}</p></div>
 				</div>*/}
 				<form className="postform" onSubmit={this.onSubmitPost}>
-                            <input className="posttitle" placeholder="Enter Name" type="text" onChange={this.onNameChange} />
+                            {/*<input className="posttitle" placeholder="Enter Name" type="text" onChange={this.onNameChange} />*/}
 
                             <input className="posttitle" placeholder="Enter Reason for application" type="text" onChange={this.onReasonChange} />
                             
