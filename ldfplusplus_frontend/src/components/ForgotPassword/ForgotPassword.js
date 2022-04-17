@@ -1,7 +1,7 @@
 import React from 'react';
 import './ForgotPassword.css'
 import ForgotPasswordLinkCheck from './ForgotPasswordLinkCheck.js'
-
+import BACKEND_LINK from './../../env.js';
 class ForgotPassword extends React.Component {
 	constructor(props) {
 		super(props)
@@ -20,7 +20,7 @@ class ForgotPassword extends React.Component {
     	event.preventDefault()
 
     	if (this.state.email != '') {
-    		fetch('http://localhost:3000/forgotpassword', {
+    		fetch(BACKEND_LINK+'/forgotpassword', {
 				method: 'post',
 				headers: {'Content-Type': 'application/json'},
 				body: JSON.stringify(this.state)

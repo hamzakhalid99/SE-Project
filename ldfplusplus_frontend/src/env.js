@@ -1,2 +1,2 @@
-const BACKEND_LINK = 'http://localhost:3000'
+const BACKEND_LINK = 'https://ancient-dawn-06516.herokuapp.com'
 export default BACKEND_LINK;
