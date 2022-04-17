@@ -1053,8 +1053,8 @@ router.post('/requestadmin', async (request,response) => {
 // search based on email or fullname number of posts required
 router.get('/removeadmin',isSuperadmin, (request,response) => {
     try{
-        const tmp = `.*`+sanitize(request.body.keywords)+'.*'
-        const numberofposts = sanitize(request.body.numberofposts)
+        // const tmp = `.*`+sanitize(request.body.keywords)+'.*'
+        // const numberofposts = sanitize(request.body.numberofposts)
         userprofile.find({ $or:[ { "fullname": { "$regex": tmp, "$options": "i" }},{"email":sanitize(request.body.keywords) } ]}).sort({date: -1}).populate("postedby", "fullname").exec((err, docs) => {   
             if(err)
             {
@@ -1196,30 +1196,17 @@ router.post('/adminreqs', (request,response) => {
 })
 
 // list remove user based on keywords,email, (search)
-router.get('/removeuser',isAdmin, (request,response) => {
+router.get('/removeuser', (request,response) => {
     try{
-        const numberofposts = sanitize(request.body.numberofposts)
-        const tmp = `.*`+sanitize(request.body.keywords)+'.*'
-        userprofile.find({ $or:[ { "fullname": { "$regex": tmp, "$options": "i" }},{"email":sanitize(request.body.keywords) } ]}).sort({date: -1}).populate("postedby", "fullname").exec((err, docs) => {   
+        // const tmp = `.*`+sanitize(request.body.keywords)+'.*'
+        // const numberofposts = sanitize(request.body.numberofposts)
+        userprofile.find({}).sort({date: -1}).exec((err, docs) => {   
             if(err)
             {
                 response.json({error:err})
             }
             else{
-                if(docs.length > numberofposts)
-                {
-                    response.json({backenddata:docs.slice(0, numberofposts),rem:docs.length-numberofposts})
-                    // response.send()
-                }
-                else if(docs.length <= numberofposts)
-                {
-                    response.json({backenddata:docs,rem:0})
-                    // response.send(docs)
-                }
-                else{
-                    response.json({backenddata:docs,rem:0})
-                    // response.send(docs)
-                }
+                response.json({backenddata:docs})
             }
         })
     }
@@ -1229,7 +1216,7 @@ router.get('/removeuser',isAdmin, (request,response) => {
 })
 
 // remove user based on _id
-router.post('/removeuser/delete', isAdmin, (request,response)=> {
+router.post('/removeuser/delete', (request,response)=> {
     // request.body.toremove
     try{
         userprofile.deleteOne({ _id: sanitize(request.body.toremove)}, (err) => {
