@@ -624,7 +624,8 @@ class App extends Component {
           <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <ViewStatus
           onRouteChange={this.onRouteChange} 
-          loadUser={this.loadUser}/>
+          loadUser={this.loadUser}
+          user={this.state.user}/>
         </div>
       )
     } else if (route === 'requestadminship') {
