@@ -19,23 +19,33 @@ import AddCourses from './components/AddCourses/AddCourses.js';
 import RemoveUser from './components/RemoveUser/RemoveUser.js';
 import RemoveAdmin from './components/RemoveAdmin/RemoveAdmin.js';
 import ForgotPassword from './components/ForgotPassword/ForgotPassword.js';
+
 import Donations from './components/Donations/Donations.js';
 import DonationsPostDetails from './components/Donations/DonationsPostDetails.js';
 import DonationsNewPost from './components/Donations/DonationsNewPost.js';
 import DonationsMyPosts from './components/Donations/DonationsMyPosts.js';
+
 import Marketplace from './components/Marketplace/Marketplace.js';
 import MarketplacePostDetails from './components/Marketplace/MarketplacePostDetails.js';
 import MarketplaceNewPost from './components/Marketplace/MarketplaceNewPost.js';
 import MarketplaceMyPosts from './components/Marketplace/MarketplaceMyPosts.js';
+
 import GetTogether from './components/GetTogether/GetTogether.js';
 import GetTogetherPostDetails from './components/GetTogether/GetTogetherPostDetails.js';
 import GetTogetherNewPost from './components/GetTogether/GetTogetherNewPost.js';
 import GetTogetherMyPosts from './components/GetTogether/GetTogetherMyPosts.js';
 
+import DiscussionPortal from './components/DiscussionPortal/DiscussionPortal.js';
+import DiscussionPortalNewPost from './components/DiscussionPortal/DiscussionPortalNewPost.js';
+import DiscussionPortalMyPosts from './components/DiscussionPortal/DiscussionPortalMyPosts.js';
+import ViewPostDetails from './components/DiscussionPortal/DiscussionPortalPostDetails.js';
+
+
 import Careerhelp from './components/Careerhelp/Careerhelp.js';
 import CareerhelpPostDetails from './components/Careerhelp/CareerhelpPostDetails.js';
 import CareerhelpNewPost from './components/Careerhelp/CareerhelpNewPost.js';
 import CareerhelpMyPosts from './components/Careerhelp/CareerhelpMyPosts.js';
+
 import BACKEND_LINK from './env.js'
 // import Marketplace from '../../ldfplusplus_backend/models/marketplace';
 
@@ -119,14 +129,66 @@ class App extends Component {
           />
         </div>
       )
-    } else if (route === 'discussionportal') {
+    } 
+
+    else if (route === 'discussionportal') {
       return (
         <div className="App">
           <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
-          <h1>Discussion Portal</h1>
+          <DiscussionPortal 
+          onRouteChange={this.onRouteChange}
+            loadUser={this.loadUser}
+            // loadPost={this.loadPost}
+            user={this.state.user}
+            />
         </div>
       )
-    } else if (route === 'coursereviews') {
+    } 
+    
+    //view my food delivery posts
+    else if (route === 'ViewMyDiscussionPortalRequest') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <DiscussionPortalMyPosts
+          onRouteChange={this.onRouteChange}
+          loadUser={this.loadUser}
+          user={this.state.user}
+          />
+        </div>
+      )
+    }
+
+    else if (route === 'ViewPostDetails') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <ViewPostDetails
+          onRouteChange={this.onRouteChange}
+          loadUser={this.loadUser}
+          user={this.state.user}
+          />
+        </div>
+      )
+    }
+
+    //post a food delivery request
+    else if (route === 'PostDiscussionPortalRequest') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <DiscussionPortalNewPost
+          onRouteChange={this.onRouteChange}
+          loadUser={this.loadUser}
+          user={this.state.user}
+          />
+        </div>
+      )
+    }
+
+
+
+    else if (route === 'coursereviews') {
       return (
         <div className="App">
           <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
@@ -436,7 +498,9 @@ class App extends Component {
           <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <ViewStatus
           onRouteChange={this.onRouteChange} 
-          loadUser={this.loadUser}/>
+          loadUser={this.loadUser}
+          user={this.state.user}
+          />
         </div>
       )
     } else if (route === 'requestadminship') {
