@@ -48,3 +48,24 @@
 .happeningCard p {
 	font-size: 16px;
 }
+
+.green-button {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+    margin: 5px;
+    padding: 10px 18px;
+    background: #9eb982;
+    border-radius: 20px;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+
+    height:52; 
+    width:93px;
+
+    /* position:absolute; */
+    bottom:0%;
+    margin-left:500px;
+    text-align: center;
+  }

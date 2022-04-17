@@ -1,9 +1,9 @@
 import React from 'react';
-import fastfood from "./Swap Horizontal.png";
-import './EnrollmentSwapMyPosts.css'
+import iconpic from "./Groups.png";
+import './DiscussionPortalMyPosts.css'
 import BACKEND_LINK from './../../env.js';
 
-class EnrollmentSwapMyPosts extends React.Component {
+class DiscussionPortal extends React.Component {
 
     constructor(props) {
         super(props);
@@ -15,7 +15,7 @@ class EnrollmentSwapMyPosts extends React.Component {
     }
 
     componentWillMount() {
-        fetch(BACKEND_LINK + '/swaprequest/myposts', {
+        fetch(BACKEND_LINK + '/discussionportal/myposts', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(this.props.user)
@@ -35,7 +35,7 @@ class EnrollmentSwapMyPosts extends React.Component {
     }
 
     onDelete = (post) => {
-        fetch(BACKEND_LINK + '/swaprequest/delete', {
+        fetch(BACKEND_LINK + '/discussionportal/myposts', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(post)
@@ -47,7 +47,7 @@ class EnrollmentSwapMyPosts extends React.Component {
             }
             else if (response.message) {
                 alert(response.message)
-                fetch(BACKEND_LINK + '/swaprequest/myposts', {
+                fetch(BACKEND_LINK + '/discussionportal/myposts', {
                     method: 'post',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify(this.props.user)
@@ -72,7 +72,7 @@ class EnrollmentSwapMyPosts extends React.Component {
     }
 
 
-	render() {
+    render() {
 
         const { onRouteChange, user } = this.props;
         const onDeleteVar = this.onDelete
@@ -82,9 +82,7 @@ class EnrollmentSwapMyPosts extends React.Component {
                 <div className="viewmyfoodpost" key={ post._id }>
                     <h3>{ post.user_id }</h3>
                     <h2>{ post.date.slice(0, 10) + " " + post.date.slice(11, 19)  }</h2>
-                    <h1>Want:  <u> { post.want } </u> { post.content }  Have:  <u> { post.have } </u> { post.content }</h1>
-                    {/* <h1>Have:  <u> { post.have } </u> { post.content }</h1> */}
-                    {/* <h1>Contact:  <u> { post.contact } </u> { post.content }</h1> */}
+                    <h1> <u> { post.title } </u> { post.content }</h1>
                     <button className="delete-button" onClick={() => { onDeleteVar(post) } }>Delete</button>
                 </div>
             )
@@ -94,11 +92,11 @@ class EnrollmentSwapMyPosts extends React.Component {
             <div>
                 <div className="homepage body-center-align">
                     <div className="homepageprofile">
-                    <img className="iconpic" src={ fastfood } />  
+                    <img className="iconpic" src={ iconpic } />  
                     </div>
 
                         <div className="usecasename">
-                        <p>Enrollment Swap</p>
+                        <p>Discussion Portal</p>
                         </div>
 
                 </div> 
@@ -112,13 +110,13 @@ class EnrollmentSwapMyPosts extends React.Component {
                 
 
                 </div>
-                <a className="form-green-button" onClick={() => { onRouteChange('enrollmentswap') }}>Back</a>
+                <a className="form-green-button" onClick={() => { onRouteChange('discussionportal') }}>Back</a>
                 
                
             </div>
         )
-		
-	}
+        
+    }
 }
 
-export default EnrollmentSwapMyPosts;
+export default DiscussionPortal;

@@ -130,7 +130,7 @@ router.post('/login', (request,response) => {
 
 //// Get Togethers
 // load posts view more button, view post simply uses the object returned here
-router.get('/gettogether', (request,response) => {
+router.post('/gettogether', (request,response) => {
     try{
         const numberofposts = sanitize(request.body.numberofposts)
         gettogehter.find({}).sort({date: -1}).populate("postedby", "fullname").exec((err, docs) => {   
@@ -183,7 +183,7 @@ router.post('/gettogether/post', async (request,response) => {
 })
 
 // render my posts
-router.get('/gettogether/myposts', async (request,response) => {
+router.post('/gettogether/myposts', async (request,response) => {
     try{
         gettogehter.find({ postedby: sanitize(request.body.user_id)}, (err, docs) =>{
             if (err){
@@ -202,9 +202,9 @@ router.get('/gettogether/myposts', async (request,response) => {
 })
 
 // delete selected post
-router.post('/gettogether/myposts', async (request,response) => {
+router.post('/gettogether/delete', async (request,response) => {
     try{
-        gettogehter.deleteOne({ postedby: sanitize(request.body.user_id), _id:sanitize(request.body._id)}, (err) =>{
+        gettogehter.deleteOne({ _id:sanitize(request.body._id)}, (err) =>{
             if (err){
                 response.json({error:err})
             }
@@ -737,9 +737,10 @@ router.post('/instructorreviews/myposts', async (request,response) => {
 // Course Reviews
 
 // search based on keywords
-router.get('/coursereviews', (request,response) => {
+router.post('/coursereviews', (request,response) => {
+    console.log(request)
     try{
-        const tmp = `.*`+sanitize(request.body.keywords)+'.*'
+        const tmp = `.*`+sanitize(request.body.search)+'.*'
         const numberofposts = request.body.numberofposts
         coursereviews.find({ "title": { "$regex": tmp, "$options": "i" } }).sort({date: -1}).populate("postedby", "fullname").exec((err, docs) => {   
             if(err)
@@ -790,7 +791,7 @@ router.post('/coursereviews/post', async (request,response) => {
 })
 
 // render my posts
-router.get('/coursereviews/myposts', async (request,response) => {
+router.post('/coursereviews/myposts', async (request,response) => {
     try{
         coursereviews.find({ postedby: sanitize(request.body.user_id)}, (err, docs) =>{
             if (err){
@@ -808,9 +809,9 @@ router.get('/coursereviews/myposts', async (request,response) => {
 })
 
 // delete selected post
-router.post('/coursereviews/myposts', async (request,response) => {
+router.post('/coursereviews/delete', async (request,response) => {
     try{
-        coursereviews.deleteOne({ postedby: sanitize(request.body.user_id), _id:sanitize(request.body._id)}, (err) =>{
+        coursereviews.deleteOne({ _id:sanitize(request.body._id)}, (err) =>{
             if (err){
                 response.json({error:err})
             }
@@ -1251,7 +1252,7 @@ router.post('/removeuser/delete', isAdmin, (request,response)=> {
 /// Swap Reqeust
 
 // load posts view more button, view post simply uses the object returned here
-router.get('/swaprequest', (request,response) => {
+router.post('/swaprequest', (request,response) => {
     try{
         const numberofposts = sanitize(request.body.numberofposts)
         swaprequest.find({fullfilled:false}).sort({date: -1}).populate("postedby", "fullname").exec((err, docs) => {   
@@ -1304,7 +1305,7 @@ router.post('/swaprequest/post', async (request,response) => {
 })
 
 // render my posts
-router.get('/swaprequest/myposts', async (request,response) => {
+router.post('/swaprequest/myposts', async (request,response) => {
     try{
         swaprequest.find({ postedby: sanitize(request.body.user_id)}, (err, docs) =>{
             if (err){
@@ -1322,9 +1323,9 @@ router.get('/swaprequest/myposts', async (request,response) => {
 })
 
 // delete selected post
-router.post('/swaprequest/myposts', async (request,response) => {
+router.post('/swaprequest/delete', async (request,response) => {
     try{
-        swaprequest.deleteOne({ postedby: sanitize(request.body.user_id), _id:sanitize(request.body._id)}, (err) =>{
+        swaprequest.deleteOne({ _id:sanitize(request.body._id)}, (err) =>{
             if (err){
                 response.json({error:err})
             }

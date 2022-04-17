@@ -14,7 +14,8 @@ class CourseReviews extends React.Component {
             rem: null,
             posts: [],
             viewsingle: false,
-            search: ''
+            search: '',
+            keywords: ''
         }
     }
 
@@ -33,16 +34,37 @@ class CourseReviews extends React.Component {
                 alert(response.message)
             }
             else if (response.backenddata) {
-                console.log(response.backenddata)
+                // console.log(response.backenddata)
                 this.setState({ posts: response.backenddata, rem: response.rem, numberofposts: response.backenddata.length + 3 })
             }
         })
     }
 
-
-
     onSearchChange = (event) => {
         this.setState({search:event.target.value})
+    }
+
+    onSubmitSearch = (event) => {
+        
+        fetch(BACKEND_LINK + '/coursereviews', {
+            method: 'post',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(this.state)
+        })
+        .then(response => response.json())
+        .then(response => {
+            console.log(response)
+            if (response.error) {
+                alert(response.error)
+            }
+            else if (response.message) {
+                alert(response.message)
+            }
+            else if (response.backenddata) {
+                console.log(response.backenddata)
+                this.setState({ posts: response.backenddata, rem: response.rem, numberofposts: response.backenddata.length + 3 })
+            }
+        })
     }
 
     fetchMorePosts = () => {
@@ -72,9 +94,7 @@ class CourseReviews extends React.Component {
         })
     }
 
-    onSubmitSearch = (event) => {
-        this.setState({search:event.target.value})
-    }
+    
 
 	render() {
         const { user } = this.props
@@ -104,7 +124,12 @@ class CourseReviews extends React.Component {
 
                 </div>
 
-                <SearchBox searchChange={this.onSearchChange} onSubmit={this.onSubmitSearch}/>
+                <div className="post-container">
+                    <div>
+                        <input className="posttitle" placeholder="search" type="search" onChange={this.onSearchChange}/>
+                        <input className="post-green-button-discussion" value="Search" type="submit" onClick={this.onSubmitSearch}/>
+                    </div>  
+                </div>
 
                 <div className="landinghappening">
                         { posts}       
