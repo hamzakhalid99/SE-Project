@@ -12,7 +12,7 @@ class Homepage extends React.Component {
 		}
 	}
 
-	componentWillMount() {
+	componentDidMount() {
 		fetch(BACKEND_LINK + '/homepagehappenings', {
 			method: 'get',
 			headers: {'Content-Type': 'application/json'}
@@ -42,7 +42,7 @@ class Homepage extends React.Component {
 		} else {
 			status = "Student"
 		}
-
+		
 		return (
 			<div className="homepage body-center-align">
 				<div className="homepageprofile">
@@ -53,9 +53,9 @@ class Homepage extends React.Component {
 				</div>
 				<div className="happening">
 					<h2>What's happening on campus?</h2>
-					<div className="happeningCard"><p>{this.state.happenings[0] }</p></div>
-					<div className="happeningCard"><p>{this.state.happenings[1] }</p></div>
-					<div className="happeningCard"><p>{this.state.happenings[2] }</p></div>
+					{ this.state.happenings.length === 0 ? null : <div className="happeningCard"><p>{this.state.happenings[0].content }</p></div> }
+					{ this.state.happenings.length === 0 ? null : <div className="happeningCard"><p>{this.state.happenings[1].content }</p></div> }
+					{ this.state.happenings.length === 0 ? null : <div className="happeningCard"><p>{this.state.happenings[2].content }</p></div> }
 				</div>
 			</div>
 		)
