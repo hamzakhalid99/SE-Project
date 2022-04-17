@@ -12,7 +12,7 @@ class MarketplaceNewPost extends React.Component {
             title: '',
             contact: '',
             field:'Buying',
-            user_id: this.props.user.user_id
+            user_id: this.props.user.user_id,
         }
     }
 
@@ -26,6 +26,10 @@ class MarketplaceNewPost extends React.Component {
 
     onContactChange = (event) => {
         this.setState({ contact: event.target.value })
+    }
+
+    onTypeChange = (event) => {
+        this.setState({ field: event.target.value })
     }
 
     onSubmitPost = (event) => {
@@ -65,7 +69,11 @@ class MarketplaceNewPost extends React.Component {
                         <form className="postform" onSubmit={this.onSubmitPost}>
                             <input className="posttitle" placeholder="Post Title" type="text" onChange={this.onTitleChange} />
                             <input className="posttitle" placeholder="Contact" type="text" onChange={this.onContactChange} />
-                            {/* <input className="posttitle" placeholder="Field" type="d" onChange={this.onContactChange} /> */}
+                            <input className="posttitle" placeholder="Field" type="d" onChange={this.onContactChange} />
+                            <select className="searchBar fix" onChange={this.onTypeChange}>
+                                <option value="Buying">Buying</option>
+                                <option value="Selling">Selling</option>
+                            </select>
                             {/* <input className="posttitle" placeholder="Area to" type="text" onChange={this.onAreaToChange} />
                             <input className="posttitle" placeholder="Area from" type="text" onChange={this.onAreaFromChange} /> */}
                             <input className="postdetails" placeholder="Post Details" type="text" onChange={this.onDetailsChange} />

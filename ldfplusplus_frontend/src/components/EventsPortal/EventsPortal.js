@@ -17,7 +17,7 @@ class EventsPortal extends React.Component {
     }
 
     componentWillMount() {
-        fetch(BACKEND_LINK + '/eventsportal', {
+        fetch(BACKEND_LINK + '/events', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(this.state)
@@ -37,7 +37,7 @@ class EventsPortal extends React.Component {
     }
 
     fetchMorePosts = () => {
-        fetch(BACKEND_LINK + '/eventsportal', {
+        fetch(BACKEND_LINK + '/events', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(this.state)
