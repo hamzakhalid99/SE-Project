@@ -1,9 +1,9 @@
 import React from 'react';
-import fastfood from "./Fastfood.png";
-import './EventsPortalNewPost.css'
+import iconpic from "./Groups.png";
+import './DiscussionPortalNewPost.css'
 import BACKEND_LINK from './../../env.js';
 
-class EventsPortalNewPost extends React.Component {
+class DiscussionPortalNewPost extends React.Component {
 
     constructor(props) {
         super(props);
@@ -11,9 +11,8 @@ class EventsPortalNewPost extends React.Component {
         this.state = {
             content: '',
             title: '',
-            contact: '',
-            interested: '',
-            going: '',
+            postedby: '',
+            // anonymous: false,
             user_id: this.props.user.user_id
         }
     }
@@ -34,26 +33,21 @@ class EventsPortalNewPost extends React.Component {
         this.setState({ contact: event.target.value })
     }
 
-    onInterestedChange = (event) => {
-        this.setState({ interested: event.target.value })
-    }
-
-    onGoingChange = (event) => {
-        this.setState({ going: event.target.value })
+    onAnonymousChange = (event) => {
+        this.setState({ anonymous: event.target.value })
     }
 
 
     onSubmitPost = (event) => {
         event.preventDefault()
-		fetch(BACKEND_LINK+'/events/post', {
+		fetch(BACKEND_LINK+'/discussionportal/post', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
 			body: JSON.stringify(this.state)
 		})
 		.then(response => response.json())
 		.then(user => {	
-            console.log(user)
-			this.props.onRouteChange('eventsportal')
+			this.props.onRouteChange('discussionportal')
 			
 		})
 	} 
@@ -66,11 +60,11 @@ class EventsPortalNewPost extends React.Component {
             <div>
                 <div className="homepage body-center-align">
                     <div className="homepageprofile">
-                    <img className="iconpic" src={ fastfood } />  
+                    <img className="iconpic" src={ iconpic } />  
                     </div>
 
                         <div className="usecasename">
-                        <p>Events</p>
+                        <p>Discussion Portal</p>
                         </div>
 
                 </div> 
@@ -81,12 +75,12 @@ class EventsPortalNewPost extends React.Component {
                         <form className="postform" onSubmit={this.onSubmitPost}>
                             <input className="posttitle" placeholder="Post Title" type="text" onChange={this.onTitleChange} />
                             <input className="posttitle" placeholder="Contact" type="text" onChange={this.onContactChange} />
-                            {/* <input className="posttitle" placeholder="Interested (Yes/No)" type="text" onChange={this.onInterestedChange} />
-                            <input className="posttitle" placeholder="Going (Yes/No)" type="text" onChange={this.onGoingChange} /> */}
+                            {/*<input className="posttitle" placeholder="Post Anonymously" type="checkbox" onChange={this.onAnonymousChange} />*/}
                             <input className="postdetails" placeholder="Post Details" type="text" onChange={this.onDetailsChange} />
                             
+                            
                             <input className="post-green-button" value="Post" type="submit" />
-                            <a className="form-red-button" onClick={() => { onRouteChange('eventsportal') }}>Back</a>
+                            <a className="form-red-button" onClick={() => { onRouteChange('discussionportal') }}>Back</a>
                         </form>
                     </div>
                    
@@ -97,4 +91,4 @@ class EventsPortalNewPost extends React.Component {
 	}
 }
 
-export default EventsPortalNewPost;
+export default DiscussionPortalNewPost;

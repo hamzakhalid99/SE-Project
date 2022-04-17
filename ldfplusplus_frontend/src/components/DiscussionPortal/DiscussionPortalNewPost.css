@@ -260,6 +260,7 @@ border-radius: 20px;
 .postform {
     display: flex;
     flex-direction: row;
+    justify-content: flex-start;
     align-items: space-between;
     flex-wrap: wrap;
 
@@ -289,8 +290,4 @@ border-radius: 20px;
     bottom:0%;
     margin-left:500px;
     text-align: center;
-  }
-
-  .fix {
-      
   }

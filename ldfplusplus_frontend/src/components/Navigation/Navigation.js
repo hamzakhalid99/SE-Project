@@ -22,7 +22,7 @@ import removecircle from "./Remove Circle.png";
 import descriptionimg from "./Description.png";
 import logout from "./Logout.png";
 
-const Navigation = ({ onRouteChange, isSignedIn }) => {
+const Navigation = ({ onRouteChange, isSignedIn, user }) => {
 	return (
 		<header className="header">
 			<a onClick={() => onRouteChange(isSignedIn ? 'homepage' : 'landing')} className="header-logo" href="#">
@@ -50,10 +50,10 @@ const Navigation = ({ onRouteChange, isSignedIn }) => {
 							<li onClick={() => onRouteChange('eventsportal')}><img className="extraMarginNeeded" src= { eventavail } />Events Portal</li>
 							<li onClick={() => onRouteChange('gettogethers')}><img src= { groupwork } />Get Togethers</li>
 							<li onClick={() => onRouteChange('enrollmentswap')}><img src= { swaphorizontal } />Enrollment Swap</li>
-							<li onClick={() => onRouteChange('removeuser')}><img className="extraMarginNeeded" src= { personremov } />Remove User</li>
+							{ user.adminstatus || user.superadmin ? <li onClick={() => onRouteChange('removeuser')}><img className="extraMarginNeeded" src= { personremov } />Remove User</li> : null}
 							<li onClick={() => onRouteChange('addcourses')}><img src= { libradd } />Add Courses</li>
-							<li onClick={() => onRouteChange('removeadmin')}><img src= { modremov } />Remove Admin</li>
-							<li onClick={() => onRouteChange('viewadminshiprequests')}><img className="extraMarginNeeded" src= { addmod } />View Admin Requests</li>
+							{ user.superadmin ? <li onClick={() => onRouteChange('removeadmin')}><img src= { modremov } />Remove Admin</li> : null }
+							{ user.superadmin ? <li onClick={() => onRouteChange('viewadminshiprequests')}><img className="extraMarginNeeded" src= { addmod } />View Admin Requests</li> : null }
 						</ul>
 						</li>
 						<li><a><img className="navimg" src={ navimg } /></a>
@@ -62,7 +62,7 @@ const Navigation = ({ onRouteChange, isSignedIn }) => {
 							<li onClick={() => onRouteChange('editprofile')}><img className="extraMarginNeeded" src= { editprofile } />Edit Profile</li>
 							<li onClick={() => onRouteChange('deactivateaccount')}><img src= { removecircle } />Deactivate Account</li>
 							<li onClick={() => onRouteChange('viewstatus')}><img src= { descriptionimg } />View Status</li>
-							<li onClick={() => onRouteChange('requestadminship')}><img className="extraMarginNeeded" src= { addmod } />Request Adminship</li>
+							{ !user.adminstatus && !user.superadmin ? <li onClick={() => onRouteChange('requestadminship')}><img className="extraMarginNeeded" src= { addmod } />Request Adminship</li> : null }
 							<li onClick={() => onRouteChange('logout')}><img src= { logout } />Logout</li>
 						</ul>
 						</li>

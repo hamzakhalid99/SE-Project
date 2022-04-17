@@ -56,12 +56,22 @@ import CourseReviewsMyPosts from './components/CourseReviews/CourseReviewsMyPost
 
 
 
+
 import InstructorReviews from './components/InstructorReviews/InstructorReviews.js';
 import InstructorReviewsPostDetails from './components/InstructorReviews/InstructorReviewsPostDetails.js';
 import InstructorReviewsNewPost from './components/InstructorReviews/InstructorReviewsNewPost.js';
 import InstructorReviewsMyPosts from './components/InstructorReviews/InstructorReviewsMyPosts.js';
 
+
 import ContactPage from './components/ContactPage/ContactPage.js';
+
+
+import GetTogether from './components/GetTogether/GetTogether.js';
+import GetTogetherPostDetails from './components/GetTogether/GetTogetherPostDetails.js';
+import GetTogetherNewPost from './components/GetTogether/GetTogetherNewPost.js';
+import GetTogetherMyPosts from './components/GetTogether/GetTogetherMyPosts.js';
+
+
 
 const initialState = {
 	route: 'landing',
@@ -109,7 +119,7 @@ class App extends Component {
     if (route === 'landing') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn}/>
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn}/>
           <LandingPage />
           {/* <h1>landing page</h1> */}
         </div>
@@ -117,7 +127,7 @@ class App extends Component {
     } else if (route === 'about') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <AboutPage />
         </div>
       )
@@ -136,14 +146,14 @@ class App extends Component {
     else if (route === 'signup') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <SignUp onRouteChange={this.onRouteChange} />
         </div>
       )
     } else if (route === 'login') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <Login 
             onRouteChange={this.onRouteChange} 
             loadUser={this.loadUser} />
@@ -152,7 +162,7 @@ class App extends Component {
     } else if (route === 'homepage') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <Homepage 
           user={this.state.user}
           />
@@ -161,14 +171,14 @@ class App extends Component {
     } else if (route === 'discussionportal') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <h1>Discussion Portal</h1>
         </div>
       )
     } else if (route === 'coursereviews') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <CourseReviews
           onRouteChange={this.onRouteChange} 
             loadUser={this.loadUser}
@@ -181,7 +191,7 @@ class App extends Component {
     else if (route === 'ViewCourseReviewsPost') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <CourseReviewsPostDetails
           onRouteChange={this.onRouteChange} 
           loadUser={this.loadUser}
@@ -194,7 +204,7 @@ class App extends Component {
     else if (route === 'ViewMyCourseReviews') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <CourseReviewsMyPosts
           onRouteChange={this.onRouteChange}
           loadUser={this.loadUser}
@@ -208,7 +218,7 @@ class App extends Component {
     else if (route === 'PostCourseReview') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <CourseReviewsNewPost
           onRouteChange={this.onRouteChange}
           loadUser={this.loadUser}
@@ -223,6 +233,7 @@ class App extends Component {
     else if (route === 'instructorreviews') {
       return (
         <div className="App">
+
           <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <InstructorReviews
           onRouteChange={this.onRouteChange} 
@@ -278,7 +289,7 @@ class App extends Component {
      else if (route === 'fooddelivery') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <FoodDelivery 
           onRouteChange={this.onRouteChange} 
             loadUser={this.loadUser}
@@ -290,7 +301,7 @@ class App extends Component {
     } else if (route === 'marketplace') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <Marketplace 
           onRouteChange={this.onRouteChange} 
             loadUser={this.loadUser}
@@ -303,7 +314,7 @@ class App extends Component {
     else if (route === 'ViewMarketplacePost') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <MarketplacePostDetails
           onRouteChange={this.onRouteChange} 
           loadUser={this.loadUser}
@@ -316,7 +327,7 @@ class App extends Component {
     else if (route === 'ViewMyMarketplaceRequest') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <MarketplaceMyPosts
           onRouteChange={this.onRouteChange}
           loadUser={this.loadUser}
@@ -330,7 +341,7 @@ class App extends Component {
     else if (route === 'PostMarketplaceRequest') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <MarketplaceNewPost
           onRouteChange={this.onRouteChange}
           loadUser={this.loadUser}
@@ -342,7 +353,7 @@ class App extends Component {
      else if (route === 'donations') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <Donations 
           onRouteChange={this.onRouteChange} 
             loadUser={this.loadUser}
@@ -354,7 +365,7 @@ class App extends Component {
     }else if (route === 'ViewDonationsPost') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <DonationsPostDetails
           onRouteChange={this.onRouteChange} 
           loadUser={this.loadUser}
@@ -367,7 +378,7 @@ class App extends Component {
     else if (route === 'ViewMyDonationsRequest') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <DonationsMyPosts
           onRouteChange={this.onRouteChange}
           loadUser={this.loadUser}
@@ -381,7 +392,7 @@ class App extends Component {
     else if (route === 'PostDonationsRequest') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <DonationsNewPost
           onRouteChange={this.onRouteChange}
           loadUser={this.loadUser}
@@ -393,7 +404,7 @@ class App extends Component {
      else if (route === 'careerhelp') {
       return (
         <div className="App">
-        <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+        <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
         <Careerhelp 
         onRouteChange={this.onRouteChange} 
           loadUser={this.loadUser}
@@ -405,7 +416,7 @@ class App extends Component {
     } else if (route === 'ViewCareerhelpPost') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <CareerhelpPostDetails
           onRouteChange={this.onRouteChange} 
           loadUser={this.loadUser}
@@ -418,7 +429,7 @@ class App extends Component {
     else if (route === 'ViewMyCareerhelpRequest') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <CareerhelpMyPosts
           onRouteChange={this.onRouteChange}
           loadUser={this.loadUser}
@@ -432,7 +443,7 @@ class App extends Component {
     else if (route === 'PostCareerhelpRequest') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <CareerhelpNewPost
           onRouteChange={this.onRouteChange}
           loadUser={this.loadUser}
@@ -445,7 +456,7 @@ class App extends Component {
     else if (route === 'eventsportal') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <EventsPortal
           onRouteChange={this.onRouteChange} 
             loadUser={this.loadUser}
@@ -459,7 +470,7 @@ class App extends Component {
     else if (route === 'ViewEventPost') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <EventsPortalPostDetails
           onRouteChange={this.onRouteChange} 
           loadUser={this.loadUser}
@@ -472,7 +483,7 @@ class App extends Component {
     else if (route === 'ViewMyEventRequest') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <EventsPortalMyPosts
           onRouteChange={this.onRouteChange}
           loadUser={this.loadUser}
@@ -486,7 +497,7 @@ class App extends Component {
     else if (route === 'PostEventRequest') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <EventsPortalNewPost
           onRouteChange={this.onRouteChange}
           loadUser={this.loadUser}
@@ -501,16 +512,59 @@ class App extends Component {
     else if (route === 'gettogethers') {
       return (
         <div className="App">
+        <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+        <GetTogether 
+        onRouteChange={this.onRouteChange} 
+          loadUser={this.loadUser}
+          loadPost={this.loadPost}
+          user={this.state.user}
+          />
+      </div>
+      )
+    } else if (route === 'ViewGetTogetherPost') {
+      return (
+        <div className="App">
           <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
-          <h1>Get Togethers</h1>
+          <GetTogetherPostDetails
+          onRouteChange={this.onRouteChange} 
+          loadUser={this.loadUser}
+          post={this.state.post}
+          />
         </div>
       )
-    } 
+    }
+    //view my food delivery posts
+    else if (route === 'ViewGetTogetherRequest') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <GetTogetherMyPosts
+          onRouteChange={this.onRouteChange}
+          loadUser={this.loadUser}
+          user={this.state.user}
+          />
+        </div>
+      )
+    }
+
+    //post a food delivery request
+    else if (route === 'PostGetTogetherRequest') {
+      return (
+        <div className="App">
+          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <GetTogetherNewPost
+          onRouteChange={this.onRouteChange}
+          loadUser={this.loadUser}
+          user={this.state.user}
+          />
+        </div>
+      )
+    }
     
     // else if (route === 'enrollmentswap') {
     //   return (
     //     <div className="App">
-    //       <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+    //       <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
     //       <h1>Enrollment Swap</h1>
     //     </div>
     //   )
@@ -519,28 +573,28 @@ class App extends Component {
     else if (route === 'removeuser') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <RemoveUser />
         </div>
       )
     } else if (route === 'addcourses') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <AddCourses />
         </div>
       )
     } else if (route === 'removeadmin') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <RemoveAdmin />
         </div>
       )
     } else if (route === 'viewadminshiprequests') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <ViewAdminRequests
           onRouteChange={this.onRouteChange} 
           loadUser={this.loadUser}
@@ -551,7 +605,7 @@ class App extends Component {
     } else if (route === 'viewprofile') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <ViewProfile
           onRouteChange={this.onRouteChange} 
           loadUser={this.loadUser}/>
@@ -560,14 +614,14 @@ class App extends Component {
     }  else if (route === 'deactivateaccount') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <h1>Deactivate Account</h1>
         </div>
       )
     } else if (route === 'viewstatus') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <ViewStatus
           onRouteChange={this.onRouteChange} 
           loadUser={this.loadUser}/>
@@ -576,7 +630,7 @@ class App extends Component {
     } else if (route === 'requestadminship') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <RequestAdminshipStatus
           onRouteChange={this.onRouteChange} 
           loadUser={this.loadUser}
@@ -587,14 +641,14 @@ class App extends Component {
     } else if (route === 'logout') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <h1>Logout</h1>
         </div>
       )
     } else if (route === 'ViewFoodDeliveryPost') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <FoodDeliveryPostDetails
           onRouteChange={this.onRouteChange} 
           loadUser={this.loadUser}
@@ -607,7 +661,7 @@ class App extends Component {
     else if (route === 'ViewMyFoodDeliveryRequest') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <FoodDeliveryMyPosts
           onRouteChange={this.onRouteChange}
           loadUser={this.loadUser}
@@ -621,7 +675,7 @@ class App extends Component {
     else if (route === 'PostFoodDeliveryRequest') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <FoodDeliveryNewPost
           onRouteChange={this.onRouteChange}
           loadUser={this.loadUser}
@@ -634,7 +688,7 @@ class App extends Component {
     else if (route === 'forgotpassword') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <ForgotPassword />
         </div>
       )
@@ -644,7 +698,7 @@ class App extends Component {
     else if (route === 'enrollmentswap') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <EnrollmentSwap 
           onRouteChange={this.onRouteChange} 
             loadUser={this.loadUser}
@@ -656,7 +710,7 @@ class App extends Component {
     }else if (route === 'ViewEnrollmentSwapPost') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <EnrollmentSwapPostDetails
           onRouteChange={this.onRouteChange} 
           loadUser={this.loadUser}
@@ -669,7 +723,7 @@ class App extends Component {
     else if (route === 'ViewEnrollmentSwapRequest') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <EnrollmentSwapMyPosts
           onRouteChange={this.onRouteChange}
           loadUser={this.loadUser}
@@ -683,7 +737,7 @@ class App extends Component {
     else if (route === 'PostEnrollmentSwapRequest') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <EnrollmentSwapNewPost
           onRouteChange={this.onRouteChange}
           loadUser={this.loadUser}
@@ -697,7 +751,7 @@ class App extends Component {
     else if (route === 'editprofile') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <EditProfile
           onRouteChange={this.onRouteChange} 
           loadUser={this.loadUser}
@@ -710,7 +764,7 @@ class App extends Component {
     else if (route === 'editname') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <EditName
           onRouteChange={this.onRouteChange} 
           loadUser={this.loadUser}
@@ -725,7 +779,7 @@ class App extends Component {
     else if (route === 'editpassword') {
       return (
         <div className="App">
-          <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
+          <Navigation user={this.state.user} onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
           <EditPassword
           onRouteChange={this.onRouteChange} 
           loadUser={this.loadUser}
