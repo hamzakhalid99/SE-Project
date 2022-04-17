@@ -41,6 +41,8 @@ class EditName extends React.Component {
 		})
 		.then(response => response.json())
 		.then(user => {	
+
+            this.props.user.fullname=this.state.displayname
 			this.props.onRouteChange('editprofile')
 			
 		})
@@ -85,7 +87,7 @@ class EditName extends React.Component {
 
                             <input className="postdetails" placeholder="Post Details" type="text" onChange={this.onDetailsChange} /> */}
                             
-                            <input className="post-green-buttondisplay" value="Post" type="submit" />
+                            <input className="post-green-buttondisplay" value="Change" type="submit" />
                         </form>
                     </div>
                    
