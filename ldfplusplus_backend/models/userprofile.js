@@ -18,7 +18,7 @@ const usertemplate = new mongoose.Schema({
         default: Date.now
     },
     image:{
-        data: Buffer,
+        type: String,
         contentType: String
     },
     adminstatus:{
